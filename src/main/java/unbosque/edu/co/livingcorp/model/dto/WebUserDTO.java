@@ -13,10 +13,14 @@ public class WebUserDTO {
     private boolean isResidentPropertyOwner;
 
 
-    public WebUserDTO(String userName, String email, String password, LocalDateTime lastLogin, boolean isBlocked, boolean isPropertyAdmin, boolean isResidentPropertyOwner) {
+    public WebUserDTO(String userName, String userEmail, String userPassword, LocalDateTime lastLogin, boolean isBlocked, boolean isPropertyAdmin, boolean isResidentPropertyOwner) {
         this.userName = userName;
-        this.userEmail = email;
-        this.userPassword = password;
+        this.userEmail = userEmail;
+        this.userPassword = userPassword;
+        this.lastLogin = lastLogin;
+        this.isBlocked = isBlocked;
+        this.isPropertyAdmin = isPropertyAdmin;
+        this.isResidentPropertyOwner = isResidentPropertyOwner;
     }
 
 
