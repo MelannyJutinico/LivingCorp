@@ -12,7 +12,6 @@ public class WebUserDTO {
     private boolean isPropertyAdmin;
     private boolean isResidentPropertyOwner;
 
-
     public WebUserDTO(String userName, String userEmail, String userPassword, LocalDateTime lastLogin, boolean isBlocked, boolean isPropertyAdmin, boolean isResidentPropertyOwner) {
         this.userName = userName;
         this.userEmail = userEmail;
@@ -79,7 +78,6 @@ public class WebUserDTO {
     public void setResidentPropertyOwner(boolean residentPropertyOwner) {
         isResidentPropertyOwner = residentPropertyOwner;
     }
-
 }
 
 
