@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 public class Property {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "PROPERTY_ID")
     private int propertyId;
     @Column(name = "PROPERTY_NAME", unique = true)
@@ -26,17 +27,21 @@ public class Property {
     private int propertyBathrooms;
     @Column(name = "PROPERTY_DESCRIPCION")
     private String  propertyDescription;
+
     @ManyToOne
     @JoinColumn(name = "PROPERTY_ADMIN", referencedColumnName = "USER_NAME")
+
+
     private WebUser userName;
     @Column(name = "IS_AVAILABLE_FOR_RENT")
     private boolean isAvailableForRent;
     @Column(name = "IS_AVAILABLE_FOR_SALE")
     private boolean isAvailableForSale;
 
-    public Property(int propertyId, String propertyName, String propertyCity, String propertyAddress,int propertyArea, double propertyPrice, int propertyRooms,
+    public Property( String propertyName, String propertyCity, String propertyAddress,int propertyArea, double propertyPrice, int propertyRooms,
                     int propertyBathrooms, String propertyDescription, WebUser userName, boolean isAvailableForRent, boolean isAvailableForSale  ){
-        this.propertyId = propertyId;
+
+
         this.propertyName = propertyName;
         this.propertyCity = propertyCity;
         this.propertyAddress = propertyAddress;
