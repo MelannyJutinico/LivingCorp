@@ -2,7 +2,7 @@ package unbosque.edu.co.livingcorp.model.entity;
 import jakarta.persistence.*;
 
 @Entity @Table(name = "PROPERTY_RESOURCES")
-public class PropertyResources {
+public class PropertyResource {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "PROP_RES_ID")
@@ -22,7 +22,7 @@ public class PropertyResources {
     @Column(name = "BOOKING_EMAIL")
     private String bookingEmail;
 
-    public PropertyResources(Resource resource, Property property, Double resourceMinPrice, String resourceAvailability, Integer resourceMinTimeHrs, Integer resourceCapacity, String bookingEmail) {
+    public PropertyResource(Resource resource, Property property, Double resourceMinPrice, String resourceAvailability, Integer resourceMinTimeHrs, Integer resourceCapacity, String bookingEmail) {
         this.resource = resource;
         this.property = property;
         this.resourceMinPrice = resourceMinPrice;
@@ -32,7 +32,7 @@ public class PropertyResources {
         this.bookingEmail = bookingEmail;
     }
 
-    public PropertyResources() {
+    public PropertyResource() {
     }
 
     public Integer getPropResId() {
