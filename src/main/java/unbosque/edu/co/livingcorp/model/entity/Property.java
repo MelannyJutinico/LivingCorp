@@ -27,11 +27,8 @@ public class Property {
     private int propertyBathrooms;
     @Column(name = "PROPERTY_DESCRIPCION")
     private String  propertyDescription;
-
     @ManyToOne
     @JoinColumn(name = "PROPERTY_ADMIN", referencedColumnName = "USER_NAME")
-
-
     private WebUser userName;
     @Column(name = "IS_AVAILABLE_FOR_RENT")
     private boolean isAvailableForRent;
