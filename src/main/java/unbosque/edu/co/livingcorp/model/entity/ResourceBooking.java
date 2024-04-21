@@ -1,9 +1,6 @@
 package unbosque.edu.co.livingcorp.model.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
@@ -16,8 +13,9 @@ public class ResourceBooking {
     private int bookingId;
     @Column(name = "USER_NAME")
     private String userName;
-    @Column(name = "PROP_RES_ID")
-    private int propertyResidentId; 
+    @ManyToOne
+    @JoinColumn(name = "PROP_RES_ID", referencedColumnName = "PROP_RES_ID")
+    private PropertyResource propertyResourceId;
     @Column(name = "BOOKING_DATETIME")
     private LocalDateTime bookingDateTime;
     @Column(name = "BOOKING_START_DATE")
@@ -29,10 +27,10 @@ public class ResourceBooking {
     @Column(name = "PAYMENT_COMPLETE")
     private boolean paymentComplete;
 
-    public ResourceBooking(int pBookingId, String pUserName, int pPropertyResidentId, LocalDateTime pBookingDateTime, LocalDateTime pBookingStartDate, LocalDateTime pBookingEndDate, double pBookingCost, boolean pPaymentComplete) {
+    public ResourceBooking(int pBookingId, String pUserName, PropertyResource pPropertyResidentId, LocalDateTime pBookingDateTime, LocalDateTime pBookingStartDate, LocalDateTime pBookingEndDate, double pBookingCost, boolean pPaymentComplete) {
         bookingId = pBookingId;
         userName = pUserName;
-        propertyResidentId = pPropertyResidentId;
+        propertyResourceId = pPropertyResidentId;
         bookingDateTime = pBookingDateTime;
         bookingStartDate = pBookingStartDate;
         bookingEndDate = pBookingEndDate;
@@ -58,12 +56,12 @@ public class ResourceBooking {
         userName = pUserName;
     }
 
-    public int getPropertyResidentId() {
-        return propertyResidentId;
+    public PropertyResource getPropertyResourceId() {
+        return propertyResourceId;
     }
 
-    public void setPropertyResidentId(int pPropertyResidentId) {
-        propertyResidentId = pPropertyResidentId;
+    public void setPropertyResourceId(PropertyResource pPropertyResidentId) {
+        propertyResourceId = pPropertyResidentId;
     }
 
     public LocalDateTime getBookingDateTime() {
