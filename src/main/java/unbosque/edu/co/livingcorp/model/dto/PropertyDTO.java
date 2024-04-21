@@ -1,42 +1,26 @@
-package unbosque.edu.co.livingcorp.model.entity;
+package unbosque.edu.co.livingcorp.model.dto;
 
 import jakarta.persistence.*;
+import unbosque.edu.co.livingcorp.model.entity.WebUser;
+
+public class PropertyDTO {
 
 
-@Entity
-@Table(name = "PROPERTIES")
-public class Property {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "PROPERTY_ID")
     private int propertyId;
-    @Column(name = "PROPERTY_NAME", unique = true)
     private String propertyName;
-    @Column(name = "PROPERTY_CITY", unique = true)
     private String propertyCity;
-    @Column(name = "PROPERTY_ADDRESS")
     private String propertyAddress;
-    @Column(name = "PROPERTY_AREA")
     private int propertyArea;
-    @Column(name = "PROPERTY_PRICE")
     private double propertyPrice;
-    @Column(name = "PROPERTY_ROOMS")
     private int propertyRooms;
-    @Column(name = "PROPERTY_BATHROOMS")
     private int propertyBathrooms;
-    @Column(name = "PROPERTY_DESCRIPCION")
     private String  propertyDescription;
-    @ManyToOne
-    @JoinColumn(name = "PROPERTY_ADMIN", referencedColumnName = "USER_NAME")
     private WebUser userName;
-    @Column(name = "IS_AVAILABLE_FOR_RENT")
     private boolean isAvailableForRent;
-    @Column(name = "IS_AVAILABLE_FOR_SALE")
     private boolean isAvailableForSale;
 
-    public Property( String propertyName, String propertyCity, String propertyAddress,int propertyArea, double propertyPrice, int propertyRooms,
-                    int propertyBathrooms, String propertyDescription, WebUser userName, boolean isAvailableForRent, boolean isAvailableForSale  ){
+    public PropertyDTO( String propertyName, String propertyCity, String propertyAddress,int propertyArea, double propertyPrice, int propertyRooms,
+                     int propertyBathrooms, String propertyDescription, WebUser userName, boolean isAvailableForRent, boolean isAvailableForSale  ){
 
 
         this.propertyName = propertyName;
@@ -52,7 +36,24 @@ public class Property {
         this.isAvailableForSale = isAvailableForSale;
     }
 
-    public Property(){}
+    public PropertyDTO(int propertyId, String propertyName, String propertyCity, String propertyAddress,int propertyArea, double propertyPrice, int propertyRooms,
+                        int propertyBathrooms, String propertyDescription, WebUser userName, boolean isAvailableForRent, boolean isAvailableForSale  ){
+
+        this.propertyId = propertyId;
+        this.propertyName = propertyName;
+        this.propertyCity = propertyCity;
+        this.propertyAddress = propertyAddress;
+        this.propertyArea = propertyArea;
+        this.propertyPrice = propertyPrice;
+        this.propertyRooms = propertyRooms;
+        this.propertyBathrooms = propertyBathrooms;
+        this.propertyDescription = propertyDescription;
+        this.userName = userName;
+        this.isAvailableForRent = isAvailableForRent;
+        this.isAvailableForSale = isAvailableForSale;
+    }
+
+    public PropertyDTO(){}
 
     public int getPropertyId() {
         return propertyId;
@@ -149,4 +150,5 @@ public class Property {
     public void setAvailableForSale(boolean availableForSale) {
         isAvailableForSale = availableForSale;
     }
+
 }
