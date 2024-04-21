@@ -2,6 +2,7 @@ package unbosque.edu.co.livingcorp.model.entity;
 
 import jakarta.persistence.*;
 
+
 @Entity
 @Table(name = "PROPERTIES")
 public class Property {
@@ -26,7 +27,11 @@ public class Property {
     private int propertyBathrooms;
     @Column(name = "PROPERTY_DESCRIPCION")
     private String  propertyDescription;
-    @ManyToOne @JoinColumn(name = "USER_NAME")
+
+    @ManyToOne
+    @JoinColumn(name = "PROPERTY_ADMIN", referencedColumnName = "USER_NAME")
+
+
     private WebUser userName;
     @Column(name = "IS_AVAILABLE_FOR_RENT")
     private boolean isAvailableForRent;
@@ -35,6 +40,7 @@ public class Property {
 
     public Property( String propertyName, String propertyCity, String propertyAddress,int propertyArea, double propertyPrice, int propertyRooms,
                     int propertyBathrooms, String propertyDescription, WebUser userName, boolean isAvailableForRent, boolean isAvailableForSale  ){
+
 
         this.propertyName = propertyName;
         this.propertyCity = propertyCity;
