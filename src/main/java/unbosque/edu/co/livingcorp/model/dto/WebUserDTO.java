@@ -1,7 +1,5 @@
 package unbosque.edu.co.livingcorp.model.dto;
 
-
-
 import java.time.LocalDateTime;
 
 public class WebUserDTO {
@@ -14,17 +12,15 @@ public class WebUserDTO {
     private boolean isPropertyAdmin;
     private boolean isResidentPropertyOwner;
 
-    public WebUserDTO(String userName, String email, String password, LocalDateTime lastLogin, boolean isBlocked, boolean isPropertyAdmin, boolean isResidentPropertyOwner){
+    public WebUserDTO(String userName, String userEmail, String userPassword, LocalDateTime lastLogin, boolean isBlocked, boolean isPropertyAdmin, boolean isResidentPropertyOwner) {
         this.userName = userName;
-        this.userEmail = email;
-        this.userPassword = password;
+        this.userEmail = userEmail;
+        this.userPassword = userPassword;
         this.lastLogin = lastLogin;
         this.isBlocked = isBlocked;
         this.isPropertyAdmin = isPropertyAdmin;
         this.isResidentPropertyOwner = isResidentPropertyOwner;
     }
-
-    public WebUserDTO(){}
 
     public String getUserName() {
         return userName;
@@ -81,5 +77,4 @@ public class WebUserDTO {
     public void setResidentPropertyOwner(boolean residentPropertyOwner) {
         isResidentPropertyOwner = residentPropertyOwner;
     }
-
 }
