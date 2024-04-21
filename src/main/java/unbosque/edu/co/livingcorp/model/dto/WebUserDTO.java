@@ -2,7 +2,7 @@ package unbosque.edu.co.livingcorp.model.dto;
 
 import java.time.LocalDateTime;
 
-public class WebUserDto {
+public class WebUserDTO {
 
     private String userName;
     private String userEmail;
@@ -12,7 +12,7 @@ public class WebUserDto {
     private boolean isPropertyAdmin;
     private boolean isResidentPropertyOwner;
 
-    public WebUserDto(String userName, String userEmail, String userPassword, LocalDateTime lastLogin, boolean isBlocked, boolean isPropertyAdmin, boolean isResidentPropertyOwner) {
+    public WebUserDTO(String userName, String userEmail, String userPassword, LocalDateTime lastLogin, boolean isBlocked, boolean isPropertyAdmin, boolean isResidentPropertyOwner) {
         this.userName = userName;
         this.userEmail = userEmail;
         this.userPassword = userPassword;
