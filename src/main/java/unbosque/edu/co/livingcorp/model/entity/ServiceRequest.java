@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 public class ServiceRequest {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "RQST_ID")
     private int requestId;
     @Column(name = "RQST_DATETIME")
@@ -28,8 +29,7 @@ public class ServiceRequest {
     @Column(name = "SVC_DATETIME")
     private LocalDateTime serviceDateTime;
 
-    public ServiceRequest(int pRequestId, LocalDateTime pRequestDateTime, WebUser pUserName, Property pPropertyId, ServiceProvider pServiceId, String pRequestDescription, LocalDateTime pServiceDateTime) {
-        requestId = pRequestId;
+    public ServiceRequest(LocalDateTime pRequestDateTime, WebUser pUserName, Property pPropertyId, ServiceProvider pServiceId, String pRequestDescription, LocalDateTime pServiceDateTime) {
         requestDateTime = pRequestDateTime;
         userName = pUserName;
         propertyId = pPropertyId;

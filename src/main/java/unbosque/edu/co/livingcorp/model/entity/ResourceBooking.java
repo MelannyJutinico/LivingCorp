@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 public class ResourceBooking {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "BOOKING_ID")
     private int bookingId;
     @Column(name = "USER_NAME")
@@ -27,8 +28,7 @@ public class ResourceBooking {
     @Column(name = "PAYMENT_COMPLETE")
     private boolean paymentComplete;
 
-    public ResourceBooking(int pBookingId, String pUserName, PropertyResource pPropertyResidentId, LocalDateTime pBookingDateTime, LocalDateTime pBookingStartDate, LocalDateTime pBookingEndDate, double pBookingCost, boolean pPaymentComplete) {
-        bookingId = pBookingId;
+    public ResourceBooking( String pUserName, PropertyResource pPropertyResidentId, LocalDateTime pBookingDateTime, LocalDateTime pBookingStartDate, LocalDateTime pBookingEndDate, double pBookingCost, boolean pPaymentComplete) {
         userName = pUserName;
         propertyResourceId = pPropertyResidentId;
         bookingDateTime = pBookingDateTime;
