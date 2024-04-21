@@ -1,7 +1,7 @@
 package unbosque.edu.co.livingcorp.model.entity;
 import jakarta.persistence.*;
 @Entity @Table(name = "PROPERTY_RESIDENTS")
-public class PropertyResidents {
+public class PropertyResident {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "PROPERTY_RESIDENT_ID")
@@ -13,10 +13,10 @@ public class PropertyResidents {
     @Column(name = "IS_OWNER")
     private boolean isOwner;
 
-    public PropertyResidents() {
+    public PropertyResident() {
     }
 
-    public PropertyResidents(WebUser userName, Property property, boolean isOwner) {
+    public PropertyResident(WebUser userName, Property property, boolean isOwner) {
         this.userName = userName;
         this.property = property;
         this.isOwner = isOwner;

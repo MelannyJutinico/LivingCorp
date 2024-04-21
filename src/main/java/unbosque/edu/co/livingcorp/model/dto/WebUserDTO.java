@@ -22,6 +22,7 @@ public class WebUserDTO {
         this.isResidentPropertyOwner = isResidentPropertyOwner;
     }
 
+
     public String getUserName() {
         return userName;
     }
@@ -78,3 +79,5 @@ public class WebUserDTO {
         isResidentPropertyOwner = residentPropertyOwner;
     }
 }
+
+
