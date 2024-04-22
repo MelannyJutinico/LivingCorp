@@ -1,7 +1,5 @@
 package unbosque.edu.co.livingcorp.model.dto;
 
-import unbosque.edu.co.livingcorp.model.dto.PropertyDTO;
-import unbosque.edu.co.livingcorp.model.dto.WebUserDTO;
 
 public class PropertyResidentDTO {
 
