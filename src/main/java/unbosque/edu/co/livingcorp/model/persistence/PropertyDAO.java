@@ -1,5 +1,6 @@
 package unbosque.edu.co.livingcorp.model.persistence;
 
+import jakarta.inject.Named;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
