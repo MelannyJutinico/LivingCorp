@@ -29,13 +29,13 @@ public class ResourceBooking {
     private boolean paymentComplete;
 
     public ResourceBooking( String pUserName, PropertyResource pPropertyResidentId, LocalDateTime pBookingDateTime, LocalDateTime pBookingStartDate, LocalDateTime pBookingEndDate, double pBookingCost, boolean pPaymentComplete) {
-        userName = pUserName;
-        propertyResourceId = pPropertyResidentId;
-        bookingDateTime = pBookingDateTime;
-        bookingStartDate = pBookingStartDate;
-        bookingEndDate = pBookingEndDate;
-        bookingCost = pBookingCost;
-        paymentComplete = pPaymentComplete;
+        this.userName = pUserName;
+        this.propertyResourceId = pPropertyResidentId;
+        this.bookingDateTime = pBookingDateTime;
+        this.bookingStartDate = pBookingStartDate;
+        this.bookingEndDate = pBookingEndDate;
+        this.bookingCost = pBookingCost;
+        this.paymentComplete = pPaymentComplete;
     }
 
     public ResourceBooking() {}

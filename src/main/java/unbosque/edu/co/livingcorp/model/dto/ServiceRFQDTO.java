@@ -1,32 +1,18 @@
-package unbosque.edu.co.livingcorp.model.entity;
+package unbosque.edu.co.livingcorp.model.dto;
 
-import jakarta.persistence.*;
-
+import unbosque.edu.co.livingcorp.model.entity.ServiceProvider;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "SERVICE_RFQ")
-public class ServiceRFQ {
+public class ServiceRFQDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "RFQ_ID")
     private int rfqId;
-    @Column(name = "RFQ_DATETIME")
     private LocalDateTime rfqDateTime;
-    @ManyToOne
-    @JoinColumn(name = "USER_NAME" , referencedColumnName = "USER_NAME")
-    private WebUser userName;
-    @ManyToOne
-    @JoinColumn(name = "PROPERTY_ID" , referencedColumnName = "PROPERTY_ID")
-    private Property propertyId;
-    @ManyToOne
-    @JoinColumn(name = "SVC_PROVIDER_ID" , referencedColumnName = "PROVIDER_ID")
+    private WebUserDTO userName;
+    private PropertyDTO propertyId;
     private ServiceProvider serviceProviderId;
-    @Column(name = "REQUEST_DESCRIPTION")
     private String requestDescription;
 
-    public ServiceRFQ( LocalDateTime pRfqDateTime, WebUser pUserName, Property pPropertyId, ServiceProvider pServiceId, String pRequestDescription) {
+    public ServiceRFQDTO(LocalDateTime pRfqDateTime, WebUserDTO pUserName, PropertyDTO pPropertyId, ServiceProvider pServiceId, String pRequestDescription) {
         this.rfqDateTime = pRfqDateTime;
         this.userName = pUserName;
         this.propertyId = pPropertyId;
@@ -34,7 +20,16 @@ public class ServiceRFQ {
         this.requestDescription = pRequestDescription;
     }
 
-    public ServiceRFQ() {}
+    public ServiceRFQDTO(int rfqId,LocalDateTime pRfqDateTime, WebUserDTO pUserName, PropertyDTO pPropertyId, ServiceProvider pServiceId, String pRequestDescription) {
+        this.rfqId = rfqId;
+        this.rfqDateTime = pRfqDateTime;
+        this.userName = pUserName;
+        this.propertyId = pPropertyId;
+        this.serviceProviderId = pServiceId;
+        this.requestDescription = pRequestDescription;
+    }
+
+    public ServiceRFQDTO() {}
 
     public int getRfqId() {
         return rfqId;
@@ -52,19 +47,19 @@ public class ServiceRFQ {
         rfqDateTime = pRfqDateTime;
     }
 
-    public WebUser getUserName() {
+    public WebUserDTO getUserName() {
         return userName;
     }
 
-    public void setUserName(WebUser pUserName) {
+    public void setUserName(WebUserDTO pUserName) {
         userName = pUserName;
     }
 
-    public Property getPropertyId() {
+    public PropertyDTO getPropertyId() {
         return propertyId;
     }
 
-    public void setPropertyId(Property pPropertyId) {
+    public void setPropertyId(PropertyDTO pPropertyId) {
         propertyId = pPropertyId;
     }
 

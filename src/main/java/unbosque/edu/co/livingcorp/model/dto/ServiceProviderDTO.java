@@ -1,34 +1,29 @@
-package unbosque.edu.co.livingcorp.model.entity;
+package unbosque.edu.co.livingcorp.model.dto;
 
-import jakarta.persistence.*;
+public class ServiceProviderDTO {
 
-import java.time.LocalDateTime;
-
-@Entity
-@Table(name = "SVC_PROVIDERS")
-public class ServiceProvider {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "PROVIDER_ID")
     private int providerId;
-    @Column(name = "PROVIDER_EMAIL")
     private String providerEmail;
-    @Column(name = "SERVICE_DESCRIPTION")
     private String serviceDescription;
-    @Column(name = "SERVICE_TYPE")
     private String serviceType;
-    @Column(name = "SERVICE_PRICE")
     private String servicePrice;
 
-    public ServiceProvider(String pProviderEmail, String pServiceDescription, String pServiceType, String pServicePrice) {
+    public ServiceProviderDTO(String pProviderEmail, String pServiceDescription, String pServiceType, String pServicePrice) {
         this.providerEmail = pProviderEmail;
         this.serviceDescription = pServiceDescription;
         this.serviceType = pServiceType;
         this.servicePrice = pServicePrice;
     }
 
-    public ServiceProvider() {}
+    public ServiceProviderDTO(int providerId,String pProviderEmail, String pServiceDescription, String pServiceType, String pServicePrice) {
+        this.providerId = providerId;
+        this.providerEmail = pProviderEmail;
+        this.serviceDescription = pServiceDescription;
+        this.serviceType = pServiceType;
+        this.servicePrice = pServicePrice;
+    }
+
+    public ServiceProviderDTO() {}
 
     public int getProviderId() {
         return providerId;

@@ -1,7 +1,5 @@
 package unbosque.edu.co.livingcorp.model.dto;
 
-import jakarta.persistence.*;
-import unbosque.edu.co.livingcorp.model.entity.WebUser;
 
 public class PropertyDTO {
 
@@ -15,12 +13,12 @@ public class PropertyDTO {
     private int propertyRooms;
     private int propertyBathrooms;
     private String  propertyDescription;
-    private WebUser userName;
+    private WebUserDTO userName;
     private boolean isAvailableForRent;
     private boolean isAvailableForSale;
 
     public PropertyDTO( String propertyName, String propertyCity, String propertyAddress,int propertyArea, double propertyPrice, int propertyRooms,
-                     int propertyBathrooms, String propertyDescription, WebUser userName, boolean isAvailableForRent, boolean isAvailableForSale  ){
+                     int propertyBathrooms, String propertyDescription, WebUserDTO userName, boolean isAvailableForRent, boolean isAvailableForSale  ){
 
 
         this.propertyName = propertyName;
@@ -37,7 +35,7 @@ public class PropertyDTO {
     }
 
     public PropertyDTO(int propertyId, String propertyName, String propertyCity, String propertyAddress,int propertyArea, double propertyPrice, int propertyRooms,
-                        int propertyBathrooms, String propertyDescription, WebUser userName, boolean isAvailableForRent, boolean isAvailableForSale  ){
+                        int propertyBathrooms, String propertyDescription, WebUserDTO userName, boolean isAvailableForRent, boolean isAvailableForSale  ){
 
         this.propertyId = propertyId;
         this.propertyName = propertyName;
@@ -127,11 +125,11 @@ public class PropertyDTO {
         this.propertyDescription = propertyDescription;
     }
 
-    public WebUser getUserName() {
+    public WebUserDTO getUserName() {
         return userName;
     }
 
-    public void setUserName(WebUser userName) {
+    public void setUserName(WebUserDTO userName) {
         this.userName = userName;
     }
 

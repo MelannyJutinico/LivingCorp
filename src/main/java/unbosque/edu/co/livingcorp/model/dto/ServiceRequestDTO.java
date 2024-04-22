@@ -1,35 +1,18 @@
-package unbosque.edu.co.livingcorp.model.entity;
-
-import jakarta.persistence.*;
+package unbosque.edu.co.livingcorp.model.dto;
 
 import java.time.LocalDateTime;
 
+public class ServiceRequestDTO {
 
-@Entity
-@Table(name = "SERVICE_REQUESTS")
-public class ServiceRequest {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "RQST_ID")
     private int requestId;
-    @Column(name = "RQST_DATETIME")
     private LocalDateTime requestDateTime;
-    @ManyToOne
-    @JoinColumn(name = "USER_NAME", referencedColumnName = "USER_NAME")
-    private WebUser userName;
-    @ManyToOne
-    @JoinColumn(name = "PROPERTY_ID", referencedColumnName = "PROPERTY_ID")
-    private Property propertyId;
-    @ManyToOne
-    @JoinColumn(name = "SVC_PROVIDER_ID", referencedColumnName = "PROVIDER_ID")
-    private ServiceProvider serviceProviderId;
-    @Column(name = "REQUEST_DESCRIPTION")
+    private WebUserDTO userName;
+    private PropertyDTO propertyId;
+    private ServiceProviderDTO serviceProviderId;
     private String requestDescription;
-    @Column(name = "SVC_DATETIME")
     private LocalDateTime serviceDateTime;
 
-    public ServiceRequest(LocalDateTime pRequestDateTime, WebUser pUserName, Property pPropertyId, ServiceProvider pServiceId, String pRequestDescription, LocalDateTime pServiceDateTime) {
+    public ServiceRequestDTO(LocalDateTime pRequestDateTime, WebUserDTO pUserName, PropertyDTO pPropertyId, ServiceProviderDTO pServiceId, String pRequestDescription, LocalDateTime pServiceDateTime) {
         this.requestDateTime = pRequestDateTime;
         this.userName = pUserName;
         this.propertyId = pPropertyId;
@@ -38,7 +21,17 @@ public class ServiceRequest {
         this.serviceDateTime = pServiceDateTime;
     }
 
-    public ServiceRequest() {}
+    public ServiceRequestDTO(int requestId,LocalDateTime pRequestDateTime, WebUserDTO pUserName, PropertyDTO pPropertyId, ServiceProviderDTO pServiceId, String pRequestDescription, LocalDateTime pServiceDateTime) {
+        this.requestId = requestId;
+        this.requestDateTime = pRequestDateTime;
+        this.userName = pUserName;
+        this.propertyId = pPropertyId;
+        this.serviceProviderId = pServiceId;
+        this.requestDescription = pRequestDescription;
+        this.serviceDateTime = pServiceDateTime;
+    }
+
+    public ServiceRequestDTO() {}
 
     public int getRequestId() {
         return requestId;
@@ -56,27 +49,27 @@ public class ServiceRequest {
         requestDateTime = pRequestDateTime;
     }
 
-    public WebUser getUserName() {
+    public WebUserDTO getUserName() {
         return userName;
     }
 
-    public void setUserName(WebUser pUserName) {
+    public void setUserName(WebUserDTO pUserName) {
         userName = pUserName;
     }
 
-    public Property getPropertyId() {
+    public PropertyDTO getPropertyId() {
         return propertyId;
     }
 
-    public void setPropertyId(Property pPropertyId) {
+    public void setPropertyId(PropertyDTO pPropertyId) {
         propertyId = pPropertyId;
     }
 
-    public ServiceProvider getServiceProviderId() {
+    public ServiceProviderDTO getServiceProviderId() {
         return serviceProviderId;
     }
 
-    public void setServiceProviderId(ServiceProvider pServiceId) {
+    public void setServiceProviderId(ServiceProviderDTO pServiceId) {
         serviceProviderId = pServiceId;
     }
 
