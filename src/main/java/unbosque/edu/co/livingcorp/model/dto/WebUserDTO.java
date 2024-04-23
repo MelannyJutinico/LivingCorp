@@ -22,6 +22,8 @@ public class WebUserDTO {
         this.isResidentPropertyOwner = isResidentPropertyOwner;
     }
 
+    public WebUserDTO() {
+    }
 
     public String getUserName() {
         return userName;

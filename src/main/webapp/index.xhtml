@@ -6,9 +6,19 @@
       xmlns:p="http://primefaces.org/ui">
 <h:head>
     <meta charset="UTF-8" />
-    <title>FORM JSF</title>
+    <title>Living Corp</title>
 </h:head>
 <h:body>
-
+    <p:dataTable var="property" value="#{loginBean.properties}" rowKey="#{property.propertyId}" emptyMessage="No hay propiedades registradas">
+        <p:column headerText="Name">
+            <h:outputText value="#{property.propertyName}" />
+        </p:column>
+        <p:column headerText="City">
+            <h:outputText value="#{property.propertyCity}" />
+        </p:column>
+        <p:column headerText="Address">
+            <h:outputText value="#{property.propertyAddress}" />
+        </p:column>
+    </p:dataTable>
 </h:body>
 </html>
