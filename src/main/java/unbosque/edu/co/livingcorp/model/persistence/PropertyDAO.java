@@ -1,5 +1,6 @@
 package unbosque.edu.co.livingcorp.model.persistence;
 
+import jakarta.ejb.Stateless;
 import jakarta.inject.Named;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -8,6 +9,7 @@ import unbosque.edu.co.livingcorp.model.entity.Property;
 
 import java.util.ArrayList;
 
+@Stateless
 public class PropertyDAO implements InterfaceDAO<Property, Integer>{
 
     @PersistenceContext(unitName = "livingCorpPU")

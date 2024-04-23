@@ -5,43 +5,23 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui">
 <h:head>
-    <title>SplitterPanel Example</title>
+
+    <meta charset="UTF-8" />
+    <title>Living Corp</title>
 </h:head>
 <h:body>
-    <div class="card">
-        <p:carousel value="#{carouselView.products}" var="product" circular="true" autoplayInterval="3000"
-                    responsiveOptions="#{carouselView.responsiveOptions}" numVisible="3" numScroll="1">
-            <f:facet name="header">
-                <h5>Circular, AutoPlay, 3 Items per Page and Scroll by 1</h5>
-            </f:facet>
+    <p:dataTable var="property" value="#{loginBean.properties}" rowKey="#{property.propertyId}" emptyMessage="No hay propiedades registradas">
+        <p:column headerText="Name">
+            <h:outputText value="#{property.propertyName}" />
+        </p:column>
+        <p:column headerText="City">
+            <h:outputText value="#{property.propertyCity}" />
+        </p:column>
+        <p:column headerText="Address">
+            <h:outputText value="#{property.propertyAddress}" />
+        </p:column>
+    </p:dataTable>
 
-            <div class="product-item">
-                <div class="product-item-content">
-                    <div class="mb-3">
-                        <p:graphicImage name="demo/images/product/#{product.image}" styleClass="product-image"/>
-                    </div>
-                    <div>
-                        <h4 class="mb-1">#{product.name}</h4>
-                        <h6 class="mt-0 mb-3">
-                            <h:outputText value="#{product.price}">
-                                <f:convertNumber type="currency" pattern="¤#0" currencySymbol="$" />
-                            </h:outputText>
-                        </h6>
-                        <span class="product-badge status-#{product.inventoryStatus.name().toLowerCase()}">#{product.inventoryStatus.text}</span>
-                        <div class="mt-5">
-                            <p:commandButton type="button" icon="pi pi-search" styleClass="rounded-button mr-2" />
-                            <p:commandButton type="button" icon="pi pi-star" styleClass="ui-button-success rounded-button mr-2" />
-                            <p:commandButton type="button" icon="pi pi-cog" styleClass="ui-button-help rounded-button" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </p:carousel>
-    </div>
-
-
-</h:body>
-</html>
 
 </h:body>
 </html>
