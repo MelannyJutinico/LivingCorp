@@ -16,26 +16,27 @@ public class ServiceRequest {
     @Column(name = "RQST_DATETIME")
     private LocalDateTime requestDateTime;
     @ManyToOne
-    @JoinColumn(name = "USER_NAME", referencedColumnName = "USER_NAME")
-    private WebUser userName;
+    @JoinColumn(name = "USER_NAME")
+    private WebUser user;
     @ManyToOne
     @JoinColumn(name = "PROPERTY_ID", referencedColumnName = "PROPERTY_ID")
-    private Property propertyId;
+    private Property property;
     @ManyToOne
     @JoinColumn(name = "SVC_PROVIDER_ID", referencedColumnName = "PROVIDER_ID")
-    private ServiceProvider serviceProviderId;
+    private ServiceProvider serviceProvider;
     @Column(name = "REQUEST_DESCRIPTION")
     private String requestDescription;
     @Column(name = "SVC_DATETIME")
     private LocalDateTime serviceDateTime;
 
-    public ServiceRequest(LocalDateTime pRequestDateTime, WebUser pUserName, Property pPropertyId, ServiceProvider pServiceId, String pRequestDescription, LocalDateTime pServiceDateTime) {
-        this.requestDateTime = pRequestDateTime;
-        this.userName = pUserName;
-        this.propertyId = pPropertyId;
-        this.serviceProviderId = pServiceId;
-        this.requestDescription = pRequestDescription;
-        this.serviceDateTime = pServiceDateTime;
+    public ServiceRequest(int requestId, LocalDateTime requestDateTime, WebUser user, Property property, ServiceProvider serviceProvider, String requestDescription, LocalDateTime serviceDateTime) {
+        this.requestId = requestId;
+        this.requestDateTime = requestDateTime;
+        this.user = user;
+        this.property = property;
+        this.serviceProvider = serviceProvider;
+        this.requestDescription = requestDescription;
+        this.serviceDateTime = serviceDateTime;
     }
 
     public ServiceRequest() {}
@@ -56,28 +57,28 @@ public class ServiceRequest {
         requestDateTime = pRequestDateTime;
     }
 
-    public WebUser getUserName() {
-        return userName;
+    public WebUser getUser() {
+        return user;
     }
 
-    public void setUserName(WebUser pUserName) {
-        userName = pUserName;
+    public void setUser(WebUser user) {
+        this.user = user;
     }
 
-    public Property getPropertyId() {
-        return propertyId;
+    public Property getProperty() {
+        return property;
     }
 
-    public void setPropertyId(Property pPropertyId) {
-        propertyId = pPropertyId;
+    public void setProperty(Property property) {
+        this.property = property;
     }
 
-    public ServiceProvider getServiceProviderId() {
-        return serviceProviderId;
+    public ServiceProvider getServiceProvider() {
+        return serviceProvider;
     }
 
-    public void setServiceProviderId(ServiceProvider pServiceId) {
-        serviceProviderId = pServiceId;
+    public void setServiceProvider(ServiceProvider serviceProvider) {
+        this.serviceProvider = serviceProvider;
     }
 
     public String getRequestDescription() {

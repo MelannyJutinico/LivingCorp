@@ -22,12 +22,13 @@ public class PropertyResource {
     @Column(name = "BOOKING_EMAIL")
     private String bookingEmail;
 
-    public PropertyResource(Resource resource, Property property, Double resourceMinPrice, String resourceAvailability, Integer resourceMinTimeHrs, Integer resourceCapacity, String bookingEmail) {
+    public PropertyResource(Integer propResId, Resource resource, Property property, Double resourceMinPrice, Integer resourceMinTimeHrs, String resourceAvailability, Integer resourceCapacity, String bookingEmail) {
+        this.propResId = propResId;
         this.resource = resource;
         this.property = property;
         this.resourceMinPrice = resourceMinPrice;
-        this.resourceAvailability = resourceAvailability;
         this.resourceMinTimeHrs = resourceMinTimeHrs;
+        this.resourceAvailability = resourceAvailability;
         this.resourceCapacity = resourceCapacity;
         this.bookingEmail = bookingEmail;
     }

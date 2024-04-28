@@ -15,8 +15,8 @@ public class Resource {
     @Column(name = "RESOURCE_TYPE")
     private String resourceType;
 
-    public Resource(String resourceDescription, String resourceType) {
-
+    public Resource(Integer resourceId, String resourceDescription, String resourceType) {
+        this.resourceId = resourceId;
         this.resourceDescription = resourceDescription;
         this.resourceType = resourceType;
     }

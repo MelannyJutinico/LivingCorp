@@ -21,11 +21,12 @@ public class ServiceProvider {
     @Column(name = "SERVICE_PRICE")
     private String servicePrice;
 
-    public ServiceProvider(String pProviderEmail, String pServiceDescription, String pServiceType, String pServicePrice) {
-        this.providerEmail = pProviderEmail;
-        this.serviceDescription = pServiceDescription;
-        this.serviceType = pServiceType;
-        this.servicePrice = pServicePrice;
+    public ServiceProvider(int providerId, String providerEmail, String serviceDescription, String serviceType, String servicePrice) {
+        this.providerId = providerId;
+        this.providerEmail = providerEmail;
+        this.serviceDescription = serviceDescription;
+        this.serviceType = serviceType;
+        this.servicePrice = servicePrice;
     }
 
     public ServiceProvider() {}

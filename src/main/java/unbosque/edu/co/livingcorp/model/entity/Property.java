@@ -29,16 +29,14 @@ public class Property {
     private String  propertyDescription;
     @ManyToOne
     @JoinColumn(name = "PROPERTY_ADMIN", referencedColumnName = "USER_NAME")
-    private WebUser userName;
+    private WebUser user;
     @Column(name = "IS_AVAILABLE_FOR_RENT")
     private boolean isAvailableForRent;
     @Column(name = "IS_AVAILABLE_FOR_SALE")
     private boolean isAvailableForSale;
 
-    public Property( String propertyName, String propertyCity, String propertyAddress,int propertyArea, double propertyPrice, int propertyRooms,
-                    int propertyBathrooms, String propertyDescription, WebUser userName, boolean isAvailableForRent, boolean isAvailableForSale  ){
-
-
+    public Property(int propertyId, String propertyName, String propertyCity, String propertyAddress, int propertyArea, double propertyPrice, int propertyRooms, int propertyBathrooms, String propertyDescription, WebUser user, boolean isAvailableForRent, boolean isAvailableForSale) {
+        this.propertyId = propertyId;
         this.propertyName = propertyName;
         this.propertyCity = propertyCity;
         this.propertyAddress = propertyAddress;
@@ -47,7 +45,7 @@ public class Property {
         this.propertyRooms = propertyRooms;
         this.propertyBathrooms = propertyBathrooms;
         this.propertyDescription = propertyDescription;
-        this.userName = userName;
+        this.user = user;
         this.isAvailableForRent = isAvailableForRent;
         this.isAvailableForSale = isAvailableForSale;
     }
@@ -126,12 +124,12 @@ public class Property {
         this.propertyDescription = propertyDescription;
     }
 
-    public WebUser getUserName() {
-        return userName;
+    public WebUser getUser() {
+        return user;
     }
 
-    public void setUserName(WebUser userName) {
-        this.userName = userName;
+    public void setUser(WebUser user) {
+        this.user = user;
     }
 
     public boolean isAvailableForRent() {
