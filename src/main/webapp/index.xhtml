@@ -22,16 +22,16 @@
 </h:head>
 <h:body>
     <div class="card">
-    <h:form>
-        <h5>Rango de precios</h5>
-        <h:panelGrid columns="1" style="margin-bottom: 10px">
-            <h:outputText id="displayRange" value="Between #{indexBean.filterMinPrice} and #{indexBean.filterMaxPrice}"/>
-            <p:slider for="txt6,txt7" display="displayRange" style="width: 400px" range="true"
-                      displayTemplate="Between {min} and {max}"/>
-        </h:panelGrid>
-        <h:inputHidden id="txt6" value="#{indexBean.filterMinPrice}"/>
-        <h:inputHidden id="txt7" value="#{indexBean.filterMaxPrice}"/>
-    </h:form></div>
+        <h:form>
+            <h5>Rango de precios</h5>
+            <h:panelGrid columns="1" style="margin-bottom: 10px">
+                <h:outputText id="displayRange" value="Between #{indexBean.filterMinPrice} and #{indexBean.filterMaxPrice}"/>
+                <p:slider for="txt6,txt7" display="displayRange" style="width: 400px" range="true"
+                          displayTemplate="Between {min} and {max}"/>
+            </h:panelGrid>
+            <h:inputHidden id="txt6" value="#{indexBean.filterMinPrice}"/>
+            <h:inputHidden id="txt7" value="#{indexBean.filterMaxPrice}"/>
+        </h:form></div>
 
     <ui:repeat value="#{indexBean.properties}" var="property" varStatus="loop"  >
         <p:card style="width: 25em" styleClass="property-card">
