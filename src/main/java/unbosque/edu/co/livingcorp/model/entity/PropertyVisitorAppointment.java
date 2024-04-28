@@ -10,22 +10,24 @@ public class PropertyVisitorAppointment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "")
+    @Column(name = "APPOINTMENT_ID")
     private int appointmentId;
-    @Column(name = "")
+    @Column(name = "VISITOR_NAME")
     private String visitorName;
-    @Column(name = "")
+    @Column(name = "ADVISOR_NAME")
     private String advisorName;
-    @Column(name = "")
+    @Column(name = "APPOINTMENT_DATETIME")
     private LocalDate appointmentDate;
     @ManyToOne
-    @JoinColumn(name = "PROPERTY_ID", referencedColumnName = "PROPERTY_ID")
-    private Property propertyId;
+    @JoinColumn(name = "PROPERTY_ID")
+    private Property property;
 
-    public PropertyVisitorAppointment(String visitorName, String advisorName, LocalDate appointmentDate, Property propertyId  ){
+    public PropertyVisitorAppointment(int appointmentId, String visitorName, String advisorName, LocalDate appointmentDate, Property property) {
+        this.appointmentId = appointmentId;
         this.visitorName = visitorName;
         this.advisorName = advisorName;
         this.appointmentDate = appointmentDate;
+        this.property = property;
     }
 
     public PropertyVisitorAppointment() {}
@@ -62,11 +64,11 @@ public class PropertyVisitorAppointment {
         this.appointmentDate = appointmentDate;
     }
 
-    public Property getPropertyId() {
-        return propertyId;
+    public Property getProperty() {
+        return property;
     }
 
-    public void setPropertyId(Property propertyId) {
-        this.propertyId = propertyId;
+    public void setProperty(Property property) {
+        this.property = property;
     }
 }

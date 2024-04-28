@@ -9,16 +9,17 @@ public class PropertyResident {
     @ManyToOne @JoinColumn(name = "PROPERTY_ID")
     private Property property;
     @ManyToOne @JoinColumn(name = "USER_NAME")
-    private WebUser userName;
+    private WebUser user;
     @Column(name = "IS_OWNER")
     private boolean isOwner;
 
     public PropertyResident() {
     }
 
-    public PropertyResident(WebUser userName, Property property, boolean isOwner) {
-        this.userName = userName;
+    public PropertyResident(Integer propertyResidentId, Property property, WebUser user, boolean isOwner) {
+        this.propertyResidentId = propertyResidentId;
         this.property = property;
+        this.user = user;
         this.isOwner = isOwner;
     }
 
@@ -38,12 +39,12 @@ public class PropertyResident {
         this.property = property;
     }
 
-    public WebUser getUserName() {
-        return userName;
+    public WebUser getUser() {
+        return user;
     }
 
-    public void setUserName(WebUser userName) {
-        this.userName = userName;
+    public void setUser(WebUser user) {
+        this.user = user;
     }
 
     public boolean isOwner() {

@@ -15,8 +15,8 @@ public class ResourceBooking {
     @Column(name = "USER_NAME")
     private String userName;
     @ManyToOne
-    @JoinColumn(name = "PROP_RES_ID", referencedColumnName = "PROP_RES_ID")
-    private PropertyResource propertyResourceId;
+    @JoinColumn(name = "PROP_RES_ID")
+    private PropertyResource propertyResource;
     @Column(name = "BOOKING_DATETIME")
     private LocalDateTime bookingDateTime;
     @Column(name = "BOOKING_START_DATE")
@@ -28,14 +28,15 @@ public class ResourceBooking {
     @Column(name = "PAYMENT_COMPLETE")
     private boolean paymentComplete;
 
-    public ResourceBooking( String pUserName, PropertyResource pPropertyResidentId, LocalDateTime pBookingDateTime, LocalDateTime pBookingStartDate, LocalDateTime pBookingEndDate, double pBookingCost, boolean pPaymentComplete) {
-        this.userName = pUserName;
-        this.propertyResourceId = pPropertyResidentId;
-        this.bookingDateTime = pBookingDateTime;
-        this.bookingStartDate = pBookingStartDate;
-        this.bookingEndDate = pBookingEndDate;
-        this.bookingCost = pBookingCost;
-        this.paymentComplete = pPaymentComplete;
+    public ResourceBooking(int bookingId, String userName, PropertyResource propertyResource, LocalDateTime bookingDateTime, LocalDateTime bookingStartDate, LocalDateTime bookingEndDate, double bookingCost, boolean paymentComplete) {
+        this.bookingId = bookingId;
+        this.userName = userName;
+        this.propertyResource = propertyResource;
+        this.bookingDateTime = bookingDateTime;
+        this.bookingStartDate = bookingStartDate;
+        this.bookingEndDate = bookingEndDate;
+        this.bookingCost = bookingCost;
+        this.paymentComplete = paymentComplete;
     }
 
     public ResourceBooking() {}
@@ -56,12 +57,16 @@ public class ResourceBooking {
         userName = pUserName;
     }
 
-    public PropertyResource getPropertyResourceId() {
-        return propertyResourceId;
+    public PropertyResource getPropertyResource() {
+        return propertyResource;
     }
 
-    public void setPropertyResourceId(PropertyResource pPropertyResidentId) {
-        propertyResourceId = pPropertyResidentId;
+    public void setPropertyResource(PropertyResource propertyResource) {
+        this.propertyResource = propertyResource;
+    }
+
+    public boolean isPaymentComplete() {
+        return paymentComplete;
     }
 
     public LocalDateTime getBookingDateTime() {
