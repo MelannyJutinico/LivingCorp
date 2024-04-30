@@ -2,6 +2,8 @@ package unbosque.edu.co.livingcorp.model.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+
 
 @Entity
 @Table(name = "PROPERTIES")
@@ -34,6 +36,8 @@ public class Property {
     private boolean isAvailableForRent;
     @Column(name = "IS_AVAILABLE_FOR_SALE")
     private boolean isAvailableForSale;
+    @OneToMany(mappedBy = "property", fetch = FetchType.LAZY)
+    private ArrayList<PropertyResident> residents;
 
     public Property(int propertyId, String propertyName, String propertyCity, String propertyAddress, int propertyArea, double propertyPrice, int propertyRooms, int propertyBathrooms, String propertyDescription, WebUser user, boolean isAvailableForRent, boolean isAvailableForSale) {
         this.propertyId = propertyId;

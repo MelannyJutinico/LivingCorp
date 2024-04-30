@@ -16,9 +16,7 @@ public class IndexBean implements Serializable {
 
     private ArrayList<PropertyDTO> properties = new ArrayList<>();
 
-    //Filtros
-    private int filterMinPrice = 10000;
-    private int filterMaxPrice = 500000;
+    private String filterCity;
 
     @Inject
     private PropertyManagementService propertyManagementService;
@@ -28,24 +26,18 @@ public class IndexBean implements Serializable {
         properties = propertyManagementService.listProperties();
     }
 
+
+
     public ArrayList<PropertyDTO> getProperties() {
         return properties;
     }
 
-    public int getFilterMinPrice() {
-        return filterMinPrice;
+    public String getFilterCity() {
+        return filterCity;
     }
 
-    public void setFilterMinPrice(int filterMinPrice) {
-        this.filterMinPrice = filterMinPrice;
-    }
-
-    public int getFilterMaxPrice() {
-        return filterMaxPrice;
-    }
-
-    public void setFilterMaxPrice(int filterMaxPrice) {
-        this.filterMaxPrice = filterMaxPrice;
+    public void setFilterCity(String filterCity) {
+        this.filterCity = filterCity;
     }
 
     public void setProperties(ArrayList<PropertyDTO> properties) {
