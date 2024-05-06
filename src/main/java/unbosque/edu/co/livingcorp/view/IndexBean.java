@@ -2,23 +2,34 @@ package unbosque.edu.co.livingcorp.view;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import org.primefaces.PrimeFaces;
+import unbosque.edu.co.livingcorp.exception.UserAuthenticationException;
+import unbosque.edu.co.livingcorp.exception.UserRegistrationException;
 import unbosque.edu.co.livingcorp.model.dto.PropertyDTO;
 import unbosque.edu.co.livingcorp.model.dto.WebUserDTO;
 import unbosque.edu.co.livingcorp.service.PropertyManagementService;
+import unbosque.edu.co.livingcorp.service.UserService;
 
 import java.io.Serializable;
+import java.security.NoSuchAlgorithmException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Named(value="indexBean")
-@ApplicationScoped
+@SessionScoped
 public class IndexBean implements Serializable {
 
     private ArrayList<PropertyDTO> properties = new ArrayList<>();
     private WebUserDTO webUser = new WebUserDTO();
+    private boolean authenticated;
+    private PropertyDTO propertySelected = new PropertyDTO();
 
     private String filterCity;
     private String filterNameProperty;
@@ -28,13 +39,69 @@ public class IndexBean implements Serializable {
     private int filterNumberBathrooms;
     private List<String> filterRentSale;
 
-
     @Inject
     private PropertyManagementService propertyManagementService;
+
+    @Inject
+    private UserService userService;
 
     @PostConstruct
     public void initProperties(){
         properties = propertyManagementService.listProperties();
+    }
+
+    public void registerUser(){
+        try{
+            userService.registerUser(webUser);
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro exitoso", "El usuario se ha registrado correctamente.");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            resetFields();
+        } catch (UserRegistrationException e) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario o correo ya ocupado", e.getMessage());
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        } catch (NoSuchAlgorithmException e) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al registrar", e.getMessage());
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        }
+    }
+
+    public void logout() {
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+
+    }
+
+    public void login() {
+        try {
+            webUser = userService.authenticateUser(webUser);
+            if (webUser != null && webUser.isLoginCorrect() && !webUser.isBlocked()) {
+                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("user", webUser);
+                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("lastLogin", LocalDateTime.now());
+                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Ingreso exitoso", "Usuario logeado exitosamente");
+                authenticated = true;
+                PrimeFaces.current().executeScript("PF('loginMenu').refresh();");
+            }else if (webUser != null && webUser.isBlocked()) {
+                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error de autenticación", "La cuenta está bloqueada. Comuníquese con el administrador.");
+                FacesContext.getCurrentInstance().addMessage(null, message);
+                resetFields();
+            } else {
+                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error de autenticación", "Credenciales incorrectas.");
+                FacesContext.getCurrentInstance().addMessage(null, message);
+
+            }
+        } catch (NoSuchAlgorithmException | UserAuthenticationException e) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al autenticar usuario", e.getMessage());
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        }
+    }
+    public void resetFields() {
+        webUser = new WebUserDTO();
+        filterCity = null;
+        filterNameProperty = null;
+        filterMinPrice = 0;
+        filterMaxPrice = 0;
+        filterNumberRooms = 0;
+        filterNumberBathrooms = 0;
+        filterRentSale = null;
     }
 
     public ArrayList<String> suggestCity(String query) {
@@ -66,6 +133,7 @@ public class IndexBean implements Serializable {
 
     public void restartProperties(){
         properties = propertyManagementService.listProperties();
+        resetFields();
     }
 
     public ArrayList<PropertyDTO> getProperties() {
@@ -123,4 +191,19 @@ public class IndexBean implements Serializable {
     public List<String> getFilterRentSale() { return filterRentSale;}
 
     public void setFilterRentSale(List<String> filterRentSale) {this.filterRentSale = filterRentSale;}
+
+    public WebUserDTO getWebUser() {
+        return webUser;
+    }
+    public void setWebUser(WebUserDTO webUser) {
+        this.webUser = webUser;
+    }
+
+    public boolean isAuthenticated() {
+        return authenticated;
+    }
+
+    public void setAuthenticated(boolean authenticated) {
+        this.authenticated = authenticated;
+    }
 }

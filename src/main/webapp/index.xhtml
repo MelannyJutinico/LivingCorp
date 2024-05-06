@@ -14,13 +14,14 @@
         <img src="resources/logo.png" alt="Logo" id="logo" />
 
         <div class="card">
-            <h:form>
+            <h:form >
                 <p:growl id="messages2"/>
 
                 <p:menubar styleClass="centered">
 
-                    <p:submenu label="Ingresar" icon="pi pi-fw pi-user">
-                        <p:menuitem value="Iniciar sesion o registrarte" type="button" onclick="PF('sidebar2').show()" styleClass="mr-2" />
+                    <p:submenu label="Ingresar" icon="pi pi-fw pi-user" >
+                        <p:menuitem value="Iniciar sesión o registrarte" type="button" onclick="PF('sidebar2').show()" rendered="#{not indexBean.authenticated}" styleClass="mr-2" />
+                        <p:menuitem value="Cerrar sesión" oncomplete="handleLoginSuccess()" type="button" action="#{indexBean.logout}" rendered="#{indexBean.authenticated}" styleClass="mr-2" />
                     </p:submenu>
 
 
@@ -32,7 +33,7 @@
     </div>
 
     <div class="sidebar-container">
-        <p:sidebar widgetVar="sidebar2" position="right" style="width: 50%;">
+        <p:sidebar widgetVar="sidebar2" position="right" style="width: 50%;" id="sidebar">
             <div class="sidebar-form">
                 <div class="login-form">
                     <h3>Iniciar sesion</h3>
@@ -40,13 +41,20 @@
                         <div class="ui-inputgroup">
                             <div class="ui-inputgroup-addon"><i class="pi pi-user"/>
                             </div>
-                            <p:inputText placeholder="Username"/>
+                            <p:inputText placeholder="Username" required="true" value="#{indexBean.webUser.userName}"/>
                         </div>
                         <br/>
                         <div class="field grid">
-                            <p:password id="toggle"  toggleMask="true" redisplay="true"/>
+                            <p:password id="toggle"  toggleMask="true" required="true" value="#{indexBean.webUser.userPassword}" redisplay="true"/>
                         </div>
-                        <p:commandButton value="Iniciar sesion" icon="pi pi-user" styleClass="rounded-button ui-button-success" />
+                        <p:commandButton update="@form" value="Iniciar sesion" oncomplete="handleLoginSuccess()" action="#{indexBean.login}" icon="pi pi-user" styleClass="rounded-button ui-button-success"  />
+                        <script>
+                            function handleLoginSuccess() {
+                                PF('sidebar2').hide();
+                                window.location.reload();
+                            }
+                        </script>
+                        <p:messages id="messages3"  showDetail="true" />
                     </h:form>
                 </div>
                 <div class="registration-form">
@@ -55,32 +63,39 @@
                         <div class="ui-inputgroup">
                             <div class="ui-inputgroup-addon"><i class="pi pi-user"/>
                             </div>
-                            <p:inputText placeholder="Username"/>
+                            <p:inputText id="username" placeholder="Username" value="#{indexBean.webUser.userName}" required="true">
+                                <f:validateLength maximum="10"/>
+                            </p:inputText>
                         </div>
                         <div class="ui-inputgroup">
                             <div class="ui-inputgroup-addon"><i class="pi pi-user"/>
                             </div>
-                            <p:inputText placeholder="Email"/>
+                            <p:inputText placeholder="Email" id="email" value="#{indexBean.webUser.userEmail}" required="true"/>
                         </div>
                         <div class="field grid">
-                            <p:outputLabel for="pwd1" styleClass="col-fixed" style="width:100px" value="Password"/>
+                            <p:outputLabel for="password1"  styleClass="col-fixed" style="width:100px" value="Password"/>
                             <div class="col">
-                                <p:password id="pwd1"  match="pwd2" label="Password 1" required="true"/>
+                                <p:password id="password1"  match="password2" label="Password 1" required="true" value="#{indexBean.webUser.userPassword}">
+                                    <f:validateLength maximum="10"/>
+                                </p:password>
                             </div>
                         </div>
 
                         <div class="field grid">
-                            <p:outputLabel for="pwd2" styleClass="col-fixed" style="width:100px" value="Repeat Password"/>
+                            <p:outputLabel for="password2" styleClass="col-fixed" style="width:100px" value="Repeat Password"/>
                             <div class="col">
-                                <p:password id="pwd2"  label="Password 2" required="true"/>
+                                <p:password id="password2"  label="Password 2" required="true"/>
                             </div>
                         </div>
 
-                        <p:commandButton update="@form" icon="pi pi-user" value="Registrarse" styleClass="rounded-button ui-button-success" />
+                        <p:commandButton update="@form" icon="pi pi-user" value="Registrarse" action="#{indexBean.registerUser}" styleClass="rounded-button ui-button-success" />
 
-                        <p:messages id="messages" showDetail="true">
-                            <p:autoUpdate/>
-                        </p:messages>
+                        <p:message for="username"/>
+                        <p:message for="email"/>
+                        <p:message for="password1"/>
+                        <p:message for="password2"/>
+
+                        <p:messages id="messages" showDetail="true"/>
                     </h:form>
                 </div>
             </div>

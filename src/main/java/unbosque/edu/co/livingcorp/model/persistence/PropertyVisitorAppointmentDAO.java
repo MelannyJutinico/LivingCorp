@@ -1,12 +1,13 @@
 package unbosque.edu.co.livingcorp.model.persistence;
 
+import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import unbosque.edu.co.livingcorp.model.entity.PropertyVisitorAppointment;
 
 import java.util.ArrayList;
-
+@Stateless
 public class PropertyVisitorAppointmentDAO implements  InterfaceDAO<PropertyVisitorAppointment, Integer>{
     @PersistenceContext(unitName = "livingCorpPU")
     private EntityManager manager;

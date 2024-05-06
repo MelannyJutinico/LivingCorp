@@ -1,5 +1,6 @@
 package unbosque.edu.co.livingcorp.model.persistence;
 
+import jakarta.ejb.Stateless;
 import jakarta.persistence.PersistenceContext;
 import unbosque.edu.co.livingcorp.model.entity.ServiceRFQ;
 
@@ -8,7 +9,7 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 
 import java.util.ArrayList;
-
+@Stateless
 public class ServicesRfqDAO implements InterfaceDAO<ServiceRFQ, Integer>{
 
     @PersistenceContext(unitName = "livingCorpPU")
