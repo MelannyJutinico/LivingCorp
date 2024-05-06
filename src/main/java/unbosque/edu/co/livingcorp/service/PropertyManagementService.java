@@ -28,4 +28,24 @@ public class PropertyManagementService implements Serializable {
         }
         return propertyDTOs;
     }
+
+    public ArrayList<String> getCities(){
+        ArrayList<String> cities = new ArrayList<>();
+        for (Property property : propertyDAO.findAll()) {
+            if(!cities.contains(property.getPropertyCity())){
+                cities.add(property.getPropertyCity());
+            }
+        }
+        return cities;
+    }
+
+    public ArrayList<String> getNameProperties(){
+        ArrayList<String> names = new ArrayList<>();
+        for(Property property : propertyDAO.findAll()){
+            if(!names.contains(property.getPropertyName())){
+                names.add(property.getPropertyName());
+            }
+        }
+        return names;
+    }
 }
