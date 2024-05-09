@@ -11,6 +11,8 @@ public class WebUserDTO {
     private boolean isBlocked;
     private boolean isPropertyAdmin;
     private boolean isResidentPropertyOwner;
+    private int numberLoginFailed;
+    private boolean isLoginCorrect;
 
     public WebUserDTO(String userName, String userEmail, String userPassword, LocalDateTime lastLogin, boolean isBlocked, boolean isPropertyAdmin, boolean isResidentPropertyOwner) {
         this.userName = userName;
@@ -39,6 +41,14 @@ public class WebUserDTO {
 
     public void setUserEmail(String userEmail) {
         this.userEmail = userEmail;
+    }
+
+    public int getNumberLoginFailed() {
+        return numberLoginFailed;
+    }
+
+    public void setNumberLoginFailed(int numberLoginFailed) {
+        this.numberLoginFailed = numberLoginFailed;
     }
 
     public String getUserPassword() {
@@ -79,6 +89,29 @@ public class WebUserDTO {
 
     public void setResidentPropertyOwner(boolean residentPropertyOwner) {
         isResidentPropertyOwner = residentPropertyOwner;
+    }
+
+    public boolean isLoginCorrect() {
+        return isLoginCorrect;
+    }
+
+    public void setLoginCorrect(boolean loginCorrect) {
+        isLoginCorrect = loginCorrect;
+    }
+
+    @Override
+    public String toString() {
+        return "WebUserDTO{" +
+                "userName='" + userName + '\'' +
+                ", userEmail='" + userEmail + '\'' +
+                ", userPassword='" + userPassword + '\'' +
+                ", lastLogin=" + lastLogin +
+                ", isBlocked=" + isBlocked +
+                ", isPropertyAdmin=" + isPropertyAdmin +
+                ", isResidentPropertyOwner=" + isResidentPropertyOwner +
+                ", numberLoginFailed=" + numberLoginFailed +
+                ", isLoginCorrect=" + isLoginCorrect +
+                '}';
     }
 }
 
