@@ -1,11 +1,12 @@
 package unbosque.edu.co.livingcorp.model.persistence;
+import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import unbosque.edu.co.livingcorp.model.entity.ResourceBooking;
 
 import java.util.ArrayList;
-
+@Stateless
 public class ResourceBookingDAO implements InterfaceDAO<ResourceBooking, Integer>{
 
     @PersistenceContext(unitName = "livingCorpPU")

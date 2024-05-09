@@ -1,0 +1,94 @@
+
+.container {
+    display: flex;
+    justify-content: space-between;
+}
+.cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 75%;
+}
+.ui-datagrid-column {
+    width: 33%;
+}
+.ui-card .rent-label {
+    background-color: #abd3ab;
+    font-weight: bold;
+    margin-right: 5px; /* Ajusta el espaciado según sea necesario */
+}
+body .ui-card{
+    color:#154371;
+    background-color: #f7f7f7;
+}
+
+.ui-card .sale-label {
+    background-color: #e1c3b5;
+    font-weight: bold;
+    margin-right: 5px; /* Ajusta el espaciado según sea necesario */
+}
+
+.property-card {
+    color:white;
+    margin-bottom: 20px;
+}
+/* Estilos para filtros */
+.filter-container {
+    background-color: #1e395b;
+    padding: 20px;
+    width: 23%;
+}
+
+.filter-group {
+    margin-bottom: 10px;
+}
+.filter-label {
+    color: #ddd;
+    font-size: 14px;
+    display: block;
+    margin-bottom: 5px;
+}
+.filter-input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    color: #333;
+}
+.filter-input.long {
+    width: 100%;
+}
+.header {
+    background-color: #1e395b;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+#logo{
+    width: 15%;
+}
+/*estilos del sidebar - login y registro*/
+.sidebar-container {
+    width: 30%;
+}
+.login-form {
+    margin: 20px;
+}
+.registration-form {
+    margin: 20px;
+}
+.sidebar-form {
+    display: flex;
+}
+.sidebar-form .ui-inputgroup {
+    margin-bottom: 10px;
+}
+.sidebar-form .field {
+    display: flex;
+    margin-bottom: 10px;
+}
+.sidebar-form .field .col {
+    flex: 1;
+}
