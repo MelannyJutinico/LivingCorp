@@ -104,6 +104,14 @@ public class IndexBean implements Serializable {
         filterRentSale = null;
     }
 
+    public void purchase(){
+
+    }
+
+    public void rent(){
+
+    }
+
     public ArrayList<String> suggestCity(String query) {
         String queryLowerCase = query.toLowerCase();
         ArrayList<String> cities = propertyManagementService.getCities();
@@ -205,5 +213,13 @@ public class IndexBean implements Serializable {
 
     public void setAuthenticated(boolean authenticated) {
         this.authenticated = authenticated;
+    }
+
+    public PropertyDTO getPropertySelected() {
+        return propertySelected;
+    }
+
+    public void setPropertySelected(PropertyDTO propertySelected) {
+        this.propertySelected = propertySelected;
     }
 }

@@ -147,12 +147,13 @@
                         </p:selectManyButton>
                     </div>
                     <br/>
-                    <p:commandButton action="#{indexBean.filterProperties}" type="submit" value="Buscar" icon="pi pi-filter" styleClass="rounded-button ui-button-success" update="cards"/>
-                    <p:commandButton action="#{indexBean.restartProperties()}" type="submit" value="Limpiar filtros" icon="pi pi-times" styleClass="rounded-button ui-button-secondary" update="cards"/>
+                    <p:commandButton action="#{indexBean.filterProperties}" type="submit" value="Buscar" icon="pi pi-filter" styleClass="rounded-button ui-button-success" update=":formCard:cards"/>
+                    <p:commandButton action="#{indexBean.restartProperties()}" type="submit" value="Limpiar filtros" icon="pi pi-times" styleClass="rounded-button ui-button-secondary" update="formCard:cards"/>
                 </h:form>
             </div>
         </div>
         <div class="cards-container">
+            <h:form id="formCard">
             <p:dataGrid id="cards" value="#{indexBean.properties}" var="property" columns="3" layout="grid"
                         rows="12" paginator="true" rowsPerPageTemplate="6,12,16">
                 <p:panel >
@@ -179,13 +180,67 @@
                                 <h:outputText value="#{property.propertyPrice}" styleClass="product-price">
                                 <f:convertNumber currencySymbol="$" type="currency"/>
                                 </h:outputText>
-                                <p:commandButton  value="Comprar / Rentar" styleClass="rounded-button ui-button-secondary" />
+                                <p:commandButton  value="Comprar / Rentar" styleClass="rounded-button ui-button-secondary" update="@form" oncomplete="PF('propertyDetails').show()" >
+                                    <f:setPropertyActionListener value="#{property}"
+                                                                 target="#{indexBean.propertySelected}"/>
+                                </p:commandButton>
                             </f:facet>
                         </p:card>
                     </h:panelGrid>
                 </p:panel>
             </p:dataGrid>
+
+                <p:dialog header="#{indexBean.propertySelected.propertyName}" widgetVar="propertyDetails" modal="true" showEffect="fade"
+                          hideEffect="fade" resizable="false">
+                    <p:outputPanel id="propertyDetails" style="text-align:center;">
+                        <p:column rendered="#{not empty indexBean.propertySelected}">
+                            <div class="property">
+                                <div class="product-grid-item card" style="margin-bottom: 0">
+                                    <div class="product-grid-item-top">
+                                        <div>
+                                            <span class="product-category">#{property.propertyCity}</span>
+                                        </div>
+                                    </div>
+                                    <div class="product-grid-item-content">
+                                        <img alt="user header" src="resources/apartament.jpg"/>
+                                        <div class="product-name">#{indexBean.propertySelected.propertyAddress}</div>
+                                        <div class="product-description">#{indexBean.propertySelected.propertyDescription}</div>
+                                    </div>
+                                    <h:panelGroup layout="block" style="margin-top: 10px;">
+                                        <h:outputText value="Disponible para: " style="font-weight: bold;"/>
+                                        <h:panelGroup>
+                                            <br/>
+                                            <h:outputText value="Renta"  styleClass="rent-label" rendered="#{indexBean.propertySelected.availableForRent}"/>
+                                            <br/>
+                                            <h:outputText value="Compra" styleClass="sale-label" rendered="#{indexBean.propertySelected.availableForSale}"/>
+                                            <br/>
+                                            <h:outputText value="Baños: #{indexBean.propertySelected.propertyBathrooms}" />
+                                            <h:outputText value="   Habitaciones: #{indexBean.propertySelected.propertyRooms}" />
+                                        </h:panelGroup>
+                                    </h:panelGroup>
+
+                                    <div class="product-grid-item-bottom">
+                                        <h:outputText value="#{indexBean.propertySelected.propertyPrice}"
+                                                      styleClass="product-price">
+                                            <f:convertNumber currencySymbol="$" type="currency"/>
+                                        </h:outputText>
+                                        <br/><br/>
+                                        <p:commandButton update="@form" value="Iniciar sesion para comprar / rentar"  onclick="PF('sidebar2').show()" rendered="#{not indexBean.authenticated}"  icon="pi pi-user" styleClass="rounded-button ui-button-success"  />
+                                        <p:commandButton update="@form" action="#{indexBean.purchase}" value="Comprar"  rendered="#{indexBean.authenticated and indexBean.propertySelected.availableForSale}"  styleClass="rounded-button ui-button-success"  />
+                                        <p:commandButton update="@form" value="Rentar"  action="#{indexBean.rent}" rendered="#{indexBean.authenticated and indexBean.propertySelected.availableForRent}" styleClass="rounded-button ui-button-success"  />
+                                    </div>
+                                </div>
+                            </div>
+                        </p:column>
+                    </p:outputPanel>
+                </p:dialog>
+
+
+            </h:form>
         </div>
+
+
+
     </div>
 </h:body>
 </html>
