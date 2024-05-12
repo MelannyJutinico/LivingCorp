@@ -7,7 +7,6 @@ import jakarta.persistence.TypedQuery;
 import unbosque.edu.co.livingcorp.model.entity.Resource;
 
 import java.util.ArrayList;
-
 @Stateless
 public class ResourceDAO implements InterfaceDAO<Resource, Integer>{
 
