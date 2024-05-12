@@ -48,4 +48,16 @@ public class PropertyManagementService implements Serializable {
         }
         return names;
     }
+
+    public PropertyDTO updatePropertyPurchase(PropertyDTO propertyDTO){
+        Property property = propertyDAO.findById(propertyDTO.getPropertyId());
+        property.setAvailableForSale(false);
+        return modelMapper.map(propertyDAO.update(property), PropertyDTO.class);
+    }
+
+    public PropertyDTO updatePropertyRent(PropertyDTO propertyDTO){
+        Property property = propertyDAO.findById(propertyDTO.getPropertyId());
+        property.setAvailableForRent(false);
+        return modelMapper.map(propertyDAO.update(property), PropertyDTO.class);
+    }
 }
