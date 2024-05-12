@@ -13,7 +13,8 @@ public class ResourceDTO {
         this.resourceType = resourceType;
     }
 
-
+    public ResourceDTO() {
+    }
 
     public Integer getResourceId() {
         return resourceId;
