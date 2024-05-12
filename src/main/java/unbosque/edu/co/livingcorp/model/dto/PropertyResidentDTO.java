@@ -5,20 +5,17 @@ public class PropertyResidentDTO {
 
     private Integer propertyResidentId;
     private PropertyDTO property;
-    private WebUserDTO userName;
+    private WebUserDTO user;
     private boolean isOwner;
 
-    public PropertyResidentDTO(Integer propertyResidentId, PropertyDTO property, WebUserDTO userName, boolean isOwner) {
+    public PropertyResidentDTO(Integer propertyResidentId, PropertyDTO property, WebUserDTO user, boolean isOwner) {
         this.propertyResidentId = propertyResidentId;
         this.property = property;
-        this.userName = userName;
+        this.user = user;
         this.isOwner = isOwner;
     }
 
-    public PropertyResidentDTO(PropertyDTO property, WebUserDTO userName, boolean isOwner) {
-        this.property = property;
-        this.userName = userName;
-        this.isOwner = isOwner;
+    public PropertyResidentDTO() {
     }
 
     public Integer getPropertyResidentId() {
@@ -37,12 +34,12 @@ public class PropertyResidentDTO {
         this.property = property;
     }
 
-    public WebUserDTO getUserName() {
-        return userName;
+    public WebUserDTO getUser() {
+        return user;
     }
 
-    public void setUserName(WebUserDTO userName) {
-        this.userName = userName;
+    public void setUser(WebUserDTO user) {
+        this.user = user;
     }
 
     public boolean isOwner() {
@@ -51,5 +48,15 @@ public class PropertyResidentDTO {
 
     public void setOwner(boolean owner) {
         isOwner = owner;
+    }
+
+    @Override
+    public String toString() {
+        return "PropertyResidentDTO{" +
+                "propertyResidentId=" + propertyResidentId +
+                ", property=" + property +
+                ", userName=" + user +
+                ", isOwner=" + isOwner +
+                '}';
     }
 }

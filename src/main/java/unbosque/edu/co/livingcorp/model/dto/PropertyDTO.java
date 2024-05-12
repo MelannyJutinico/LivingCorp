@@ -13,29 +13,12 @@ public class PropertyDTO {
     private int propertyRooms;
     private int propertyBathrooms;
     private String  propertyDescription;
-    private WebUserDTO userName;
+    private WebUserDTO user;
     private boolean isAvailableForRent;
     private boolean isAvailableForSale;
 
-    public PropertyDTO( String propertyName, String propertyCity, String propertyAddress,int propertyArea, double propertyPrice, int propertyRooms,
-                     int propertyBathrooms, String propertyDescription, WebUserDTO userName, boolean isAvailableForRent, boolean isAvailableForSale  ){
-
-
-        this.propertyName = propertyName;
-        this.propertyCity = propertyCity;
-        this.propertyAddress = propertyAddress;
-        this.propertyArea = propertyArea;
-        this.propertyPrice = propertyPrice;
-        this.propertyRooms = propertyRooms;
-        this.propertyBathrooms = propertyBathrooms;
-        this.propertyDescription = propertyDescription;
-        this.userName = userName;
-        this.isAvailableForRent = isAvailableForRent;
-        this.isAvailableForSale = isAvailableForSale;
-    }
-
     public PropertyDTO(int propertyId, String propertyName, String propertyCity, String propertyAddress,int propertyArea, double propertyPrice, int propertyRooms,
-                        int propertyBathrooms, String propertyDescription, WebUserDTO userName, boolean isAvailableForRent, boolean isAvailableForSale  ){
+                        int propertyBathrooms, String propertyDescription, WebUserDTO user, boolean isAvailableForRent, boolean isAvailableForSale  ){
 
         this.propertyId = propertyId;
         this.propertyName = propertyName;
@@ -46,7 +29,7 @@ public class PropertyDTO {
         this.propertyRooms = propertyRooms;
         this.propertyBathrooms = propertyBathrooms;
         this.propertyDescription = propertyDescription;
-        this.userName = userName;
+        this.user = user;
         this.isAvailableForRent = isAvailableForRent;
         this.isAvailableForSale = isAvailableForSale;
     }
@@ -125,12 +108,12 @@ public class PropertyDTO {
         this.propertyDescription = propertyDescription;
     }
 
-    public WebUserDTO getUserName() {
-        return userName;
+    public WebUserDTO getUser() {
+        return user;
     }
 
-    public void setUserName(WebUserDTO userName) {
-        this.userName = userName;
+    public void setUser(WebUserDTO user) {
+        this.user = user;
     }
 
     public boolean isAvailableForRent() {

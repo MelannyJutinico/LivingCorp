@@ -8,12 +8,7 @@ public class ServiceProviderDTO {
     private String serviceType;
     private String servicePrice;
 
-    public ServiceProviderDTO(String pProviderEmail, String pServiceDescription, String pServiceType, String pServicePrice) {
-        this.providerEmail = pProviderEmail;
-        this.serviceDescription = pServiceDescription;
-        this.serviceType = pServiceType;
-        this.servicePrice = pServicePrice;
-    }
+
 
     public ServiceProviderDTO(int providerId,String pProviderEmail, String pServiceDescription, String pServiceType, String pServicePrice) {
         this.providerId = providerId;

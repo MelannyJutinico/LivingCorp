@@ -13,15 +13,7 @@ public class ResourceBookingDTO{
         private double bookingCost;
         private boolean paymentComplete;
 
-        public ResourceBookingDTO(String pUserName, PropertyResourceDTO propertyResourceIdDTO, LocalDateTime pBookingDateTime, LocalDateTime pBookingStartDate, LocalDateTime pBookingEndDate, double pBookingCost, boolean pPaymentComplete) {
-           this.userName = pUserName;
-           this.propertyResourceIdDTO = propertyResourceIdDTO;
-           this.bookingDateTime = pBookingDateTime;
-           this.bookingStartDate = pBookingStartDate;
-           this.bookingEndDate = pBookingEndDate;
-           this.bookingCost = pBookingCost;
-           this.paymentComplete = pPaymentComplete;
-        }
+
 
     public ResourceBookingDTO(int bookingId,String pUserName, PropertyResourceDTO propertyResourceIdDTO, LocalDateTime pBookingDateTime, LocalDateTime pBookingStartDate, LocalDateTime pBookingEndDate, double pBookingCost, boolean pPaymentComplete) {
         this.bookingId = bookingId;

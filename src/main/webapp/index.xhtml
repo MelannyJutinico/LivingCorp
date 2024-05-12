@@ -22,6 +22,8 @@
                     <p:submenu label="Ingresar" icon="pi pi-fw pi-user" >
                         <p:menuitem value="Iniciar sesión o registrarte" type="button" onclick="PF('sidebar2').show()" rendered="#{not indexBean.authenticated}" styleClass="mr-2" />
                         <p:menuitem value="Cerrar sesión" oncomplete="handleLoginSuccess()" type="button" action="#{indexBean.logout}" rendered="#{indexBean.authenticated}" styleClass="mr-2" />
+                        <p:menuitem value="Administrador" oncomplete="handleLoginSuccess()" type="button"  rendered="#{indexBean.authenticated  and indexBean.webUser.propertyAdmin}" styleClass="mr-2" />
+                        <p:menuitem value="Usuario" oncomplete="handleLoginSuccess()" type="button"  rendered="#{indexBean.authenticated }" styleClass="mr-2" />
                     </p:submenu>
 
 
@@ -47,7 +49,7 @@
                         <div class="field grid">
                             <p:password id="toggle"  toggleMask="true" required="true" value="#{indexBean.webUser.userPassword}" redisplay="true"/>
                         </div>
-                        <p:commandButton update="@form" value="Iniciar sesion" oncomplete="handleLoginSuccess()" action="#{indexBean.login}" icon="pi pi-user" styleClass="rounded-button ui-button-success"  />
+                        <p:commandButton update="@form" value="Iniciar sesion" onsuccess="if (#{indexBean.authenticated}) handleLoginSuccess();" action="#{indexBean.login}" icon="pi pi-user" styleClass="rounded-button ui-button-success"  />
                         <script>
                             function handleLoginSuccess() {
                                 PF('sidebar2').hide();
@@ -225,9 +227,19 @@
                                             <f:convertNumber currencySymbol="$" type="currency"/>
                                         </h:outputText>
                                         <br/><br/>
+                                        <p:selectCheckboxMenu id="multiple"
+                                                              filter="true" filterMatchMode="startsWith"
+                                                              label="Users" multiple="true" emptyLabel="Selecciona los residentes, sin incluirte" updateLabel="true"
+                                                              style="min-width: 15rem" panelStyle="width: 30rem" scrollHeight="250"
+                                                              value="#{indexBean.usersSelected}" rendered="#{indexBean.authenticated}" >
+                                            <p:ajax event="itemUnselect"/>
+                                            <f:selectItems value="#{indexBean.userNames}"/>
+                                        </p:selectCheckboxMenu>
+                                        <br/>
+                                        <p:messages id="messages4"  showDetail="true" />
                                         <p:commandButton update="@form" value="Iniciar sesion para comprar / rentar"  onclick="PF('sidebar2').show()" rendered="#{not indexBean.authenticated}"  icon="pi pi-user" styleClass="rounded-button ui-button-success"  />
-                                        <p:commandButton update="@form" action="#{indexBean.purchase}" value="Comprar"  rendered="#{indexBean.authenticated and indexBean.propertySelected.availableForSale}"  styleClass="rounded-button ui-button-success"  />
-                                        <p:commandButton update="@form" value="Rentar"  action="#{indexBean.rent}" rendered="#{indexBean.authenticated and indexBean.propertySelected.availableForRent}" styleClass="rounded-button ui-button-success"  />
+                                        <p:commandButton update="@form" oncomplete="handleLoginSuccess()" action="#{indexBean.purchase}" value="Comprar"  rendered="#{indexBean.authenticated and indexBean.propertySelected.availableForSale}"  styleClass="rounded-button ui-button-success"  />
+                                        <p:commandButton update="@form" oncomplete="handleLoginSuccess()" value="Rentar"  action="#{indexBean.rent}" rendered="#{indexBean.authenticated and indexBean.propertySelected.availableForRent}" styleClass="rounded-button ui-button-success"  />
                                     </div>
                                 </div>
                             </div>

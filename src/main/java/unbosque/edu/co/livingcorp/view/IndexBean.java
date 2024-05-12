@@ -8,11 +8,14 @@ import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import org.primefaces.PrimeFaces;
+import unbosque.edu.co.livingcorp.exception.ResidentCreateException;
 import unbosque.edu.co.livingcorp.exception.UserAuthenticationException;
 import unbosque.edu.co.livingcorp.exception.UserRegistrationException;
 import unbosque.edu.co.livingcorp.model.dto.PropertyDTO;
+import unbosque.edu.co.livingcorp.model.dto.PropertyResidentDTO;
 import unbosque.edu.co.livingcorp.model.dto.WebUserDTO;
 import unbosque.edu.co.livingcorp.service.PropertyManagementService;
+import unbosque.edu.co.livingcorp.service.PropertyResidentService;
 import unbosque.edu.co.livingcorp.service.UserService;
 
 import java.io.Serializable;
@@ -30,6 +33,7 @@ public class IndexBean implements Serializable {
     private WebUserDTO webUser = new WebUserDTO();
     private boolean authenticated;
     private PropertyDTO propertySelected = new PropertyDTO();
+    private PropertyResidentDTO  propertyResidentDTO = new PropertyResidentDTO();
 
     private String filterCity;
     private String filterNameProperty;
@@ -38,12 +42,16 @@ public class IndexBean implements Serializable {
     private int filterNumberRooms;
     private int filterNumberBathrooms;
     private List<String> filterRentSale;
+    private ArrayList<String> usersSelected = new ArrayList<>();
 
     @Inject
     private PropertyManagementService propertyManagementService;
 
     @Inject
     private UserService userService;
+
+    @Inject
+    private PropertyResidentService propertyResidentService;
 
     @PostConstruct
     public void initProperties(){
@@ -78,7 +86,7 @@ public class IndexBean implements Serializable {
                 FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("lastLogin", LocalDateTime.now());
                 FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Ingreso exitoso", "Usuario logeado exitosamente");
                 authenticated = true;
-                PrimeFaces.current().executeScript("PF('loginMenu').refresh();");
+
             }else if (webUser != null && webUser.isBlocked()) {
                 FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error de autenticación", "La cuenta está bloqueada. Comuníquese con el administrador.");
                 FacesContext.getCurrentInstance().addMessage(null, message);
@@ -92,6 +100,7 @@ public class IndexBean implements Serializable {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al autenticar usuario", e.getMessage());
             FacesContext.getCurrentInstance().addMessage(null, message);
         }
+
     }
     public void resetFields() {
         webUser = new WebUserDTO();
@@ -105,17 +114,68 @@ public class IndexBean implements Serializable {
     }
 
     public void purchase(){
+        propertyManagementService.updatePropertyPurchase(propertySelected);
+        userService.updateUserIsResidentOwner(webUser);
+        propertyResidentDTO.setUser(webUser);
+        propertyResidentDTO.setProperty(propertySelected);
+        propertyResidentDTO.setOwner(true);
+        properties = propertyManagementService.listProperties();
+        try {
+            propertyResidentService.createPropertyResident(propertyResidentDTO);
+        }catch (ResidentCreateException e){
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al relacionar usuario con la propiedad", e.getMessage());
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        }
 
+        for(String name : usersSelected){
+            WebUserDTO webUserDTO = userService.getAnUser(name);
+            propertyResidentDTO.setUser(webUserDTO);
+            propertyResidentDTO.setProperty(propertySelected);
+            propertyResidentDTO.setOwner(false);
+            try {
+                propertyResidentService.createPropertyResident(propertyResidentDTO);
+            }catch (ResidentCreateException e){
+                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al relacionar usuario con la propiedad", e.getMessage());
+                FacesContext.getCurrentInstance().addMessage(null, message);
+            }
+        }
+
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Compra exitosa", "Su compra ha sido exitosa");
+        FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
-    public void rent(){
 
+    public void rent(){
+        propertyManagementService.updatePropertyRent(propertySelected);
+        PropertyResidentDTO residentRentDTO = new PropertyResidentDTO(null ,propertySelected, webUser, false);
+        properties = propertyManagementService.listProperties();
+        try{
+            propertyResidentService.createPropertyResident(residentRentDTO);
+        }catch (ResidentCreateException e){
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al relacionar usuario con la propiedad", e.getMessage());
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        }
+
+        for(String name : usersSelected){
+            WebUserDTO webUserDTO = userService.getAnUser(name);
+            PropertyResidentDTO residentDTO = new PropertyResidentDTO(null , propertySelected, webUserDTO, false);
+            try {
+                propertyResidentService.createPropertyResident(residentDTO);
+            }catch (ResidentCreateException e){
+                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al relacionar usuario con la propiedad", e.getMessage());
+                FacesContext.getCurrentInstance().addMessage(null, message);
+            }
+        }
     }
 
     public ArrayList<String> suggestCity(String query) {
         String queryLowerCase = query.toLowerCase();
         ArrayList<String> cities = propertyManagementService.getCities();
         return (ArrayList<String>) cities.stream().filter(t -> t.toLowerCase().startsWith(queryLowerCase)).collect(Collectors.toList());
+    }
+
+    public ArrayList<String> getUserNames(){
+        return userService.getUserNames(webUser.getUserName());
     }
 
     public ArrayList<String> suggestName(String query) {
@@ -221,5 +281,17 @@ public class IndexBean implements Serializable {
 
     public void setPropertySelected(PropertyDTO propertySelected) {
         this.propertySelected = propertySelected;
+    }
+
+    public ArrayList<String> getUsersSelected() {
+        return usersSelected;
+    }
+
+    public void setUsersSelected(ArrayList<String> usersSelected) {
+        this.usersSelected = usersSelected;
+    }
+
+    public PropertyResidentDTO getPropertyResidentDTO() {
+        return propertyResidentDTO;
     }
 }
