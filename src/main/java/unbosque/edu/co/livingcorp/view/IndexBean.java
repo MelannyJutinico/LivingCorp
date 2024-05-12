@@ -291,7 +291,9 @@ public class IndexBean implements Serializable {
         this.usersSelected = usersSelected;
     }
 
+
     public PropertyResidentDTO getPropertyResidentDTO() {
         return propertyResidentDTO;
     }
 }
+

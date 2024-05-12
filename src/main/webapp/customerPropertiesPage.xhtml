@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <meta charset="UTF-8" />
+    <title>Living Corp</title>
+    <style>
+        .header {
+            background-color: #6DA7CC;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .centered {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+    </style>
+</h:head>
+<h:body>
+
+    <div class="header">
+
+        <div class="card">
+
+            <p:sidebar widgetVar="sidebar1">
+                <h3>Menu</h3>
+                <div class="card">
+                    <h:form>
+                        <p:growl id="growl" life="2000"/>
+
+                        <br><p:commandLink id="consultarInmuebles" update="growl" onclick="window.location.href='customerPropertiesPage.xhtml'" class="mr-4"
+                                           value="Consultar inmuebles"/></br>
+
+                        <br><p:commandLink id="consultarSolicitudesRecursos" onclick="window.location.href='customerResourcesRequestPage.xhtml'" disabled="false"
+                                           value="Consultar solicitudes de recursos"/></br>
+
+                        <br><p:commandLink id="consultarServicios" onclick="window.location.href='customerServicesPage.xhtml'" disabled="false"
+                                           value="Consultar servicios"/></br>
+
+                    </h:form>
+                </div>
+            </p:sidebar>
+            <p:commandButton icon="pi pi-arrow-right" type="button" onclick="PF('sidebar1').show()" styleClass="mr-2" />
+
+
+        </div>
+
+        <!-- Encabezado -->
+        <img src="logo.png" alt="Logo" />
+
+
+        <!-- Menú -->
+        <div class="card">
+            <h:form>
+                <p:growl id="messages"/>
+
+                <p:menubar styleClass="centered">
+                    <p:submenu label="" icon="pi pi-fw pi-user">
+                        <p:menuitem value="Cerrar sesión" icon="pi pi-fw pi-user-plus"/>
+                    </p:submenu>
+                </p:menubar>
+            </h:form>
+        </div>
+    </div>
+
+    <div class="centered">
+        <h5><p:outputLabel value="INMUEBLE" style="font-size: 25px; color: #000;" /></h5>
+    </div>
+
+    <div class="centered">
+        <h:form>
+            <p:card style="width: 25em">
+                <f:facet name="header">
+                    <img alt="user header" src="projectResources/House1Image1.jpg"/>
+                </f:facet>
+                <f:facet name="title">
+                    Advanced Card
+                </f:facet>
+                <f:facet name="subtitle">
+                    Card subtitle
+                </f:facet>
+
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt
+                    quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque quas!</p>
+
+                <f:facet name="footer">
+                    <br><p:commandLink id="id" onclick="window.location.href='customerPropertyDetailsPage.xhtml'" disabled="false"
+                                       value="Ver detalles"/></br>
+                </f:facet>
+            </p:card>
+
+        </h:form>
+    </div>
+
+</h:body>
+</html>

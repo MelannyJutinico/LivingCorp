@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Administrador</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <style type="text/css">
+            body {
+                height: 100vh;
+                margin: 0;
+                padding: 10px;
+                background: #7b7b7b;
+            }
+            .mainMenu {
+                height: 60px;
+                width: 120px;
+            }
+        </style>
+    </h:head>
+
+    <body>
+        <div class="ui-card">
+            <p:fieldset legend="Living Corp">
+                <h:form id="formNavigability">
+                    <p:card style="margin-bottom: 5px">
+                        <p:button styleClass="mainMenu" style="margin-right:5px; background-color:#7b7b7b"
+                                  value="Registrar Recursos" outcome="adminResources.xhtml" disabled="false"/>
+                        <p:button styleClass="mainMenu" style="margin-right:5px; background-color:#7b7b7b"
+                                  value="Registrar Propiedades" outcome="adminProperties.xhtml" disabled="false"/>
+                        <p:button styleClass="mainMenu" style="margin-right:5px; background-color:#7b7b7b"
+                                  value="Asignar Recursos" outcome="adminAssings.xhtml" disabled="true"/>
+                        <p:button styleClass="mainMenu" style="margin-right:5px; background-color:#7b7b7b"
+                                  value="Generar Reportes" outcome="adminReports.xhtml" disabled="false"/>
+                    </p:card>
+                </h:form>
+                <p:card style="margin-bottom: 5px">
+                    <h:form id="formCRUD">
+                        <p:toolbar>
+                            <p:toolbarGroup>
+                                <p:commandButton styleClass="crudMenu" style="margin-right:5px; background-color:green" icon="pi pi-plus"
+                                                 value="Registrar">
+                                </p:commandButton>
+                                <p:commandButton styleClass="crudMenu" style="margin-right:5px; background-color:red" icon="pi pi-trash"
+                                                 value="Eliminar">
+                                </p:commandButton>
+                            </p:toolbarGroup>
+                        </p:toolbar>
+                    </h:form>
+                </p:card>
+            </p:fieldset>
+        </div>
+    </body>
+</html>
