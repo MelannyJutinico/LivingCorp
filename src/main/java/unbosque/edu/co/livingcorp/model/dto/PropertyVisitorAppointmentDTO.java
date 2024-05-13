@@ -1,22 +1,23 @@
 package unbosque.edu.co.livingcorp.model.dto;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 public class PropertyVisitorAppointmentDTO {
 
     private int appointmentId;
     private String visitorName;
     private String advisorName;
-    private LocalDate appointmentDate;
-    private PropertyDTO propertyId;
+    private Date appointmentDate;
+    private PropertyDTO property;
 
 
-    public PropertyVisitorAppointmentDTO(int appointmentId,String visitorName, String advisorName, LocalDate appointmentDate, PropertyDTO propertyId  ){
+    public PropertyVisitorAppointmentDTO(int appointmentId,String visitorName, String advisorName, Date appointmentDate, PropertyDTO property  ){
        this.appointmentId = appointmentId;
         this.visitorName = visitorName;
         this.advisorName = advisorName;
         this.appointmentDate = appointmentDate;
-        this.propertyId = propertyId;
+        this.property = property;
     }
 
     public PropertyVisitorAppointmentDTO() {}
@@ -45,20 +46,20 @@ public class PropertyVisitorAppointmentDTO {
         this.advisorName = advisorName;
     }
 
-    public LocalDate getAppointmentDate() {
+    public Date getAppointmentDate() {
         return appointmentDate;
     }
 
-    public void setAppointmentDate(LocalDate appointmentDate) {
+    public void setAppointmentDate(Date appointmentDate) {
         this.appointmentDate = appointmentDate;
     }
 
-    public PropertyDTO getPropertyId() {
-        return propertyId;
+    public PropertyDTO getProperty() {
+        return property;
     }
 
-    public void setPropertyId(PropertyDTO propertyId) {
-        this.propertyId = propertyId;
+    public void setProperty(PropertyDTO propertyId) {
+        this.property = propertyId;
     }
 
 

@@ -3,6 +3,8 @@ package unbosque.edu.co.livingcorp.model.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Table(name = "PROPERTY_VISITOR_APPOINTMENT")
@@ -17,12 +19,12 @@ public class PropertyVisitorAppointment {
     @Column(name = "ADVISOR_NAME")
     private String advisorName;
     @Column(name = "APPOINTMENT_DATETIME")
-    private LocalDate appointmentDate;
+    private Date appointmentDate;
     @ManyToOne
     @JoinColumn(name = "PROPERTY_ID")
     private Property property;
 
-    public PropertyVisitorAppointment(int appointmentId, String visitorName, String advisorName, LocalDate appointmentDate, Property property) {
+    public PropertyVisitorAppointment(int appointmentId, String visitorName, String advisorName, Date appointmentDate, Property property) {
         this.appointmentId = appointmentId;
         this.visitorName = visitorName;
         this.advisorName = advisorName;
@@ -56,11 +58,11 @@ public class PropertyVisitorAppointment {
         this.advisorName = advisorName;
     }
 
-    public LocalDate getAppointmentDate() {
+    public Date getAppointmentDate() {
         return appointmentDate;
     }
 
-    public void setAppointmentDate(LocalDate appointmentDate) {
+    public void setAppointmentDate(Date appointmentDate) {
         this.appointmentDate = appointmentDate;
     }
 

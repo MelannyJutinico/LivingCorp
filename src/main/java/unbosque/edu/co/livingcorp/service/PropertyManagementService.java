@@ -4,9 +4,9 @@ import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
 import org.modelmapper.ModelMapper;
 import unbosque.edu.co.livingcorp.model.dto.PropertyDTO;
-import unbosque.edu.co.livingcorp.model.dto.PropertyResourceDTO;
+import unbosque.edu.co.livingcorp.model.dto.WebUserDTO;
 import unbosque.edu.co.livingcorp.model.entity.Property;
-import unbosque.edu.co.livingcorp.model.entity.PropertyResource;
+import unbosque.edu.co.livingcorp.model.entity.WebUser;
 import unbosque.edu.co.livingcorp.model.persistence.InterfaceDAO;
 import unbosque.edu.co.livingcorp.model.persistence.PropertyDAO;
 
@@ -21,6 +21,9 @@ public class PropertyManagementService implements Serializable {
     @Inject
     private InterfaceDAO<Property, Integer> propertyDAO;
     @Inject InterfaceDAO<PropertyResource, Integer> propertyResourceDAO;
+
+    @Inject
+    private InterfaceDAO <WebUser, String> userDAO;
 
     private final ModelMapper modelMapper = new ModelMapper();
 
@@ -54,6 +57,7 @@ public class PropertyManagementService implements Serializable {
         }
         return names;
     }
+
 
 
     public PropertyDTO findPropertyById(Integer id){
@@ -90,5 +94,6 @@ public class PropertyManagementService implements Serializable {
         property.setAvailableForRent(false);
         return modelMapper.map(propertyDAO.update(property), PropertyDTO.class);
     }
+
 
 }
