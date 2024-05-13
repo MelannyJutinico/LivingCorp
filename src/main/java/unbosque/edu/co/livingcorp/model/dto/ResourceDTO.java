@@ -13,7 +13,7 @@ public class ResourceDTO {
         this.resourceType = resourceType;
     }
 
-
+    public ResourceDTO() {}
 
     public ResourceDTO(String resourceDescription, String resourceType) {
         this.resourceDescription = resourceDescription;

@@ -99,6 +99,22 @@ public class PropertyResourceDTO {
         public void setBookingEmail(String bookingEmail) {
             this.bookingEmail = bookingEmail;
         }
+
+    public ResourceDTO getResourceDTO() {
+        return resourceDTO;
     }
+
+    public void setResourceDTO(ResourceDTO resourceDTO) {
+        this.resourceDTO = resourceDTO;
+    }
+
+    public PropertyDTO getPropertyDTO() {
+        return propertyDTO;
+    }
+
+    public void setPropertyDTO(PropertyDTO propertyDTO) {
+        this.propertyDTO = propertyDTO;
+    }
+}
 
 
