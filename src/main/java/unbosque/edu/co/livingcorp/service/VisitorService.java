@@ -8,8 +8,8 @@ import unbosque.edu.co.livingcorp.model.entity.PropertyVisitorAppointment;
 import unbosque.edu.co.livingcorp.model.persistence.InterfaceDAO;
 
 import java.io.Serializable;
-import java.security.NoSuchAlgorithmException;
-import java.util.Optional;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @Stateless
 public class VisitorService implements Serializable {
@@ -18,9 +18,11 @@ public class VisitorService implements Serializable {
     private InterfaceDAO<PropertyVisitorAppointment, Integer> visitorDAO;
 
     private final ModelMapper modelMapper = new ModelMapper();
+    private static final Logger logger = LogManager.getLogger(PropertyManagementService.class);
+
 
     public void registerVisitor(PropertyVisitorAppointmentDTO visitor) {
-
+        logger.info("Guardando visita...");
         visitorDAO.save(modelMapper.map(visitor, PropertyVisitorAppointment.class));
     }
 }

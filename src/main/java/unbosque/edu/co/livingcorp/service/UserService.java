@@ -15,11 +15,12 @@ import unbosque.edu.co.livingcorp.model.persistence.InterfaceDAO;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -31,10 +32,14 @@ public class UserService implements Serializable {
     private InterfaceDAO<WebUser, String> userDAO;
 
     private final ModelMapper modelMapper = new ModelMapper();
+    private static final Logger logger = LogManager.getLogger(PropertyManagementService.class);
+
 
     public void registerUser(WebUserDTO user) throws UserRegistrationException, NoSuchAlgorithmException {
         Optional<WebUser> existingUser = Optional.ofNullable(userDAO.findById(user.getUserName()));
+        logger.info("Comprobando si el usuario ya existe...");
         if (existingUser.isPresent()) {
+            logger.info("Usuario ya existente...");
             throw new UserRegistrationException("El nombre de usuario ya está en uso.");
         }
         for (WebUser webUser : userDAO.findAll()) {
@@ -43,12 +48,14 @@ public class UserService implements Serializable {
             }
         }
         if (existingUser.isPresent()) {
+            logger.info("Correo electronico en uso");
             throw new UserRegistrationException("El correo electrónico ya está en uso.");
         }
 
         String encryptedPassword = encryptPassword(user.getUserPassword());
         user.setUserPassword(encryptedPassword);
         userDAO.save(modelMapper.map(user, WebUser.class));
+        logger.info("Usuario registrado exitosamente...");
     }
 
     public static String encryptPassword(String password) throws NoSuchAlgorithmException {
@@ -82,6 +89,7 @@ public class UserService implements Serializable {
                     WebUserDTO authenticatedUserDTO = modelMapper.map(user, WebUserDTO.class);
                     authenticatedUserDTO.setNumberLoginFailed(0);
                     authenticatedUserDTO.setLoginCorrect(true);
+                    logger.info("Usuario "+authenticatedUserDTO.getUserName()+ " autenticado exitosamente...");
                     return authenticatedUserDTO;
                 } else {
                     int loginAttempts = userDTO.getNumberLoginFailed() + 1;
@@ -89,16 +97,21 @@ public class UserService implements Serializable {
                     if (loginAttempts >= 3) {
                         user.setBlocked(true);
                         userDAO.update(user);
+                        logger.info("Bloqueando a usuario "+userDTO.getUserName());
                     }
                     userDTO.setLoginCorrect(false);
                     userDTO.setBlocked(user.isBlocked());
+
                     return userDTO;
                 }
             } else {
                 throw new UserAuthenticationException("Usuario no encontrado.");
+
             }
         } catch (NoResultException e) {
+            logger.info("Usuario no autenticado..");
             throw new UserAuthenticationException(e.getMessage());
+
         }
     }
 
@@ -129,12 +142,6 @@ public class UserService implements Serializable {
         return modelMapper.map(userDAO.findById(name), WebUserDTO.class);
     }
 
-    public WebUserDTO updateUserIsResidentOwner(WebUserDTO userDTO){
-        WebUser user = userDAO.findById(userDTO.getUserName());
-        user.setResidentPropertyOwner(true);
-        userDAO.update(user);
-        return modelMapper.map(user, WebUserDTO.class);
-    }
 
 }
 
