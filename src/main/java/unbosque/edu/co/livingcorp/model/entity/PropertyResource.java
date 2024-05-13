@@ -9,7 +9,7 @@ public class PropertyResource {
     private Integer propResId;
     @ManyToOne @JoinColumn(name = "RESOURCE_ID")
     private Resource resource;
-    @ManyToOne @JoinColumn(name = "PROPERTY_ID")
+    @ManyToOne @JoinColumn(name = "PROPERTY_ID", referencedColumnName = "PROPERTY_ID")
     private Property property;
     @Column(name = "RESOURCE_MIN_PRICE")
     private Double resourceMinPrice;

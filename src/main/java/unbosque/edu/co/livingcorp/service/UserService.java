@@ -8,6 +8,7 @@ import jakarta.persistence.NoResultException;
 import org.modelmapper.ModelMapper;
 import unbosque.edu.co.livingcorp.exception.UserAuthenticationException;
 import unbosque.edu.co.livingcorp.exception.UserRegistrationException;
+import unbosque.edu.co.livingcorp.model.dto.PropertyDTO;
 import unbosque.edu.co.livingcorp.model.dto.WebUserDTO;
 import unbosque.edu.co.livingcorp.model.entity.WebUser;
 import unbosque.edu.co.livingcorp.model.persistence.InterfaceDAO;
@@ -19,13 +20,15 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Stateless
 public class UserService implements Serializable {
 
     @Inject
-    private InterfaceDAO <WebUser, String> userDAO;
+    private InterfaceDAO<WebUser, String> userDAO;
 
     private final ModelMapper modelMapper = new ModelMapper();
 
@@ -34,8 +37,8 @@ public class UserService implements Serializable {
         if (existingUser.isPresent()) {
             throw new UserRegistrationException("El nombre de usuario ya está en uso.");
         }
-        for(WebUser webUser : userDAO.findAll()){
-            if(user.getUserEmail().equals(webUser.getUserEmail())){
+        for (WebUser webUser : userDAO.findAll()) {
+            if (user.getUserEmail().equals(webUser.getUserEmail())) {
                 existingUser = Optional.of(webUser);
             }
         }
@@ -99,6 +102,15 @@ public class UserService implements Serializable {
         }
     }
 
+    public List<PropertyDTO> getUserProperties(WebUserDTO userDTO) {
+        var userProperties = userDAO.findById(userDTO.getUserName()).getUserProperties();
+        return userProperties
+                .stream()
+                .map(property -> modelMapper.map(property, PropertyDTO.class))
+                .collect(Collectors.toList());
+    }
+
+
     public ArrayList<String> getUserNames(String nameExcluded){
 
         ArrayList<WebUser> users = userDAO.findAll();
@@ -124,6 +136,8 @@ public class UserService implements Serializable {
         return modelMapper.map(user, WebUserDTO.class);
     }
 
-
-
 }
+
+
+
+

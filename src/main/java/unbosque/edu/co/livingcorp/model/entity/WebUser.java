@@ -1,12 +1,10 @@
 package unbosque.edu.co.livingcorp.model.entity;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "WEB_USERS")
@@ -27,6 +25,9 @@ public class WebUser {
     private boolean isPropertyAdmin;
     @Column(name = "IS_RESIDENT_PPRTY_OWNER")
     private boolean isResidentPropertyOwner;
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Property> userProperties;
+
 
     public WebUser(String userName, String email, String password, LocalDateTime lastLogin, boolean isBlocked, boolean isPropertyAdmin, boolean isResidentPropertyOwner){
         this.userName = userName;
@@ -94,5 +95,13 @@ public class WebUser {
 
     public void setResidentPropertyOwner(boolean residentPropertyOwner) {
         isResidentPropertyOwner = residentPropertyOwner;
+    }
+
+    public List<Property> getUserProperties() {
+        return userProperties;
+    }
+
+    public void setUserProperties(List<Property> userProperties) {
+        this.userProperties = userProperties;
     }
 }
