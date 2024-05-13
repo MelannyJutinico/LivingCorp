@@ -4,8 +4,10 @@ import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
 import org.modelmapper.ModelMapper;
 import unbosque.edu.co.livingcorp.model.dto.PropertyDTO;
+import unbosque.edu.co.livingcorp.model.dto.PropertyResourceDTO;
 import unbosque.edu.co.livingcorp.model.dto.WebUserDTO;
 import unbosque.edu.co.livingcorp.model.entity.Property;
+import unbosque.edu.co.livingcorp.model.entity.PropertyResource;
 import unbosque.edu.co.livingcorp.model.entity.WebUser;
 import unbosque.edu.co.livingcorp.model.persistence.InterfaceDAO;
 import unbosque.edu.co.livingcorp.model.persistence.PropertyDAO;
@@ -82,18 +84,6 @@ public class PropertyManagementService implements Serializable {
         return modelMapper.map(propertyResourceDAO.findById(id), PropertyResourceDTO.class);
     }
 
-
-    public PropertyDTO updatePropertyPurchase(PropertyDTO propertyDTO){
-        Property property = propertyDAO.findById(propertyDTO.getPropertyId());
-        property.setAvailableForSale(false);
-        return modelMapper.map(propertyDAO.update(property), PropertyDTO.class);
-    }
-
-    public PropertyDTO updatePropertyRent(PropertyDTO propertyDTO){
-        Property property = propertyDAO.findById(propertyDTO.getPropertyId());
-        property.setAvailableForRent(false);
-        return modelMapper.map(propertyDAO.update(property), PropertyDTO.class);
-    }
 
 
 }
