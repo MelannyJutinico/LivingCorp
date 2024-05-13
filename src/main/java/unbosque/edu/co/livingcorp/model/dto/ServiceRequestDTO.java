@@ -6,29 +6,21 @@ public class ServiceRequestDTO {
 
     private int requestId;
     private LocalDateTime requestDateTime;
-    private WebUserDTO userName;
+    private WebUserDTO user;
     private PropertyDTO propertyId;
     private ServiceProviderDTO serviceProviderId;
     private String requestDescription;
     private LocalDateTime serviceDateTime;
 
-    public ServiceRequestDTO(LocalDateTime pRequestDateTime, WebUserDTO pUserName, PropertyDTO pPropertyId, ServiceProviderDTO pServiceId, String pRequestDescription, LocalDateTime pServiceDateTime) {
-        this.requestDateTime = pRequestDateTime;
-        this.userName = pUserName;
-        this.propertyId = pPropertyId;
-        this.serviceProviderId = pServiceId;
-        this.requestDescription = pRequestDescription;
-        this.serviceDateTime = pServiceDateTime;
-    }
 
-    public ServiceRequestDTO(int requestId,LocalDateTime pRequestDateTime, WebUserDTO pUserName, PropertyDTO pPropertyId, ServiceProviderDTO pServiceId, String pRequestDescription, LocalDateTime pServiceDateTime) {
+    public ServiceRequestDTO(int requestId, LocalDateTime requestDateTime, WebUserDTO user, PropertyDTO propertyId, ServiceProviderDTO serviceProviderId, String requestDescription, LocalDateTime serviceDateTime) {
         this.requestId = requestId;
-        this.requestDateTime = pRequestDateTime;
-        this.userName = pUserName;
-        this.propertyId = pPropertyId;
-        this.serviceProviderId = pServiceId;
-        this.requestDescription = pRequestDescription;
-        this.serviceDateTime = pServiceDateTime;
+        this.requestDateTime = requestDateTime;
+        this.user = user;
+        this.propertyId = propertyId;
+        this.serviceProviderId = serviceProviderId;
+        this.requestDescription = requestDescription;
+        this.serviceDateTime = serviceDateTime;
     }
 
     public ServiceRequestDTO() {}
@@ -49,12 +41,12 @@ public class ServiceRequestDTO {
         requestDateTime = pRequestDateTime;
     }
 
-    public WebUserDTO getUserName() {
-        return userName;
+    public WebUserDTO getUser() {
+        return user;
     }
 
-    public void setUserName(WebUserDTO pUserName) {
-        userName = pUserName;
+    public void setUser(WebUserDTO user) {
+        this.user = user;
     }
 
     public PropertyDTO getPropertyId() {

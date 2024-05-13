@@ -7,23 +7,16 @@ public class ServiceRFQDTO {
 
     private int rfqId;
     private LocalDateTime rfqDateTime;
-    private WebUserDTO userName;
+    private WebUserDTO user;
     private PropertyDTO propertyId;
     private ServiceProvider serviceProviderId;
     private String requestDescription;
 
-    public ServiceRFQDTO(LocalDateTime pRfqDateTime, WebUserDTO pUserName, PropertyDTO pPropertyId, ServiceProvider pServiceId, String pRequestDescription) {
-        this.rfqDateTime = pRfqDateTime;
-        this.userName = pUserName;
-        this.propertyId = pPropertyId;
-        this.serviceProviderId = pServiceId;
-        this.requestDescription = pRequestDescription;
-    }
 
-    public ServiceRFQDTO(int rfqId,LocalDateTime pRfqDateTime, WebUserDTO pUserName, PropertyDTO pPropertyId, ServiceProvider pServiceId, String pRequestDescription) {
+    public ServiceRFQDTO(int rfqId,LocalDateTime pRfqDateTime, WebUserDTO user, PropertyDTO pPropertyId, ServiceProvider pServiceId, String pRequestDescription) {
         this.rfqId = rfqId;
         this.rfqDateTime = pRfqDateTime;
-        this.userName = pUserName;
+        this.user = user;
         this.propertyId = pPropertyId;
         this.serviceProviderId = pServiceId;
         this.requestDescription = pRequestDescription;
@@ -47,12 +40,12 @@ public class ServiceRFQDTO {
         rfqDateTime = pRfqDateTime;
     }
 
-    public WebUserDTO getUserName() {
-        return userName;
+    public WebUserDTO getUser() {
+        return user;
     }
 
-    public void setUserName(WebUserDTO pUserName) {
-        userName = pUserName;
+    public void setUser(WebUserDTO user) {
+        this.user = user;
     }
 
     public PropertyDTO getPropertyId() {

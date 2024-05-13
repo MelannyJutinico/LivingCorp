@@ -18,6 +18,7 @@ import java.security.NoSuchAlgorithmException;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -107,6 +108,30 @@ public class UserService implements Serializable {
                 .stream()
                 .map(property -> modelMapper.map(property, PropertyDTO.class))
                 .collect(Collectors.toList());
+
+    public ArrayList<String> getUserNames(String nameExcluded){
+
+        ArrayList<WebUser> users = userDAO.findAll();
+        ArrayList<String> userNames = new ArrayList<>();
+        for(WebUser user : users) {
+            if(!user.getUserName().equals(nameExcluded)){
+                userNames.add(user.getUserName());
+            }
+        }
+
+        return userNames;
+
+    }
+
+    public WebUserDTO getAnUser(String name){
+        return modelMapper.map(userDAO.findById(name), WebUserDTO.class);
+    }
+
+    public WebUserDTO updateUserIsResidentOwner(WebUserDTO userDTO){
+        WebUser user = userDAO.findById(userDTO.getUserName());
+        user.setResidentPropertyOwner(true);
+        userDAO.update(user);
+        return modelMapper.map(user, WebUserDTO.class);
     }
 
 

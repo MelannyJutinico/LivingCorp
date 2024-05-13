@@ -18,6 +18,9 @@ public class ResourceDTO {
     public ResourceDTO(String resourceDescription, String resourceType) {
         this.resourceDescription = resourceDescription;
         this.resourceType = resourceType;
+
+    public ResourceDTO() {
+
     }
 
     public Integer getResourceId() {

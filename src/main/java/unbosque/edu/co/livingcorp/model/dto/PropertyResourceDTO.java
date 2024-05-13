@@ -11,15 +11,6 @@ public class PropertyResourceDTO {
         private Integer resourceCapacity;
         private String bookingEmail;
 
-        public PropertyResourceDTO(ResourceDTO resourceDTO, PropertyDTO propertyDTO, Double resourceMinPrice, String resourceAvailability, Integer resourceMinTimeHrs, Integer resourceCapacity, String bookingEmail) {
-            this.resourceDTO = resourceDTO;
-            this.propertyDTO = propertyDTO;
-            this.resourceMinPrice = resourceMinPrice;
-            this.resourceAvailability = resourceAvailability;
-            this.resourceMinTimeHrs = resourceMinTimeHrs;
-            this.resourceCapacity = resourceCapacity;
-            this.bookingEmail = bookingEmail;
-        }
 
         public PropertyResourceDTO(Integer propResId ,ResourceDTO resourceDTO, PropertyDTO propertyDTO, Double resourceMinPrice, String resourceAvailability, Integer resourceMinTimeHrs, Integer resourceCapacity, String bookingEmail) {
 
