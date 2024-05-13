@@ -179,7 +179,7 @@
                     <h:outputText value="#{pResource.bookingEmail}" />
                 </p:column>
                 <p:column headerText="Correo">
-                    <p:commandButton value="Solicitar recurso" oncomplete="PF('dlgAgendarCita').show()" action="userBean.capturePropertyResourceId(#{pResource.propResId})" />
+                    <p:commandButton value="Solicitar recurso" oncomplete="PF('dlgAgendarCita').show()" />
                 </p:column>
 
             </p:dataTable>
