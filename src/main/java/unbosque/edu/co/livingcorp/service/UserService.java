@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 public class UserService implements Serializable {
 
     @Inject
-    private InterfaceDAO <WebUser, String> userDAO;
+    private InterfaceDAO<WebUser, String> userDAO;
 
     private final ModelMapper modelMapper = new ModelMapper();
 
@@ -37,8 +37,8 @@ public class UserService implements Serializable {
         if (existingUser.isPresent()) {
             throw new UserRegistrationException("El nombre de usuario ya está en uso.");
         }
-        for(WebUser webUser : userDAO.findAll()){
-            if(user.getUserEmail().equals(webUser.getUserEmail())){
+        for (WebUser webUser : userDAO.findAll()) {
+            if (user.getUserEmail().equals(webUser.getUserEmail())) {
                 existingUser = Optional.of(webUser);
             }
         }
@@ -102,12 +102,14 @@ public class UserService implements Serializable {
         }
     }
 
-    public List<PropertyDTO> getUserProperties(WebUserDTO userDTO){
+    public List<PropertyDTO> getUserProperties(WebUserDTO userDTO) {
         var userProperties = userDAO.findById(userDTO.getUserName()).getUserProperties();
         return userProperties
                 .stream()
                 .map(property -> modelMapper.map(property, PropertyDTO.class))
                 .collect(Collectors.toList());
+    }
+
 
     public ArrayList<String> getUserNames(String nameExcluded){
 
@@ -134,6 +136,8 @@ public class UserService implements Serializable {
         return modelMapper.map(user, WebUserDTO.class);
     }
 
-
-
 }
+
+
+
+
