@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Administrador</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <style type="text/css">
+            body {
+                height: 100vh;
+                margin: 0;
+                padding: 10px;
+                background: #7b7b7b;
+            }
+            .mainMenu {
+                height: 60px;
+                width: 120px;
+            }
+        </style>
+    </h:head>
+
+    <body>
+        <div class="card">
+            <h:form id="formAdminResource">
+                <p:fieldset legend="Living Corp">
+                    <p:card style="margin-bottom: 5px">
+                        <p:button styleClass="mainMenu" style="margin-right:5px; background-color:#7b7b7b"
+                                  value="Registrar Recursos" outcome="adminResources.xhtml" disabled="true"/>
+                        <p:button styleClass="mainMenu" style="margin-right:5px; background-color:#7b7b7b"
+                                  value="Registrar Propiedades" outcome="adminProperties.xhtml" disabled="false"/>
+                        <p:button styleClass="mainMenu" style="margin-right:5px; background-color:#7b7b7b"
+                                  value="Asignar Recursos" outcome="adminAssings.xhtml" disabled="false"/>
+                        <p:button styleClass="mainMenu" style="margin-right:5px; background-color:#7b7b7b"
+                                  value="Generar Reportes" outcome="adminReports.xhtml" disabled="false"/>
+                    </p:card>
+                    <p:card style="margin-bottom: 5px">
+                        <p:toolbar style="margin-bottom: 5px">
+                            <p:toolbarGroup>
+                                <p:commandButton styleClass="CrudMenu" style="margin-right:5px; background-color:green"
+                                                 value="Registrar" icon="pi pi-plus" onclick="PF('createDialog').show()">
+                                </p:commandButton>
+                                <p:commandButton styleClass="CrudMenu" style="margin-right:5px; background-color:red" value="Eliminar" icon="pi pi-trash">
+                                    <p:confirm header="Confirmation" icon="pi pi-exclamation-triangle" onclick="#{adminResourceBean.eliminateResource()}" message="Delete the selected products?"  />
+                                </p:commandButton>
+                            </p:toolbarGroup>
+                        </p:toolbar>
+                        <p:dataTable id="resourceTable" var="varResource"
+                                     value="#{adminResourcesBean.resources.toArray()}" rowKey="#{rowIndex}"
+                                     paginator="true" paginatorPosition="bottom" rows="10">
+                            <p:column style="text-align:center" selectionMode="single" />
+                            <p:column style="text-align:center" headerText="Id">
+                                <h:outputText value="#{varResource.resourceId}"/>
+                            </p:column>
+                            <p:column style="text-align:center" headerText="Tipo">
+                                <h:outputText value="#{varResource.resourceType}"/>
+                            </p:column>
+                            <p:column style="text-align: center" headerText="Descripcion">
+                                <p:commandButton icon="pi pi-search"
+                                                 update=":formAdminResource:productDescription" oncomplete="PF('descriptionDialog').show()">
+                                    <f:setPropertyActionListener value="#{varResource}" target="#{adminResourcesBean.resource}"/>
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </p:card>
+                </p:fieldset>
+                <p:dialog header="Descripcion" widgetVar="descriptionDialog"
+                          modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                    <h:outputText id="productDescription" rendered="#{not empty adminResourcesBean.resource}"
+                                  value="#{adminResourcesBean.resource.resourceDescription}"/>
+                </p:dialog>
+                <p:dialog header="Formulario" widgetVar="createDialog"
+                          modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                    <p:panelGrid columns="1">
+                        <p:outputLabel style="margin-bottom: -100px; margin-top: -100px"
+                                       value="Tipo"/>
+                        <p:inputText style="margin-bottom: -100px; margin-top: -100px" placeholder="Tipo"
+                                      value="#{adminResourcesBean.resource.resourceType}" required="true"/>
+                        <p:outputLabel style="margin-bottom: -100px; margin-top: -100px"
+                                       value="Descripcion"/>
+                        <p:inputTextarea rows="3" cols="30" counter="display" maxlength="25"
+                                         counterTemplate="{0} characters remaining." autoResize="false"
+                                         value="#{adminResourcesBean.resource.resourceDescription}" required="true"/>
+                        <h:outputText style="margin-bottom: -100px; margin-top: -100px"
+                                      id="display" class="block" />
+                        <p:commandButton value="Confirmar"
+                                         action="#{adminResourceBean.registerResource()}"
+                                         update=":formAdminResource:resourceTable"/>
+                    </p:panelGrid>
+                </p:dialog>
+            </h:form>
+        </div>
+    </body>
+</html>
