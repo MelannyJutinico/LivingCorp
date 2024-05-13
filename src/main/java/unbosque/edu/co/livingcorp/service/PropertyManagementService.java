@@ -4,17 +4,23 @@ import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
 import org.modelmapper.ModelMapper;
 import unbosque.edu.co.livingcorp.model.dto.PropertyDTO;
+import unbosque.edu.co.livingcorp.model.dto.PropertyResourceDTO;
 import unbosque.edu.co.livingcorp.model.entity.Property;
+import unbosque.edu.co.livingcorp.model.entity.PropertyResource;
 import unbosque.edu.co.livingcorp.model.persistence.InterfaceDAO;
+import unbosque.edu.co.livingcorp.model.persistence.PropertyDAO;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Stateless
 public class PropertyManagementService implements Serializable {
 
     @Inject
     private InterfaceDAO<Property, Integer> propertyDAO;
+    @Inject InterfaceDAO<PropertyResource, Integer> propertyResourceDAO;
 
     private final ModelMapper modelMapper = new ModelMapper();
 
@@ -49,6 +55,30 @@ public class PropertyManagementService implements Serializable {
         return names;
     }
 
+
+    public PropertyDTO findPropertyById(Integer id){
+        return modelMapper.map(propertyDAO.findById(id), PropertyDTO.class);
+    }
+
+    public List<PropertyResourceDTO> getPropertyResources(Integer id){
+        int pId = propertyDAO.findById(id).getPropertyId();
+        var propertyResources = propertyResourceDAO.findAll();
+        List<PropertyResourceDTO> propertyResourceDTOs = new ArrayList<>();
+        for(PropertyResource propertyResource : propertyResources){
+            if(propertyResource.getProperty().getPropertyId() == pId){
+                propertyResourceDTOs.add(modelMapper.map(propertyResource, PropertyResourceDTO.class));
+
+            }
+        }
+        return propertyResourceDTOs;
+    }
+
+
+    public PropertyResourceDTO getPropertyResourceById(Integer id){
+        return modelMapper.map(propertyResourceDAO.findById(id), PropertyResourceDTO.class);
+    }
+
+
     public PropertyDTO updatePropertyPurchase(PropertyDTO propertyDTO){
         Property property = propertyDAO.findById(propertyDTO.getPropertyId());
         property.setAvailableForSale(false);
@@ -60,4 +90,5 @@ public class PropertyManagementService implements Serializable {
         property.setAvailableForRent(false);
         return modelMapper.map(propertyDAO.update(property), PropertyDTO.class);
     }
+
 }

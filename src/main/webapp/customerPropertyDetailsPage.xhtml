@@ -111,20 +111,34 @@
     <div class="card">
         <p:panelGrid columns="2">
             <f:facet name="header">
-                <p:graphicImage value="projectResources/Prueba.jpg"/>
+                <p:graphicImage value="resources/apartament.jpg"/>
             </f:facet>
 
-            <h:outputText value="Name:"/>
-            <h:outputText value="Kobe Bryant"/>
+            <h:outputText value="Nombre:"/>
+            <h:outputText value="#{userBean.propertyDTO.propertyName}"/>
 
-            <h:outputText value="Team:"/>
-            <h:outputText value="Los Angeles Lakers"/>
+            <h:outputText value="Ciudad:"/>
+            <h:outputText value="#{userBean.propertyDTO.propertyCity}"/>
 
-            <h:outputText value="Position:"/>
-            <h:outputText value="Shooting Guard"/>
+            <h:outputText value="Dirección:"/>
+            <h:outputText value="#{userBean.propertyDTO.propertyAddress}"/>
 
-            <h:outputText value="Number:"/>
-            <h:outputText value="24"/>
+            <h:outputText value="Área:"/>
+            <h:outputText value="#{userBean.propertyDTO.propertyArea}"/>
+
+            <h:outputText value="Precio:"/>
+            <h:outputText value="#{userBean.propertyDTO.propertyPrice}"/>
+
+            <h:outputText value="Habitaciones:"/>
+            <h:outputText value="#{userBean.propertyDTO.propertyRooms}"/>
+
+            <h:outputText value="Baños:"/>
+            <h:outputText value="#{userBean.propertyDTO.propertyBathrooms}"/>
+
+            <h:outputText value="Descripción:"/>
+            <h:outputText value="#{userBean.propertyDTO.propertyDescription}"/>
+
+
         </p:panelGrid>
     </div>
 
@@ -132,36 +146,44 @@
         <h5><p:outputLabel value="RECURSOS DISPONIBLES" style="font-size: 25px; color: #000;" /></h5>
     </div>
 
-    <h:form>
-        <p:dataTable var="recurso" value="#{bean.listaRecursos}">
-            <p:column headerText="Descripción">
-                <h:outputText value="#{recurso.resourceDescription}" />
-            </p:column>
-            <p:column headerText="Tipo">
-                <h:outputText value="#{recurso.resourceType}" />
-            </p:column>
-            <p:column headerText="Precio Mínimo">
-                <h:outputText value="#{recurso.resourceMinPrice}" />
-            </p:column>
-            <p:column headerText="Tiempo Mínimo (horas)">
-                <h:outputText value="#{recurso.resourceMinTimeHrs}" />
-            </p:column>
-            <p:column headerText="Disponibilidad">
-                <h:outputText value="#{recurso.resourceAvailability}" />
-            </p:column>
-            <p:column headerText="Capacidad">
-                <h:outputText value="#{recurso.resourceCapacity}" />
-            </p:column>
-            <p:column headerText="Email de Reserva">
-                <h:outputText value="#{recurso.bookingEmail}" />
-            </p:column>
-            <p:column headerText="">
-            </p:column>
 
-            <f:facet name="footer">
-                <p:commandButton value="Agendar" oncomplete="PF('dlgAgendarCita').show()" />
-            </f:facet>
-        </p:dataTable>
+    <h:form>
+        <div class="card">
+            <p:dataTable var="pResource" value="#{userBean.getPropertyResources()}">
+                <p:column headerText="Tipo">
+                    <h:outputText value="#{pResource.resourceDTO.resourceType}"/>
+                </p:column>
+
+                <p:column headerText="Descripción">
+                    <h:outputText  value="#{pResource.resourceDTO.resourceDescription}" />
+
+                </p:column>
+
+                <p:column headerText="Precio minimo">
+                    <h:outputText value="#{pResource.resourceMinPrice}" />
+                </p:column>
+
+                <p:column headerText="Tiempo minimo">
+                    <h:outputText value="#{pResource.resourceMinTimeHrs}" />
+                </p:column>
+
+                <p:column headerText="Disponibilidad">
+                    <h:outputText value="#{pResource.resourceAvailability}" />
+                </p:column>
+
+                <p:column headerText="Capacidad">
+                    <h:outputText value="#{pResource.resourceCapacity}" />
+                </p:column>
+
+                <p:column headerText="Correo">
+                    <h:outputText value="#{pResource.bookingEmail}" />
+                </p:column>
+                <p:column headerText="Correo">
+                    <p:commandButton value="Solicitar recurso" oncomplete="PF('dlgAgendarCita').show()" action="userBean.capturePropertyResourceId(#{pResource.propResId})" />
+                </p:column>
+
+            </p:dataTable>
+        </div>
     </h:form>
 
     <p:dialog id="dlgAgendarCita" header="Agendar Cita" widgetVar="dlgAgendarCita" resizable="false" modal="true">
