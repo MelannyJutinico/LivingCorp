@@ -237,6 +237,7 @@
                                         </p:selectCheckboxMenu>
                                         <br/>
                                         <p:messages id="messages4"  showDetail="true" />
+                                        <p:commandButton update="@form" value="Agendar cita" onclick="PF('sidebarVisitor').show()" styleClass="rounded-button ui-button-success"/>
                                         <p:commandButton update="@form" value="Iniciar sesion para comprar / rentar"  onclick="PF('sidebar2').show()" rendered="#{not indexBean.authenticated}"  icon="pi pi-user" styleClass="rounded-button ui-button-success"  />
                                         <p:commandButton update="@form" oncomplete="handleLoginSuccess()" action="#{indexBean.purchase}" value="Comprar"  rendered="#{indexBean.authenticated and indexBean.propertySelected.availableForSale}"  styleClass="rounded-button ui-button-success"  />
                                         <p:commandButton update="@form" oncomplete="handleLoginSuccess()" value="Rentar"  action="#{indexBean.rent}" rendered="#{indexBean.authenticated and indexBean.propertySelected.availableForRent}" styleClass="rounded-button ui-button-success"  />
@@ -251,7 +252,27 @@
             </h:form>
         </div>
 
+        <p:sidebar widgetVar="sidebarVisitor" position="right" style="width: 50%;" id="sidebarVisitor">
+            <div class="sidebar-form">
 
+                    <h3>Agendar cita de visita</h3>
+                <br/><br/>
+                    <h:form>
+                        <div class="ui-inputgroup">
+                            <div class="ui-inputgroup-addon"><i class="pi pi-user"/>
+                            </div>
+                            <p:inputText placeholder="Nombre de quien reserva" required="true" value="#{indexBean.visitor.visitorName}"/>
+                        </div>
+                        <div class="field col-12 md:col-4">
+                                <h3>Fecha y hora de la cita </h3> <br/>
+                                <p:datePicker id="time" value="#{indexBean.visitor.appointmentDate}" showTime="true" />
+                        </div>
+                        <br/>
+                        <p:commandButton update="@form" value="Agendar cita" action="#{indexBean.registrerVisitor}" icon="pi pi-user" styleClass="rounded-button ui-button-success"  />
+                        <p:messages showDetail="true" />
+                    </h:form>
+            </div>
+        </p:sidebar>
 
     </div>
 </h:body>
