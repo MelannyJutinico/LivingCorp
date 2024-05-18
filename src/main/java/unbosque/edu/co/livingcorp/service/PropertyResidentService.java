@@ -3,7 +3,9 @@ package unbosque.edu.co.livingcorp.service;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
 import org.modelmapper.ModelMapper;
+import unbosque.edu.co.livingcorp.model.dto.PropertyDTO;
 import unbosque.edu.co.livingcorp.model.dto.PropertyResidentDTO;
+import unbosque.edu.co.livingcorp.model.dto.WebUserDTO;
 import unbosque.edu.co.livingcorp.model.entity.PropertyResident;
 import unbosque.edu.co.livingcorp.model.persistence.InterfaceDAO;
 import unbosque.edu.co.livingcorp.exception.ResidentCreateException;
@@ -37,6 +39,5 @@ public class PropertyResidentService implements Serializable {
 
         return false;
     }
-
 
 }

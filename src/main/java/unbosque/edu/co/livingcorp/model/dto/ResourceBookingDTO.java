@@ -5,8 +5,8 @@ import java.time.LocalDateTime;
 public class ResourceBookingDTO{
 
         private int bookingId;
-        private String userName;
-        private PropertyResourceDTO propertyResourceIdDTO;
+        private PropertyResourceDTO propertyResourceDTO;
+        private WebUserDTO webUserDTO;
         private LocalDateTime bookingDateTime;
         private LocalDateTime bookingStartDate;
         private LocalDateTime bookingEndDate;
@@ -15,10 +15,10 @@ public class ResourceBookingDTO{
 
 
 
-    public ResourceBookingDTO(int bookingId,String pUserName, PropertyResourceDTO propertyResourceIdDTO, LocalDateTime pBookingDateTime, LocalDateTime pBookingStartDate, LocalDateTime pBookingEndDate, double pBookingCost, boolean pPaymentComplete) {
+    public ResourceBookingDTO(int bookingId, PropertyResourceDTO propertyResourceIdDTO,WebUserDTO webUserDTO, LocalDateTime pBookingDateTime, LocalDateTime pBookingStartDate, LocalDateTime pBookingEndDate, double pBookingCost, boolean pPaymentComplete) {
         this.bookingId = bookingId;
-        this.userName = pUserName;
-        this.propertyResourceIdDTO = propertyResourceIdDTO;
+        this.propertyResourceDTO = propertyResourceIdDTO;
+        this.webUserDTO = webUserDTO;
         this.bookingDateTime = pBookingDateTime;
         this.bookingStartDate = pBookingStartDate;
         this.bookingEndDate = pBookingEndDate;
@@ -36,20 +36,12 @@ public class ResourceBookingDTO{
             bookingId = pBookingId;
         }
 
-        public String getUserName() {
-            return userName;
+        public PropertyResourceDTO getPropertyResourceDTO() {
+            return propertyResourceDTO;
         }
 
-        public void setUserName(String pUserName) {
-            userName = pUserName;
-        }
-
-        public PropertyResourceDTO getPropertyResourceIdDTO() {
-            return propertyResourceIdDTO;
-        }
-
-        public void setPropertyResourceIdDTO(PropertyResourceDTO pPropertyResidentId) {
-            propertyResourceIdDTO = pPropertyResidentId;
+        public void setPropertyResourceDTO(PropertyResourceDTO pPropertyResidentId) {
+            propertyResourceDTO = pPropertyResidentId;
         }
 
         public LocalDateTime getBookingDateTime() {
@@ -92,4 +84,15 @@ public class ResourceBookingDTO{
             paymentComplete = pPaymentComplete;
         }
 
+    public WebUserDTO getWebUserDTO() {
+        return webUserDTO;
+    }
+
+    public void setWebUserDTO(WebUserDTO webUserDTO) {
+        this.webUserDTO = webUserDTO;
+    }
+
+    public boolean isPaymentComplete() {
+        return paymentComplete;
+    }
 }

@@ -3,11 +3,14 @@ package unbosque.edu.co.livingcorp.service;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
 import org.modelmapper.ModelMapper;
+import unbosque.edu.co.livingcorp.exception.InvalidMinTimeException;
 import unbosque.edu.co.livingcorp.model.dto.ResourceBookingDTO;
 import unbosque.edu.co.livingcorp.model.entity.ResourceBooking;
 import unbosque.edu.co.livingcorp.model.persistence.InterfaceDAO;
 
 import java.io.Serializable;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,6 +34,20 @@ public class ResourceBookingService implements Serializable {
                 .stream()
                 .map(resourceBooking -> modelMapper.map(resourceBooking,ResourceBookingDTO.class))
                 .collect(Collectors.toList());
+    }
+
+    public  List<ResourceBookingDTO> findUserResourceBookings(){
+        var userResourceBookings = resourceBookingDAO.findAll();
+        return null;
+    }
+
+
+    public double calculatePaymentAmount(ResourceBookingDTO resourceBookingDTO) throws InvalidMinTimeException {
+        if(Duration.between(resourceBookingDTO.getBookingStartDate(), resourceBookingDTO.getBookingEndDate()).toHours()< (resourceBookingDTO.getPropertyResourceDTO().getResourceMinTimeHrs())){
+            throw new InvalidMinTimeException("El tiempo solicitado es menor al tiempo minimo");
+        }else{
+            return ((Duration.between(resourceBookingDTO.getBookingStartDate(), resourceBookingDTO.getBookingEndDate()).toHours())/resourceBookingDTO.getPropertyResourceDTO().getResourceMinTimeHrs())* resourceBookingDTO.getPropertyResourceDTO().getResourceMinPrice();
+        }
     }
 
 }

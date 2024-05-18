@@ -12,8 +12,8 @@ public class ResourceBooking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "BOOKING_ID")
     private int bookingId;
-    @Column(name = "USER_NAME")
-    private String userName;
+    @ManyToOne @JoinColumn(name = "USER_NAME")
+    private WebUser webUser;
     @ManyToOne
     @JoinColumn(name = "PROP_RES_ID")
     private PropertyResource propertyResource;
@@ -28,9 +28,9 @@ public class ResourceBooking {
     @Column(name = "PAYMENT_COMPLETE")
     private boolean paymentComplete;
 
-    public ResourceBooking(int bookingId, String userName, PropertyResource propertyResource, LocalDateTime bookingDateTime, LocalDateTime bookingStartDate, LocalDateTime bookingEndDate, double bookingCost, boolean paymentComplete) {
+
+    public ResourceBooking(int bookingId, PropertyResource propertyResource, LocalDateTime bookingDateTime, LocalDateTime bookingStartDate, LocalDateTime bookingEndDate, double bookingCost, boolean paymentComplete) {
         this.bookingId = bookingId;
-        this.userName = userName;
         this.propertyResource = propertyResource;
         this.bookingDateTime = bookingDateTime;
         this.bookingStartDate = bookingStartDate;
@@ -47,14 +47,6 @@ public class ResourceBooking {
 
     public void setBookingId(int pBookingId) {
         bookingId = pBookingId;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String pUserName) {
-        userName = pUserName;
     }
 
     public PropertyResource getPropertyResource() {
@@ -109,4 +101,11 @@ public class ResourceBooking {
         paymentComplete = pPaymentComplete;
     }
 
+    public WebUser getWebUser() {
+        return webUser;
+    }
+
+    public void setWebUser(WebUser webUser) {
+        this.webUser = webUser;
+    }
 }

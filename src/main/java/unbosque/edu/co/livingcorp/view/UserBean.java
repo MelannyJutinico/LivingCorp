@@ -2,9 +2,11 @@ package unbosque.edu.co.livingcorp.view;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import unbosque.edu.co.livingcorp.exception.InvalidMinTimeException;
 import unbosque.edu.co.livingcorp.model.dto.PropertyDTO;
 import unbosque.edu.co.livingcorp.model.dto.PropertyResourceDTO;
 import unbosque.edu.co.livingcorp.model.dto.ResourceBookingDTO;
@@ -14,6 +16,7 @@ import unbosque.edu.co.livingcorp.service.ResourceBookingService;
 import unbosque.edu.co.livingcorp.service.UserService;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 @Named(value="userBean")
@@ -31,7 +34,6 @@ public class UserBean implements Serializable {
     private ArrayList<PropertyResourceDTO> propertyResourcesDTO;
     private ResourceBookingDTO resourceBookingDTO;
     private ArrayList<ResourceBookingDTO> resourceBookingsDTO;
-
 
     @PostConstruct
     public void init() {
@@ -69,6 +71,17 @@ public class UserBean implements Serializable {
     public void saveResourceBooking(){
         var propertyResourceDTO = (PropertyResourceDTO) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("propertyResourceDTO");
         var webUserDTO = (WebUserDTO) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
+        resourceBookingDTO.setPropertyResourceDTO(propertyResourceDTO);
+        resourceBookingDTO.setWebUserDTO(webUserDTO);
+        resourceBookingDTO.setBookingDateTime(LocalDateTime.now());
+        try {
+            resourceBookingDTO.setBookingCost(resourceBookingService.calculatePaymentAmount(resourceBookingDTO));resourceBookingDTO.setPaymentComplete(false);
+            resourceBookingService.saveResourceBooking(resourceBookingDTO);
+        } catch (InvalidMinTimeException e) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Fecha invalida: ", e.getMessage());
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        }
+
     }
 
 

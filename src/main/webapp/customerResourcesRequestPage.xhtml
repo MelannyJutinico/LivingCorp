@@ -74,25 +74,27 @@
     <div class="centered">
 
         <h:form>
-            <p:card style="width: 25em">
-                <f:facet name="header">
-                    <img alt="user header" src="resources/ResourceRequest.jpg"/>
-                </f:facet>
-                <f:facet name="title">
-                    Advanced Card
-                </f:facet>
-                <f:facet name="subtitle">
-                    Card subtitle
-                </f:facet>
+            <p:dataList value="#{userBean.userPropertiesDTO}" var="property">
+                <p:card style="width: 25em">
+                    <f:facet name="header">
+                        <img alt="user header" src="resources/ResourceRequest.jpg"/>
+                    </f:facet>
+                    <f:facet name="title">
+                        Advanced Card
+                    </f:facet>
+                    <f:facet name="subtitle">
+                        Card subtitle
+                    </f:facet>
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt
-                    quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque quas!</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt
+                        quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque quas!</p>
 
-                <f:facet name="footer">
-                    <br><p:commandLink value="Cancelar"/></br>
-                </f:facet>
-            </p:card>
-
+                    <f:facet name="footer">
+                        <br><p:commandButton value="Cancelar"/></br>
+                        <br><p:commandButton value="Pagar"/></br>
+                    </f:facet>
+                </p:card>
+            </p:dataList>
         </h:form>
     </div>
 
