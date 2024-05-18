@@ -27,7 +27,10 @@ public class ResourceBookingDAO implements InterfaceDAO<ResourceBooking, Integer
 
     @Override
     public void delete(ResourceBooking entity) {
-    manager.remove(entity);
+        if (!manager.contains(entity)) {
+            entity = manager.merge(entity);
+        }
+        manager.remove(entity);
     }
 
     @Override
