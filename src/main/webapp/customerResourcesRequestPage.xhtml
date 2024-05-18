@@ -51,7 +51,7 @@
         </div>
 
         <!-- Encabezado -->
-        <img src="logo.png" alt="Logo" />
+        <img src="resources/logo.png" alt="Logo" id="logo" />
 
         <!-- Menú -->
         <div class="card">
@@ -60,7 +60,8 @@
 
                 <p:menubar styleClass="centered">
                     <p:submenu label="" icon="pi pi-fw pi-user">
-                        <p:menuitem value="Cerrar sesión" icon="pi pi-fw pi-user-plus"/>
+                        <p:menuitem value="Cerrar sesión" oncomplete="handleLoginSuccess()" type="button" action="#{adminResourcesBean.logout}" styleClass="mr-2" />
+                        <p:menuitem value="Usuario" onclick="window.location.href='customerPropertiesPage.xhtml'" type="button"   styleClass="mr-2" />
                     </p:submenu>
                 </p:menubar>
             </h:form>
@@ -79,15 +80,15 @@
                         <img alt="user header" src="resources/ResourceRequest.jpg"/>
                     </f:facet>
                     <f:facet name="title">
-                        <h:outputText value="#{booking.bookingCost}" />
+                        <h:outputText value="#{booking.propertyResource.resource.resourceType}" />
                     </f:facet>
                     <f:facet name="subtitle">
-                        Card subtitle
+                        <h:outputText value="#{booking.bookingCost}" />
                     </f:facet>
-
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt
-                        quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque quas!</p>
-
+                    <h4>Solicitado para la propiedad:</h4>
+                    <h:outputText value="#{booking.propertyResource.property.propertyName}" />
+                    <h4>Encargado del recurso</h4>
+                    <h:outputText value="#{booking.propertyResource.bookingEmail}" />
                     <f:facet name="footer">
                         <br/><p:commandButton type="Submit" id="cancelar"
                                               value="Cancelar" action="#{bookingBean.cancelBooking(booking.bookingId)}" update="booking"/>

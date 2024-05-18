@@ -6,15 +6,14 @@ import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import unbosque.edu.co.livingcorp.exception.InvalidMinTimeException;
 import unbosque.edu.co.livingcorp.model.dto.PropertyDTO;
 import unbosque.edu.co.livingcorp.model.dto.PropertyResourceDTO;
 import unbosque.edu.co.livingcorp.model.dto.ResourceBookingDTO;
 import unbosque.edu.co.livingcorp.model.dto.WebUserDTO;
-import unbosque.edu.co.livingcorp.service.PropertyManagementService;
-import unbosque.edu.co.livingcorp.service.PropertyResidentService;
-import unbosque.edu.co.livingcorp.service.ResourceBookingService;
-import unbosque.edu.co.livingcorp.service.UserService;
+import unbosque.edu.co.livingcorp.service.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -32,14 +31,22 @@ public class UserBean implements Serializable {
     private ResourceBookingService resourceBookingService;
     @Inject
     private PropertyResidentService propertyResidentService;
+    @Inject
+    private PropertyResourceService propertyResourceService;
+
     private ArrayList<PropertyDTO> userPropertiesDTO;
     private PropertyDTO propertyDTO;
     private ArrayList<PropertyResourceDTO> propertyResourcesDTO;
     private ResourceBookingDTO resourceBookingDTO;
     private ArrayList<PropertyDTO> residentPropertiesDTO;
+    private PropertyResourceDTO propertyResourceDTO;
+    private WebUserDTO currentUser;
+
+    private static final Logger logger = LogManager.getLogger(ResourceManagementService.class);
 
     @PostConstruct
     public void init() {
+        currentUser = (WebUserDTO) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
         userPropertiesDTO = new ArrayList<>();
         propertyDTO = new PropertyDTO();
         propertyResourcesDTO = new ArrayList<>();
@@ -50,13 +57,14 @@ public class UserBean implements Serializable {
 
 
     public void getUserProperties() {
-        var webUserDTO = (WebUserDTO) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
-        userPropertiesDTO = (ArrayList<PropertyDTO>) userService.getUserProperties(webUserDTO);
+        userPropertiesDTO = (ArrayList<PropertyDTO>) userService.getUserProperties(currentUser);
     }
 
     public void getResidentProperties(){
-        var webUserDTO = (WebUserDTO) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
-        residentPropertiesDTO = propertyResidentService.getPropertiesByResident(webUserDTO);
+        residentPropertiesDTO = propertyResidentService.getPropertiesByResident(currentUser);
+        if (residentPropertiesDTO == null) {
+            residentPropertiesDTO = new ArrayList<>();
+        }
     }
 
     public String checkPropertyDetails(Integer id) {
@@ -74,17 +82,17 @@ public class UserBean implements Serializable {
 
 
     public void saveResourceBooking(){
-        var propertyResourceDTO = (PropertyResourceDTO) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("propertyResourceDTO");
-        var webUserDTO = (WebUserDTO) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
-        resourceBookingDTO.setPropertyResourceDTO(propertyResourceDTO);
-        resourceBookingDTO.setWebUserDTO(webUserDTO);
+
+        resourceBookingDTO.setPropertyResource(propertyResourceDTO);
+        resourceBookingDTO.setUserName(currentUser.getUserName());
+
         resourceBookingDTO.setBookingDateTime(LocalDateTime.now());
-        boolean paymentComplete = resourceBookingDTO.isPaymentComplete();
 
         try {
-            resourceBookingDTO.setPaymentComplete(paymentComplete);
+            resourceBookingDTO.setPaymentComplete(resourceBookingDTO.isPaymentComplete());
             resourceBookingDTO.setBookingCost(resourceBookingService.calculatePaymentAmount(resourceBookingDTO));resourceBookingDTO.setPaymentComplete(false);
             resourceBookingService.saveResourceBooking(resourceBookingDTO);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Recurso solicitado existosamente", "Su total a pagar es: "+resourceBookingDTO.getBookingCost()));
         } catch (InvalidMinTimeException e) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Fecha invalida: ", e.getMessage());
             FacesContext.getCurrentInstance().addMessage(null, message);
@@ -92,13 +100,10 @@ public class UserBean implements Serializable {
 
     }
 
-    public UserService getUserService() {
-        return userService;
+    public void capturePropertyResource(int id){
+        propertyResourceDTO = propertyResourceService.getPropertyResourceById(id);
     }
 
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
 
     public ArrayList<PropertyDTO> getUserPropertiesDTO() {
         return userPropertiesDTO;
@@ -106,14 +111,6 @@ public class UserBean implements Serializable {
 
     public void setUserPropertiesDTO(ArrayList<PropertyDTO> userPropertiesDTO) {
         this.userPropertiesDTO = userPropertiesDTO;
-    }
-
-    public PropertyManagementService getPropertyManagementService() {
-        return propertyManagementService;
-    }
-
-    public void setPropertyManagementService(PropertyManagementService propertyManagementService) {
-        this.propertyManagementService = propertyManagementService;
     }
 
     public PropertyDTO getPropertyDTO() {
@@ -132,13 +129,7 @@ public class UserBean implements Serializable {
         this.propertyResourcesDTO = propertyResourcesDTO;
     }
 
-    public ResourceBookingService getResourceBookingService() {
-        return resourceBookingService;
-    }
 
-    public void setResourceBookingService(ResourceBookingService resourceBookingService) {
-        this.resourceBookingService = resourceBookingService;
-    }
 
     public ResourceBookingDTO getResourceBookingDTO() {
         return resourceBookingDTO;
@@ -148,13 +139,7 @@ public class UserBean implements Serializable {
         this.resourceBookingDTO = resourceBookingDTO;
     }
 
-    public PropertyResidentService getPropertyResidentService() {
-        return propertyResidentService;
-    }
 
-    public void setPropertyResidentService(PropertyResidentService propertyResidentService) {
-        this.propertyResidentService = propertyResidentService;
-    }
 
     public ArrayList<PropertyDTO> getResidentPropertiesDTO() {
         return residentPropertiesDTO;
@@ -164,6 +149,19 @@ public class UserBean implements Serializable {
         this.residentPropertiesDTO = residentPropertiesDTO;
     }
 
+    public WebUserDTO getCurrentUser() {
+        return currentUser;
+    }
 
+    public void setCurrentUser(WebUserDTO currentUser) {
+        this.currentUser = currentUser;
+    }
 
+    public PropertyResourceDTO getPropertyResourceDTO() {
+        return propertyResourceDTO;
+    }
+
+    public void setPropertyResourceDTO(PropertyResourceDTO propertyResourceDTO) {
+        this.propertyResourceDTO = propertyResourceDTO;
+    }
 }

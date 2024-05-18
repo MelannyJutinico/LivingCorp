@@ -82,4 +82,8 @@ public class PropertyResourceService implements Serializable {
         }
         return null;
     }
+
+    public PropertyResourceDTO getPropertyResourceById(Integer id){
+        return modelMapper.map(propertyResourceDAO.findById(id), PropertyResourceDTO.class);
+    }
 }

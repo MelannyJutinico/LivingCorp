@@ -5,6 +5,7 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui">
 <h:head>
+    <link href="resources/indexStyle.css" rel="stylesheet" type="text/css"/>
     <meta charset="UTF-8" />
     <title>Living Corp</title>
     <style>
@@ -54,7 +55,7 @@
         </div>
 
         <!-- Encabezado -->
-        <img src="logo.png" alt="Logo" />
+        <img src="resources/logo.png" alt="Logo" id="logo" />
 
 
         <!-- Menú -->
@@ -63,38 +64,44 @@
                 <p:growl id="messages"/>
 
                 <p:menubar styleClass="centered">
-                    <p:submenu label="" icon="pi pi-fw pi-user">
-                        <p:menuitem value="Cerrar sesión" icon="pi pi-fw pi-user-plus"/>
-                    </p:submenu>
+                        <p:submenu label="User" icon="pi pi-fw pi-user" >
+                            <p:menuitem value="Cerrar sesión" oncomplete="handleLoginSuccess()" type="button" action="#{adminResourcesBean.logout}" styleClass="mr-2" />
+                            <p:menuitem value="Usuario" onclick="window.location.href='customerPropertiesPage.xhtml'" type="button"   styleClass="mr-2" />
+                        </p:submenu>
                 </p:menubar>
             </h:form>
         </div>
     </div>
 
     <div class="centered">
-        <h:form>
-            <p:dataList value="#{userBean.residentPropertiesDTO}" var="property">
-                <p:card style="width: 25em">
-                    <f:facet name="header">
-                        <img alt="user header" src="resources/apartament.jpg"/>
-                    </f:facet>
-                    <f:facet name="title">
-                        <h:outputText value="#{property.propertyName}" />
-                    </f:facet>
-                    <f:facet name="subtitle">
-                        Card subtitle
-                    </f:facet>
-
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt
-                        quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque quas!</p>
-
-                    <f:facet name="footer">
-                        <br/><p:commandButton type="Submit" id="id" action="#{userBean.checkPropertyDetails(property.propertyId)}"
-                                            value="Ver detalles"/>
-                    </f:facet>
-                </p:card>
-            </p:dataList>
+    <div class="cards-container">
+        <h:form id="formCard">
+        <p:dataGrid id="cards" value="#{userBean.residentPropertiesDTO}" var="property" columns="3" layout="grid"
+                    rows="12" paginator="true" rowsPerPageTemplate="6,12,16">
+            <p:panel >
+                <h:panelGrid styleClass="property-card" columns="1">
+                    <p:card >
+                        <f:facet name="header">
+                            <h2 class="product-category">#{property.propertyCity}</h2>
+                            <img alt="user header" src="resources/apartament.jpg"/>
+                        </f:facet>
+                        <f:facet name="title">
+                            <h:outputText value="#{property.propertyName}" />
+                        </f:facet>
+                        <p><h:outputText value="#{property.propertyDescription}" /> </p>
+                        <f:facet name="footer">
+                            <h:outputText value="#{property.propertyPrice}" styleClass="product-price">
+                                <f:convertNumber currencySymbol="$" type="currency"/>
+                            </h:outputText>
+                            <p:commandButton type="Submit" id="id" action="#{userBean.checkPropertyDetails(property.propertyId)}"
+                                             value="Ver detalles"/>
+                        </f:facet>
+                    </p:card>
+                </h:panelGrid>
+            </p:panel>
+        </p:dataGrid>
         </h:form>
+    </div>
     </div>
 
 

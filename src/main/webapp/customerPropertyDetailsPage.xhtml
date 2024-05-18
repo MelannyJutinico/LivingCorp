@@ -7,6 +7,7 @@
 <h:head>
     <meta charset="UTF-8" />
     <title>Living Corp</title>
+    <link href="resources/indexStyle.css" rel="stylesheet" type="text/css"/>
     <style>
         .header {
             background-color: #6DA7CC;
@@ -88,7 +89,8 @@
         </div>
 
         <!-- Encabezado -->
-        <img src="logo.png" alt="Logo" />
+        <img src="resources/logo.png" alt="Logo" id="logo" />
+
 
         <!-- Menú -->
         <div class="card">
@@ -97,7 +99,8 @@
 
                 <p:menubar styleClass="centered">
                     <p:submenu label="" icon="pi pi-fw pi-user">
-                        <p:menuitem value="Cerrar sesión" icon="pi pi-fw pi-user-plus"/>
+                        <p:menuitem value="Cerrar sesión" oncomplete="handleLoginSuccess()" type="button" action="#{adminResourcesBean.logout}" styleClass="mr-2" />
+                        <p:menuitem value="Usuario" onclick="window.location.href='customerPropertiesPage.xhtml'" type="button"   styleClass="mr-2" />
                     </p:submenu>
                 </p:menubar>
             </h:form>
@@ -105,7 +108,7 @@
     </div>
 
     <div class="centered">
-        <h5><p:outputLabel value="INMUEBLE" style="font-size: 25px; color: #000;" /></h5>
+        <h5><p:outputLabel value="#{userBean.propertyDTO.propertyName}" /></h5>
     </div>
 
     <div class="card">
@@ -114,8 +117,6 @@
                 <p:graphicImage value="resources/apartament.jpg"/>
             </f:facet>
 
-            <h:outputText value="Nombre:"/>
-            <h:outputText value="#{userBean.propertyDTO.propertyName}"/>
 
             <h:outputText value="Ciudad:"/>
             <h:outputText value="#{userBean.propertyDTO.propertyCity}"/>
@@ -186,12 +187,12 @@
         </div>
     </h:form>
 
-    <p:dialog id="dlgAgendarCita" header="Agendar Cita" widgetVar="dlgAgendarCita" resizable="false" modal="true">
+    <p:dialog id="dlgAgendarCita" header="Agendar Recurso" widgetVar="dlgAgendarCita" resizable="false" modal="true">
         <div class="centered">
             <!-- Card -->
             <h:form styleClass="form-container">
 
-                <h:messages id="message" showDetail="true" />
+                <p:messages id="messages3"  showDetail="true" />
                 <div class="form-field">
                     <p:outputLabel for="time" value="Fecha y hora de inicio" />
                     <div class="field col-12 md:col-4">
@@ -207,13 +208,6 @@
                 </div>
 
                 <div class="form-field">
-                    <p:outputLabel for="time" value="Precio total" />
-                    <div class="field col-12 md:col-4">
-                        <h:outputText value="#{userBean.resourceBookingDTO.bookingCost}" />
-                    </div>
-                </div>
-
-                <div class="form-field">
                     <p:outputLabel for="paymentComplete" value="Pagar reserva" />
                     <div class="field col-12 md:col-4">
                         <p:selectOneRadio id="paymentComplete" value="#{userBean.resourceBookingDTO.paymentComplete}" layout="lineDirection">
@@ -224,7 +218,7 @@
                 </div>
 
                 <!-- Botón para agendar cita -->
-                <p:commandButton id="btnAgendar" value="Agendar" action="#{userBean.saveResourceBooking}"  update="dlgAgendarCita" oncomplete="PF('dlgAgendarCita').show()" />
+                <p:commandButton id="btnAgendar" value="Agendar y calcular total" action="#{userBean.saveResourceBooking}"  />
             </h:form>
         </div>
     </p:dialog>

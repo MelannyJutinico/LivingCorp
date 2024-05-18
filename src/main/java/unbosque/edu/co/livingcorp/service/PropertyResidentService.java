@@ -131,15 +131,7 @@ public class PropertyResidentService implements Serializable {
     }
 
 
-    public List<ResourceBookingDTO> getBookings(WebUserDTO webUser){
-        List<ResourceBookingDTO> bookings = new ArrayList();
-        for(PropertyResident propertyResident : propertyResidentDAO.findAll()){
-            if (propertyResident.getUser().getUserName().equals(webUser.getUserName())){
-                propertyResident.getUser().getResourceBookings().forEach(booking -> bookings.add(modelMapper.map(booking, ResourceBookingDTO.class)));
-            }
-        }
-        return bookings;
-    }
+
 
 
 

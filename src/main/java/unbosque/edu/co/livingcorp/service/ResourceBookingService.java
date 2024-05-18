@@ -2,15 +2,20 @@ package unbosque.edu.co.livingcorp.service;
 
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.modelmapper.ModelMapper;
 import unbosque.edu.co.livingcorp.exception.InvalidMinTimeException;
 import unbosque.edu.co.livingcorp.model.dto.ResourceBookingDTO;
+import unbosque.edu.co.livingcorp.model.dto.WebUserDTO;
+import unbosque.edu.co.livingcorp.model.entity.Resource;
 import unbosque.edu.co.livingcorp.model.entity.ResourceBooking;
 import unbosque.edu.co.livingcorp.model.persistence.InterfaceDAO;
 
 import java.io.Serializable;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,12 +25,11 @@ public class ResourceBookingService implements Serializable {
     @Inject
     private InterfaceDAO<ResourceBooking, Integer> resourceBookingDAO;
     private final ModelMapper modelMapper = new ModelMapper();
+    private static final Logger logger = LogManager.getLogger(ResourceBookingService.class);
 
     public ResourceBookingDTO saveResourceBooking(ResourceBookingDTO resourceBookingDTO) {
-        return modelMapper
-                .map(resourceBookingDAO
-                        .save(modelMapper
-                                .map(resourceBookingDTO, ResourceBooking.class)),ResourceBookingDTO.class);
+        ResourceBooking resourceBooking = modelMapper.map(resourceBookingDTO, ResourceBooking.class);
+        return modelMapper.map(resourceBookingDAO.save(resourceBooking),ResourceBookingDTO.class);
     }
 
     public ResourceBookingDTO findResourceBookingById(Integer id) {
@@ -52,17 +56,27 @@ public class ResourceBookingService implements Serializable {
         return null;
     }
 
+    public List<ResourceBookingDTO> getBookingsByWebUser(WebUserDTO webUser){
+        List<ResourceBookingDTO> bookings = new ArrayList();
+        for(ResourceBooking resourceBooking : resourceBookingDAO.findAll()){
+            if(resourceBooking.getUserName().equals(webUser.getUserName())){
+                bookings.add(modelMapper.map(resourceBooking,ResourceBookingDTO.class));
+            }
+        }
+        return bookings;
+    }
+
 
     public double calculatePaymentAmount(ResourceBookingDTO resourceBookingDTO) throws InvalidMinTimeException {
-        if(Duration.between(resourceBookingDTO.getBookingStartDate(), resourceBookingDTO.getBookingEndDate()).toHours()< (resourceBookingDTO.getPropertyResourceDTO().getResourceMinTimeHrs())){
+        if(Duration.between(resourceBookingDTO.getBookingStartDate(), resourceBookingDTO.getBookingEndDate()).toHours()< (resourceBookingDTO.getPropertyResource().getResourceMinTimeHrs())){
             throw new InvalidMinTimeException("El tiempo solicitado es menor al tiempo minimo");
         }else{
-            return ((Duration
+            return (Duration
                     .between(resourceBookingDTO
                             .getBookingStartDate(), resourceBookingDTO
                             .getBookingEndDate())
-                    .toHours()))* resourceBookingDTO
-                    .getPropertyResourceDTO()
+                    .toHours()) * resourceBookingDTO
+                    .getPropertyResource()
                     .getResourceMinPrice();
         }
     }
