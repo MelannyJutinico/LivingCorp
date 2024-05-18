@@ -1,24 +1,25 @@
 package unbosque.edu.co.livingcorp.model.dto;
 
 import unbosque.edu.co.livingcorp.model.entity.ServiceProvider;
-import java.time.LocalDateTime;
+
+import java.util.Date;
 
 public class ServiceRFQDTO {
 
     private int rfqId;
-    private LocalDateTime rfqDateTime;
+    private Date rfqDateTime;
     private WebUserDTO user;
-    private PropertyDTO propertyId;
-    private ServiceProvider serviceProviderId;
+    private PropertyDTO property;
+    private ServiceProviderDTO serviceProvider;
     private String requestDescription;
 
 
-    public ServiceRFQDTO(int rfqId,LocalDateTime pRfqDateTime, WebUserDTO user, PropertyDTO pPropertyId, ServiceProvider pServiceId, String pRequestDescription) {
+    public ServiceRFQDTO(int rfqId,Date pRfqDateTime, WebUserDTO user, PropertyDTO pProperty, ServiceProviderDTO pService, String pRequestDescription) {
         this.rfqId = rfqId;
         this.rfqDateTime = pRfqDateTime;
         this.user = user;
-        this.propertyId = pPropertyId;
-        this.serviceProviderId = pServiceId;
+        this.property = pProperty;
+        this.serviceProvider = pService;
         this.requestDescription = pRequestDescription;
     }
 
@@ -32,11 +33,11 @@ public class ServiceRFQDTO {
         rfqId = pRfqId;
     }
 
-    public LocalDateTime getRfqDateTime() {
+    public Date getRfqDateTime() {
         return rfqDateTime;
     }
 
-    public void setRfqDateTime(LocalDateTime pRfqDateTime) {
+    public void setRfqDateTime(Date pRfqDateTime) {
         rfqDateTime = pRfqDateTime;
     }
 
@@ -48,20 +49,20 @@ public class ServiceRFQDTO {
         this.user = user;
     }
 
-    public PropertyDTO getPropertyId() {
-        return propertyId;
+    public PropertyDTO getProperty() {
+        return property;
     }
 
-    public void setPropertyId(PropertyDTO pPropertyId) {
-        propertyId = pPropertyId;
+    public void setProperty(PropertyDTO pProperty) {
+        property = pProperty;
     }
 
-    public ServiceProvider getServiceProviderId() {
-        return serviceProviderId;
+    public ServiceProviderDTO getServiceProvider() {
+        return serviceProvider;
     }
 
-    public void setServiceProviderId(ServiceProvider pServiceId) {
-        serviceProviderId = pServiceId;
+    public void setServiceProvider(ServiceProviderDTO pServiceId) {
+        serviceProvider = pServiceId;
     }
 
     public String getRequestDescription() {

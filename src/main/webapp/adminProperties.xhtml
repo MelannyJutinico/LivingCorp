@@ -20,11 +20,34 @@
                 width: 120px;
             }
         </style>
+        <link href="resources/indexStyle.css" rel="stylesheet" type="text/css"/>
     </h:head>
+
+    <div class="header">
+        <img src="resources/logo.png" alt="Logo" id="logo" />
+
+        <div class="card">
+            <h:form >
+                <p:growl id="messages3"/>
+
+                <p:menubar styleClass="centered">
+
+                    <p:submenu label="User" icon="pi pi-fw pi-user" >
+                        <p:menuitem value="Cerrar sesión" oncomplete="handleLoginSuccess()" type="button" action="#{indexBean.logout}" rendered="#{indexBean.authenticated}" styleClass="mr-2" />
+                        <p:menuitem value="Usuario" onclick="window.location.href='customerPropertiesPage.xhtml'" type="button"  rendered="#{indexBean.authenticated }" styleClass="mr-2" />
+                    </p:submenu>
+
+
+                    <p:divider layout="vertical"/>
+
+                </p:menubar>
+            </h:form>
+        </div>
+    </div>
 
     <body>
         <div class="ui-card">
-            <p:fieldset legend="Living Corp">
+            <p:fieldset >
                 <h:form id="formNavigability">
                     <p:card style="margin-bottom: 5px">
                         <p:button styleClass="mainMenu" style="margin-right:5px; background-color:#7b7b7b"
@@ -42,32 +65,185 @@
                         <p:toolbar>
                             <p:toolbarGroup>
                                 <p:commandButton styleClass="crudMenu" style="margin-right:5px; background-color:green" icon="pi pi-plus"
-                                                 value="Registrar">
-                                </p:commandButton>
-                                <p:commandButton styleClass="crudMenu" style="margin-right:5px; background-color:red" icon="pi pi-trash"
-                                                 value="Eliminar">
+                                                 value="Registrar" oncomplete="PF('createDialog').show()" update=":dialogs:create-property-content" actionListener="#{adminPropertiesBean.openNew}">
+                                    <p:resetInput target=":dialogs:create-property-content" />
                                 </p:commandButton>
                             </p:toolbarGroup>
                         </p:toolbar>
-                    </h:form>
-                    <h:form id="formTable">
-                        <p:dataTable id="tableProperties" var="varProperty"
-                                     value="#{adminPropertiesBean.properties}" rowKey="#{rowIndex}"
-                                     paginator="true" paginatorPosition="bottom" rows="5">
-                            <p:column style="text-align:center" selectionMode="single" />
-                            <p:column headerText="Id">
-                                <h:outputText value="#{varProperty.propertyId}"/>
+                        <p:dataTable id="dt-properties" widgetVar="dtProperties" var="property" value="#{adminPropertiesBean.properties}"
+                                     reflow="true" styleClass="properties-table"
+                                     rowKey="#{property.propertyId}" paginator="true" rows="10" rowSelectMode="add" paginatorPosition="bottom">
+                            <f:facet name="header">
+                                <div class="properties-table-header">
+                                    <span style="font-weight: bold">Properties</span>
+
+                                </div>
+                            </f:facet>
+
+
+                            <p:column headerText="Name" sortBy="#{property.propertyName}" filterBy="#{property.propertyName}">
+                                <h:outputText value="#{property.propertyName}" />
                             </p:column>
-                            <p:column headerText="Nombre">
-                                <h:outputText value="#{varProperty.propertyName}"/>
+                            <p:column headerText="City" sortBy="#{property.propertyCity}" filterBy="#{property.propertyCity}">
+                                <h:outputText value="#{property.propertyCity}" />
                             </p:column>
-                            <p:column style="text-align: center" headerText="Descripcion">
-                                <p:commandButton icon="pi pi-search" oncomplete="PF('descriptionDialog').show()" update=":formTable">
-                                    <f:setPropertyActionListener value="#{varProperty}" target="#{adminPropertiesBean.property}"/>
+                            <p:column headerText="Price" sortBy="#{property.propertyPrice}">
+                                <h:outputText value="#{property.propertyPrice}" style="font-weight: 700">
+                                    <f:convertNumber currencySymbol="$" type="currency" />
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="Adress" sortBy="#{property.propertyAddress}" filterBy="#{property.propertyAddress}">
+                                <h:outputText value="#{property.propertyAddress}" />
+                            </p:column>
+                            <p:column headerText="Number Rooms" sortBy="#{property.propertyRooms}">
+                                <h:outputText value="#{property.propertyRooms}" />
+                            </p:column>
+                            <p:column headerText="Number Bathrooms" sortBy="#{property.propertyBathrooms}">
+                                <h:outputText value="#{property.propertyBathrooms}" />
+                            </p:column>
+
+                            <p:column exportable="false">
+                                <p:commandButton icon="pi pi-pencil" update=":dialogs:manage-property-content"
+                                                 oncomplete="PF('manageDialog').show()"
+                                                 styleClass="edit-button rounded-button ui-button-success" process="@this">
+                                    <f:setPropertyActionListener value="#{property}" target="#{adminPropertiesBean.selectedProperty}" />
+                                    <p:resetInput target=":dialogs:manage-property-content" />
                                 </p:commandButton>
                             </p:column>
+
                         </p:dataTable>
                     </h:form>
+
+                    <h:form id="dialogs">
+                        <p:dialog header="Property Details" showEffect="fade" modal="true" widgetVar="manageDialog"
+                                  responsive="true">
+                            <p:outputPanel id="manage-property-content" class="ui-fluid">
+                                <p:messages id="messages2" showDetail="true" autoUpdate="true" closable="true" />
+                                <p:outputPanel rendered="#{not empty adminPropertiesBean.selectedProperty}">
+                                    <img alt="user header" class="product-image" src="resources/apartament.jpg"/>
+                                    <div class="field">
+                                        <p:outputLabel for="name">Name</p:outputLabel>
+                                        <p:inputText id="name" value="#{adminPropertiesBean.selectedProperty.propertyName}" required="true" />
+                                    </div>
+                                    <div class="field">
+                                        <p:outputLabel for="description">Description</p:outputLabel>
+                                        <p:inputTextarea id="description" value="#{adminPropertiesBean.selectedProperty.propertyDescription}" />
+                                    </div>
+                                    <div class="field">
+                                        <p:outputLabel for="city">City</p:outputLabel>
+                                        <p:selectOneRadio id="city" value="#{adminPropertiesBean.selectedProperty.propertyCity}"
+                                                          layout="responsive" columns="2">
+                                            <f:selectItem itemLabel="Los Angeles" itemValue="Los Angeles" />
+                                            <f:selectItem itemLabel="New York" itemValue="New York" />
+                                            <f:selectItem itemLabel="Miami" itemValue="Miami" />
+                                            <f:selectItem itemLabel="Toronto" itemValue="Toronto" />
+                                        </p:selectOneRadio>
+                                    </div>
+                                    <div class="formgrid grid">
+                                        <div class="field col">
+                                            <p:outputLabel for="price">Price</p:outputLabel>
+                                            <p:inputNumber id="price" value="#{adminPropertiesBean.selectedProperty.propertyPrice}" symbol=" COP"
+                                                           symbolPosition="s" decimalSeparator="." thousandSeparator="," />
+                                        </div>
+                                        <div class="field col">
+                                            <p:outputLabel for="Bathrooms">Number Bathrooms</p:outputLabel>
+                                            <p:spinner id="Bathrooms" min="1" max="5" value="#{adminPropertiesBean.selectedProperty.propertyBathrooms}" />
+                                        </div>
+                                        <div class="field col">
+                                            <p:outputLabel for="Rooms">Number Rooms</p:outputLabel>
+                                            <p:spinner id="Rooms" min="1" max="5" value="#{adminPropertiesBean.selectedProperty.propertyRooms}" />
+                                        </div>
+                                        <div class="field col">
+                                            <p:outputLabel for="sale">Is Avaliable For Sale</p:outputLabel>
+                                            <p:selectBooleanButton id="sale" onLabel="Yes" offLabel="No" value="#{adminPropertiesBean.selectedProperty.availableForSale}" style="width:6rem"/>
+                                        </div>
+                                    </div>
+                                </p:outputPanel>
+                            </p:outputPanel>
+
+                            <f:facet name="footer">
+                                <p:commandButton value="Save" icon="pi pi-check" actionListener="#{adminPropertiesBean.updateProperty}"
+                                                 update="manage-property-content" process="manage-property-content @this" />
+                                <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('manageDialog').hide()"
+                                                 class="ui-button-secondary" type="button" />
+                            </f:facet>
+                        </p:dialog>
+
+                        <p:dialog header="New Property" showEffect="fade" modal="true" widgetVar="createDialog"
+                                  responsive="true">
+                            <p:outputPanel id="create-property-content" class="ui-fluid">
+                                <p:outputPanel>
+                                    <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+
+                                    <div class="field">
+                                        <p:outputLabel for="name2">Name</p:outputLabel>
+                                        <p:inputText id="name2" value="#{adminPropertiesBean.newProperty.propertyName}" required="true" />
+                                    </div>
+                                    <div class="field">
+                                        <p:outputLabel for="adress">Adress</p:outputLabel>
+                                        <p:inputText id="adress" value="#{adminPropertiesBean.newProperty.propertyAddress}" required="true" />
+                                    </div>
+                                    <div class="field">
+                                        <p:outputLabel for="description2">Description</p:outputLabel>
+                                        <p:inputTextarea id="description2" value="#{adminPropertiesBean.newProperty.propertyDescription}" />
+                                    </div>
+                                    <div class="field col">
+                                        <p:outputLabel for="area">Area</p:outputLabel>
+                                        <p:inputNumber id="area" value="#{adminPropertiesBean.newProperty.propertyArea}"
+                                                       decimalSeparator="." thousandSeparator="," />
+                                    </div>
+
+                                    <div class="field">
+                                        <p:outputLabel for="city2">City</p:outputLabel>
+                                        <p:selectOneRadio id="city2" value="#{adminPropertiesBean.newProperty.propertyCity}"
+                                                          layout="responsive" columns="2">
+                                            <f:selectItem itemLabel="Los Angeles" itemValue="Los Angeles" />
+                                            <f:selectItem itemLabel="New York" itemValue="New York" />
+                                            <f:selectItem itemLabel="Miami" itemValue="Miami" />
+                                            <f:selectItem itemLabel="Toronto" itemValue="Toronto" />
+                                        </p:selectOneRadio>
+                                    </div>
+                                    <div class="formgrid grid">
+                                        <div class="field col">
+                                            <p:outputLabel for="price2">Price</p:outputLabel>
+                                            <p:inputNumber id="price2" value="#{adminPropertiesBean.newProperty.propertyPrice}" symbol=" COP"
+                                                           symbolPosition="s" decimalSeparator="." thousandSeparator="," />
+                                        </div>
+                                        <div class="field col">
+                                            <p:outputLabel for="Bathrooms2">Number Bathrooms</p:outputLabel>
+                                            <p:spinner id="Bathrooms2" min="1" max="5" value="#{adminPropertiesBean.newProperty.propertyBathrooms}" />
+                                        </div>
+                                        <div class="field col">
+                                            <p:outputLabel for="Rooms2">Number Rooms</p:outputLabel>
+                                            <p:spinner id="Rooms2" min="1" max="5" value="#{adminPropertiesBean.newProperty.propertyRooms}" />
+                                        </div>
+                                        <div class="field col">
+                                            <p:outputLabel for="sale2">Is Avaliable For Sale</p:outputLabel>
+                                            <p:selectBooleanButton id="sale2" onLabel="Yes" offLabel="No" value="#{adminPropertiesBean.newProperty.availableForSale}" style="width:6rem"/>
+                                        </div>
+                                        <div class="field col">
+                                            <p:outputLabel for="rent">Is Avaliable For Rent</p:outputLabel>
+                                            <p:selectBooleanButton id="rent" onLabel="Yes" offLabel="No" value="#{adminPropertiesBean.newProperty.availableForRent}" style="width:6rem"/>
+                                        </div>
+                                    </div>
+                                </p:outputPanel>
+                            </p:outputPanel>
+
+                            <f:facet name="footer">
+                                <p:commandButton value="Create" icon="pi pi-check" action="#{adminPropertiesBean.createProperty}"
+                                                 update="create-property-content" process="create-property-content @this" />
+                                <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('createDialog').hide()"
+                                                 class="ui-button-secondary" type="button" />
+                            </f:facet>
+                        </p:dialog>
+
+                        <p:confirmDialog global="true" showEffect="fade" width="300">
+                            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"
+                                             icon="pi pi-times" />
+                        </p:confirmDialog>
+                    </h:form>
+
                 </p:card>
             </p:fieldset>
         </div>

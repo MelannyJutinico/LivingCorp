@@ -7,6 +7,7 @@
 
     <h:head>
         <title>Administrador</title>
+        <link href="resources/indexStyle.css" rel="stylesheet" type="text/css"/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <style type="text/css">
             body {
@@ -22,75 +23,146 @@
         </style>
     </h:head>
 
-    <body>
+    <h:body>
+    <div class="header">
+        <img src="resources/logo.png" alt="Logo" id="logo" />
+
         <div class="card">
-            <h:form id="formAdminResource">
-                <p:fieldset legend="Living Corp">
-                    <p:card style="margin-bottom: 5px">
-                        <p:button styleClass="mainMenu" style="margin-right:5px; background-color:#7b7b7b"
-                                  value="Registrar Recursos" outcome="adminResources.xhtml" disabled="true"/>
-                        <p:button styleClass="mainMenu" style="margin-right:5px; background-color:#7b7b7b"
-                                  value="Registrar Propiedades" outcome="adminProperties.xhtml" disabled="false"/>
-                        <p:button styleClass="mainMenu" style="margin-right:5px; background-color:#7b7b7b"
-                                  value="Asignar Recursos" outcome="adminAssings.xhtml" disabled="false"/>
-                        <p:button styleClass="mainMenu" style="margin-right:5px; background-color:#7b7b7b"
-                                  value="Generar Reportes" outcome="adminReports.xhtml" disabled="false"/>
-                    </p:card>
-                    <p:card style="margin-bottom: 5px">
-                        <p:toolbar style="margin-bottom: 5px">
-                            <p:toolbarGroup>
-                                <p:commandButton styleClass="CrudMenu" style="margin-right:5px; background-color:green"
-                                                 value="Registrar" icon="pi pi-plus" onclick="PF('createDialog').show()">
-                                </p:commandButton>
-                                <p:commandButton styleClass="CrudMenu" style="margin-right:5px; background-color:red" value="Eliminar" icon="pi pi-trash">
-                                    <p:confirm header="Confirmation" icon="pi pi-exclamation-triangle" onclick="#{adminResourceBean.eliminateResource()}" message="Delete the selected products?"  />
-                                </p:commandButton>
-                            </p:toolbarGroup>
-                        </p:toolbar>
-                        <p:dataTable id="resourceTable" var="varResource"
-                                     value="#{adminResourcesBean.resources.toArray()}" rowKey="#{rowIndex}"
-                                     paginator="true" paginatorPosition="bottom" rows="10">
-                            <p:column style="text-align:center" selectionMode="single" />
-                            <p:column style="text-align:center" headerText="Id">
-                                <h:outputText value="#{varResource.resourceId}"/>
-                            </p:column>
-                            <p:column style="text-align:center" headerText="Tipo">
-                                <h:outputText value="#{varResource.resourceType}"/>
-                            </p:column>
-                            <p:column style="text-align: center" headerText="Descripcion">
-                                <p:commandButton icon="pi pi-search"
-                                                 update=":formAdminResource:productDescription" oncomplete="PF('descriptionDialog').show()">
-                                    <f:setPropertyActionListener value="#{varResource}" target="#{adminResourcesBean.resource}"/>
-                                </p:commandButton>
-                            </p:column>
-                        </p:dataTable>
-                    </p:card>
-                </p:fieldset>
-                <p:dialog header="Descripcion" widgetVar="descriptionDialog"
-                          modal="true" showEffect="fade" hideEffect="fade" resizable="false">
-                    <h:outputText id="productDescription" rendered="#{not empty adminResourcesBean.resource}"
-                                  value="#{adminResourcesBean.resource.resourceDescription}"/>
-                </p:dialog>
-                <p:dialog header="Formulario" widgetVar="createDialog"
-                          modal="true" showEffect="fade" hideEffect="fade" resizable="false">
-                    <p:panelGrid columns="1">
-                        <p:outputLabel style="margin-bottom: -100px; margin-top: -100px"
-                                       value="Tipo"/>
-                        <p:inputText style="margin-bottom: -100px; margin-top: -100px" placeholder="Tipo"
-                                      value="#{adminResourcesBean.resource.resourceType}" required="true"/>
-                        <p:outputLabel style="margin-bottom: -100px; margin-top: -100px"
-                                       value="Descripcion"/>
-                        <p:inputTextarea rows="3" cols="30" counter="display" maxlength="25"
-                                         counterTemplate="{0} characters remaining." autoResize="false"
-                                         value="#{adminResourcesBean.resource.resourceDescription}" required="true"/>
-                        <h:outputText style="margin-bottom: -100px; margin-top: -100px"
-                                      id="display" class="block" />
-                        <p:commandButton value="Confirmar"
-                                         action="#{adminResourceBean.registerResource()}"
-                                         update=":formAdminResource:resourceTable"/>
-                    </p:panelGrid>
-                </p:dialog>
+            <h:form >
+                <p:growl id="messages3"/>
+
+                <p:menubar styleClass="centered">
+
+                    <p:submenu label="User" icon="pi pi-fw pi-user" >
+                        <p:menuitem value="Cerrar sesión" oncomplete="handleLoginSuccess()" type="button" action="#{indexBean.logout}" rendered="#{indexBean.authenticated}" styleClass="mr-2" />
+                        <p:menuitem value="Usuario" onclick="window.location.href='customerPropertiesPage.xhtml'" type="button"  rendered="#{indexBean.authenticated }" styleClass="mr-2" />
+                    </p:submenu>
+
+
+                    <p:divider layout="vertical"/>
+
+                </p:menubar>
             </h:form>
         </div>
-    </body>
+    </div>
+
+    <div class="ui-card">
+        <p:fieldset >
+            <h:form id="formNavigability">
+                <p:card style="margin-bottom: 5px">
+                    <p:button styleClass="mainMenu" style="margin-right:5px; background-color:#7b7b7b"
+                              value="Registrar Recursos" outcome="adminResources.xhtml" disabled="true"/>
+                    <p:button styleClass="mainMenu" style="margin-right:5px; background-color:#7b7b7b"
+                              value="Registrar Propiedades" outcome="adminProperties.xhtml" disabled="false"/>
+                    <p:button styleClass="mainMenu" style="margin-right:5px; background-color:#7b7b7b"
+                              value="Asignar Recursos" outcome="adminAssings.xhtml" disabled="false"/>
+                    <p:button styleClass="mainMenu" style="margin-right:5px; background-color:#7b7b7b"
+                              value="Generar Reportes" outcome="adminReports.xhtml" disabled="false"/>
+                </p:card>
+            </h:form>
+            <p:card style="margin-bottom: 5px">
+                <h:form id="formCRUD">
+                    <p:toolbar>
+                        <p:toolbarGroup>
+                            <p:commandButton styleClass="crudMenu" style="margin-right:5px; background-color:green" icon="pi pi-plus"
+                                             value="Crear" oncomplete="PF('createDialog').show()" update=":dialogs:create-property-content" >
+                                <p:resetInput target=":dialogs:create-property-content" />
+                            </p:commandButton>
+                        </p:toolbarGroup>
+                    </p:toolbar>
+                    <p:dataTable id="dt-properties" widgetVar="dtProperties" var="resource" value="#{adminResourcesBean.resources}"
+                                 reflow="true" styleClass="properties-table"
+                                 rowKey="#{resource.resourceId}" paginator="true" rows="10" rowSelectMode="add" paginatorPosition="bottom">
+                        <f:facet name="header">
+                            <div class="properties-table-header">
+                                <span style="font-weight: bold">Resources</span>
+                            </div>
+                        </f:facet>
+
+
+                        <p:column headerText="ID" sortBy="#{resource.resourceId}" >
+                            <h:outputText value="#{resource.resourceId}" />
+                        </p:column>
+                        <p:column headerText="Type" sortBy="#{resource.resourceType}" filterBy="#{resource.resourceType}">
+                            <h:outputText value="#{resource.resourceType}" />
+                        </p:column>
+                        <p:column headerText="Description" sortBy="#{resource.resourceDescription}" filterBy="#{resource.resourceDescription}">
+                            <h:outputText value="#{resource.resourceDescription}" />
+                        </p:column>
+
+
+                        <p:column exportable="false">
+                            <p:commandButton icon="pi pi-pencil" update=":dialogs:manage-property-content"
+                                             oncomplete="PF('manageDialog').show()"
+                                             styleClass="edit-button rounded-button ui-button-success" process="@this">
+                                <f:setPropertyActionListener value="#{resource}" target="#{adminResourcesBean.selectedResource}" />
+                                <p:resetInput target=":dialogs:manage-property-content" />
+                            </p:commandButton>
+                        </p:column>
+
+                    </p:dataTable>
+                </h:form>
+
+                <h:form id="dialogs">
+                    <p:dialog header="Resource Update" showEffect="fade" modal="true" widgetVar="manageDialog"
+                              responsive="true">
+                        <p:outputPanel id="manage-property-content" class="ui-fluid">
+                            <p:messages id="messages2" showDetail="true" autoUpdate="true" closable="true" />
+                            <p:outputPanel rendered="#{not empty adminResourcesBean.selectedResource}">
+                                <img alt="user header" class="product-image" src="resources/apartament.jpg"/>
+                                <div class="field">
+                                    <p:outputLabel for="Type">Type</p:outputLabel>
+                                    <p:inputText id="Type" value="#{adminResourcesBean.selectedResource.resourceType}" required="true" />
+                                </div>
+                                <div class="field">
+                                    <p:outputLabel for="description">Description</p:outputLabel>
+                                    <p:inputTextarea id="description" value="#{adminResourcesBean.selectedResource.resourceDescription}" />
+                                </div>
+                            </p:outputPanel>
+                        </p:outputPanel>
+
+                        <f:facet name="footer">
+                            <p:commandButton value="Save" icon="pi pi-check" actionListener="#{adminResourcesBean.updateResource()}"
+                                             update="manage-property-content" process="manage-property-content @this" />
+                            <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('manageDialog').hide()"
+                                             class="ui-button-secondary" type="button" />
+                        </f:facet>
+                    </p:dialog>
+
+                    <p:dialog header="New Resource" showEffect="fade" modal="true" widgetVar="createDialog"
+                              responsive="true">
+                        <p:outputPanel id="create-property-content" class="ui-fluid">
+                            <p:outputPanel>
+                                <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+
+                                <div class="field">
+                                    <p:outputLabel for="name2">Type</p:outputLabel>
+                                    <p:inputText id="name2" value="#{adminResourcesBean.resource.resourceType}" required="true" />
+                                </div>
+                                <div class="field">
+                                    <p:outputLabel for="description2">Description</p:outputLabel>
+                                    <p:inputTextarea id="description2" value="#{adminResourcesBean.resource.resourceDescription}" />
+                                </div>
+                            </p:outputPanel>
+                        </p:outputPanel>
+
+                        <f:facet name="footer">
+                            <p:commandButton value="Create" icon="pi pi-check" action="#{adminResourcesBean.registerResource}"
+                                             update="create-property-content" process="create-property-content @this" />
+                            <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('createDialog').hide()"
+                                             class="ui-button-secondary" type="button" />
+                        </f:facet>
+                    </p:dialog>
+
+                    <p:confirmDialog global="true" showEffect="fade" width="300">
+                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"
+                                         icon="pi pi-times" />
+                    </p:confirmDialog>
+                </h:form>
+
+            </p:card>
+        </p:fieldset>
+    </div>
+    </h:body>
 </html>

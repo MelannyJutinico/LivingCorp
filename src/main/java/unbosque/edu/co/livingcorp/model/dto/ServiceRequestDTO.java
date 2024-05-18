@@ -1,24 +1,24 @@
 package unbosque.edu.co.livingcorp.model.dto;
 
-import java.time.LocalDateTime;
+
+import java.util.Date;
 
 public class ServiceRequestDTO {
 
     private int requestId;
-    private LocalDateTime requestDateTime;
+    private Date requestDateTime;
     private WebUserDTO user;
-    private PropertyDTO propertyId;
-    private ServiceProviderDTO serviceProviderId;
+    private PropertyDTO property;
+    private ServiceProviderDTO serviceProvider;
     private String requestDescription;
-    private LocalDateTime serviceDateTime;
+    private Date serviceDateTime;
 
-
-    public ServiceRequestDTO(int requestId, LocalDateTime requestDateTime, WebUserDTO user, PropertyDTO propertyId, ServiceProviderDTO serviceProviderId, String requestDescription, LocalDateTime serviceDateTime) {
+    public ServiceRequestDTO(int requestId, Date requestDateTime, WebUserDTO user, PropertyDTO property, ServiceProviderDTO serviceProvider, String requestDescription, Date serviceDateTime) {
         this.requestId = requestId;
         this.requestDateTime = requestDateTime;
         this.user = user;
-        this.propertyId = propertyId;
-        this.serviceProviderId = serviceProviderId;
+        this.property = property;
+        this.serviceProvider = serviceProvider;
         this.requestDescription = requestDescription;
         this.serviceDateTime = serviceDateTime;
     }
@@ -33,11 +33,11 @@ public class ServiceRequestDTO {
         requestId = pRequestId;
     }
 
-    public LocalDateTime getRequestDateTime() {
+    public Date getRequestDateTime() {
         return requestDateTime;
     }
 
-    public void setRequestDateTime(LocalDateTime pRequestDateTime) {
+    public void setRequestDateTime(Date pRequestDateTime) {
         requestDateTime = pRequestDateTime;
     }
 
@@ -49,20 +49,20 @@ public class ServiceRequestDTO {
         this.user = user;
     }
 
-    public PropertyDTO getPropertyId() {
-        return propertyId;
+    public PropertyDTO getProperty() {
+        return property;
     }
 
-    public void setPropertyId(PropertyDTO pPropertyId) {
-        propertyId = pPropertyId;
+    public void setProperty(PropertyDTO property) {
+        this.property = property;
     }
 
-    public ServiceProviderDTO getServiceProviderId() {
-        return serviceProviderId;
+    public ServiceProviderDTO getServiceProvider() {
+        return serviceProvider;
     }
 
-    public void setServiceProviderId(ServiceProviderDTO pServiceId) {
-        serviceProviderId = pServiceId;
+    public void setServiceProvider(ServiceProviderDTO serviceProvider) {
+        this.serviceProvider = serviceProvider;
     }
 
     public String getRequestDescription() {
@@ -73,11 +73,11 @@ public class ServiceRequestDTO {
         requestDescription = pRequestDescription;
     }
 
-    public LocalDateTime getServiceDateTime() {
+    public Date getServiceDateTime() {
         return serviceDateTime;
     }
 
-    public void setServiceDateTime(LocalDateTime pServiceDateTime) {
+    public void setServiceDateTime(Date pServiceDateTime) {
         serviceDateTime = pServiceDateTime;
     }
 
