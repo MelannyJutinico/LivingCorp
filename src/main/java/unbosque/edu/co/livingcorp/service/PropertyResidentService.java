@@ -1,8 +1,6 @@
 package unbosque.edu.co.livingcorp.service;
 
 import jakarta.ejb.Stateless;
-import jakarta.faces.application.FacesMessage;
-import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import org.modelmapper.ModelMapper;
 import unbosque.edu.co.livingcorp.model.dto.PropertyDTO;
@@ -16,6 +14,8 @@ import unbosque.edu.co.livingcorp.exception.ResidentCreateException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @Stateless
 public class PropertyResidentService implements Serializable {
@@ -30,11 +30,14 @@ public class PropertyResidentService implements Serializable {
     private InterfaceDAO <WebUser, String> userDAO;
 
     private final ModelMapper modelMapper = new ModelMapper();
+    private static final Logger logger = LogManager.getLogger(PropertyResidentService.class);
 
     public void createPropertyResident(PropertyResidentDTO propertyResident) throws ResidentCreateException {
         if (residentExists(propertyResident)) {
+            logger.info("Residente "+propertyResident.getUser().getUserName()+" ya existe");
             throw new ResidentCreateException("Residente ya relacionado con esa propiedad");
         }
+        logger.info("Creando residente "+propertyResident.getUser().getUserName());
         propertyResidentDAO.save(modelMapper.map(propertyResident, PropertyResident.class));
     }
 
@@ -55,11 +58,13 @@ public class PropertyResidentService implements Serializable {
         WebUser user = userDAO.findById(userDTO.getUserName());
         user.setResidentPropertyOwner(true);
         userDAO.update(user);
+        logger.info("Actualizando usuario a owner");
         WebUserDTO webUserDTO = modelMapper.map(user, WebUserDTO.class);
 
         Property property = propertyDAO.findById(propertyDTO.getPropertyId());
         property.setAvailableForSale(false);
         PropertyDTO propertyDTO1 = modelMapper.map(propertyDAO.update(property), PropertyDTO.class);
+        logger.info("Quitando disponibilidad de propiedad");
 
         residentDTO.setUser(webUserDTO);
         residentDTO.setProperty(propertyDTO1);
@@ -103,6 +108,19 @@ public class PropertyResidentService implements Serializable {
         }
 
     }
+
+    public ArrayList<PropertyDTO> getPropertiesByResident(WebUserDTO webUser){
+        ArrayList<PropertyDTO> properties = new ArrayList();
+        for(PropertyResident propertyResident : propertyResidentDAO.findAll()){
+            if (propertyResident.getUser().getUserName().equals(webUser.getUserName())){
+                properties.add(modelMapper.map(propertyResident.getProperty(), PropertyDTO.class));
+            }
+        }
+
+        return properties;
+    }
+
+
 
 
 }

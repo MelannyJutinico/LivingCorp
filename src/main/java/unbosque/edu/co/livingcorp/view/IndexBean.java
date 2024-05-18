@@ -83,7 +83,6 @@ public class IndexBean implements Serializable {
 
     public void logout() {
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-
     }
 
     public void login() {
