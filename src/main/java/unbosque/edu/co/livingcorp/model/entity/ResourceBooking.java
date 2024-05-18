@@ -12,8 +12,8 @@ public class ResourceBooking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "BOOKING_ID")
     private int bookingId;
-    @ManyToOne @JoinColumn(name = "USER_NAME")
-    private WebUser webUser;
+    @Column(name = "USER_NAME")
+    private String userName;
     @ManyToOne
     @JoinColumn(name = "PROP_RES_ID")
     private PropertyResource propertyResource;
@@ -29,8 +29,9 @@ public class ResourceBooking {
     private boolean paymentComplete;
 
 
-    public ResourceBooking(int bookingId, PropertyResource propertyResource, LocalDateTime bookingDateTime, LocalDateTime bookingStartDate, LocalDateTime bookingEndDate, double bookingCost, boolean paymentComplete) {
+    public ResourceBooking(int bookingId, String userName, PropertyResource propertyResource, LocalDateTime bookingDateTime, LocalDateTime bookingStartDate, LocalDateTime bookingEndDate, double bookingCost, boolean paymentComplete) {
         this.bookingId = bookingId;
+        this.userName = userName;
         this.propertyResource = propertyResource;
         this.bookingDateTime = bookingDateTime;
         this.bookingStartDate = bookingStartDate;
@@ -101,11 +102,25 @@ public class ResourceBooking {
         paymentComplete = pPaymentComplete;
     }
 
-    public WebUser getWebUser() {
-        return webUser;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setWebUser(WebUser webUser) {
-        this.webUser = webUser;
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    @Override
+    public String toString() {
+        return "ResourceBooking{" +
+                "bookingId=" + bookingId +
+                ", userName='" + userName + '\'' +
+                ", propertyResource=" + propertyResource +
+                ", bookingDateTime=" + bookingDateTime +
+                ", bookingStartDate=" + bookingStartDate +
+                ", bookingEndDate=" + bookingEndDate +
+                ", bookingCost=" + bookingCost +
+                ", paymentComplete=" + paymentComplete +
+                '}';
     }
 }

@@ -23,7 +23,7 @@
                         <p:menuitem value="Iniciar sesión o registrarte" type="button" onclick="PF('sidebar2').show()" rendered="#{not indexBean.authenticated}" styleClass="mr-2" />
                         <p:menuitem value="Cerrar sesión" oncomplete="handleLoginSuccess()" type="button" action="#{indexBean.logout}" rendered="#{indexBean.authenticated}" styleClass="mr-2" />
                         <p:menuitem value="Administrador"  onclick="window.location.href='adminProperties.xhtml'"  type="button"  rendered="#{indexBean.authenticated  and indexBean.webUser.propertyAdmin}" styleClass="mr-2" />
-                        <p:menuitem value="Usuario" onclick="window.location.href='customerPropertiesPage.xhtml'" type="button"  rendered="#{indexBean.authenticated }" styleClass="mr-2" />
+                        <p:menuitem value="Usuario" onclick="window.location.href='customerPropertiesPage.xhtml'"  type="button"  rendered="#{indexBean.authenticated }" styleClass="mr-2" />
                     </p:submenu>
 
 
@@ -276,8 +276,6 @@
         </p:sidebar>
 
 
-        <br><p:commandLink id="consultarSolicitudesRecursos" onclick="window.location.href='customerPropertiesPage.xhtml'" disabled="false"
-                           value="Vista Santiago"/></br>
 
     </div>
 </h:body>

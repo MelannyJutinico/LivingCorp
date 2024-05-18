@@ -14,85 +14,78 @@ public class ResourceBookingDTO{
         private boolean paymentComplete;
 
 
-
-    public ResourceBookingDTO(int bookingId,String pUserName, PropertyResourceDTO propertyResourceDTO, LocalDateTime pBookingDateTime, LocalDateTime pBookingStartDate, LocalDateTime pBookingEndDate, double pBookingCost, boolean pPaymentComplete) {
+    public ResourceBookingDTO(int bookingId, String userName, PropertyResourceDTO propertyResource, LocalDateTime bookingDateTime, LocalDateTime bookingStartDate, LocalDateTime bookingEndDate, double bookingCost, boolean paymentComplete) {
         this.bookingId = bookingId;
-        this.userName = pUserName;
-        this.propertyResource = propertyResourceDTO;
-        this.bookingDateTime = pBookingDateTime;
-        this.bookingStartDate = pBookingStartDate;
-        this.bookingEndDate = pBookingEndDate;
-        this.bookingCost = pBookingCost;
-        this.paymentComplete = pPaymentComplete;
+        this.userName = userName;
+        this.propertyResource = propertyResource;
+        this.bookingDateTime = bookingDateTime;
+        this.bookingStartDate = bookingStartDate;
+        this.bookingEndDate = bookingEndDate;
+        this.bookingCost = bookingCost;
+        this.paymentComplete = paymentComplete;
     }
 
-        public ResourceBookingDTO() {}
+    public ResourceBookingDTO() {}
 
-        public int getBookingId() {
-            return bookingId;
-        }
+    public int getBookingId() {
+        return bookingId;
+    }
 
-        public void setBookingId(int pBookingId) {
-            bookingId = pBookingId;
-        }
+    public void setBookingId(int bookingId) {
+        this.bookingId = bookingId;
+    }
 
-        public PropertyResourceDTO getPropertyResourceDTO() {
-            return propertyResourceDTO;
-        }
+    public String getUserName() {
+        return userName;
+    }
 
-        public void setUserName(String pUserName) {
-            userName = pUserName;
-        }
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
-        public PropertyResourceDTO getPropertyResource() {
-            return propertyResource;
-        }
+    public PropertyResourceDTO getPropertyResource() {
+        return propertyResource;
+    }
 
-        public void setPropertyResource(PropertyResourceDTO propertyResourceDTO) {
-            this.propertyResource = propertyResourceDTO;
+    public void setPropertyResource(PropertyResourceDTO propertyResource) {
+        this.propertyResource = propertyResource;
+    }
 
-        }
+    public LocalDateTime getBookingDateTime() {
+        return bookingDateTime;
+    }
 
-        public LocalDateTime getBookingDateTime() {
-            return bookingDateTime;
-        }
+    public void setBookingDateTime(LocalDateTime bookingDateTime) {
+        this.bookingDateTime = bookingDateTime;
+    }
 
-        public void setBookingDateTime(LocalDateTime pBookingDateTime) {
-            bookingDateTime = pBookingDateTime;
-        }
+    public LocalDateTime getBookingStartDate() {
+        return bookingStartDate;
+    }
 
-        public LocalDateTime getBookingStartDate() {
-            return bookingStartDate;
-        }
+    public void setBookingStartDate(LocalDateTime bookingStartDate) {
+        this.bookingStartDate = bookingStartDate;
+    }
 
-        public void setBookingStartDate(LocalDateTime pBookingStartDate) {
-            bookingStartDate = pBookingStartDate;
-        }
+    public LocalDateTime getBookingEndDate() {
+        return bookingEndDate;
+    }
 
-        public LocalDateTime getBookingEndDate() {
-            return bookingEndDate;
-        }
+    public void setBookingEndDate(LocalDateTime bookingEndDate) {
+        this.bookingEndDate = bookingEndDate;
+    }
 
-        public void setBookingEndDate(LocalDateTime pBookingEndDate) {
-            bookingEndDate = pBookingEndDate;
-        }
+    public double getBookingCost() {
+        return bookingCost;
+    }
 
-        public double getBookingCost() {
-            return bookingCost;
-        }
+    public void setBookingCost(double bookingCost) {
+        this.bookingCost = bookingCost;
+    }
 
-        public void setBookingCost(double pBookingCost) {
-            bookingCost = pBookingCost;
-        }
-
-        public boolean getPaymentComplete() {
-            return paymentComplete;
-        }
-
-        public void setPaymentComplete(boolean pPaymentComplete) {
-            paymentComplete = pPaymentComplete;
-        }
-
+    public void setPaymentComplete(boolean paymentComplete) {
+        this.paymentComplete = paymentComplete;
+    }
 
     public String toString() {
         return "ResourceBookingDTO{" +
@@ -106,7 +99,7 @@ public class ResourceBookingDTO{
                 ", paymentComplete=" + paymentComplete +
                 '}';
 
-   
+    }
 
     public boolean isPaymentComplete() {
         return paymentComplete;

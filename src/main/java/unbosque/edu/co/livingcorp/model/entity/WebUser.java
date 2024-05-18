@@ -29,8 +29,7 @@ public class WebUser {
     private List<Property> userProperties;
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<PropertyResident> propertyResidents;
-    @OneToMany(mappedBy = "webUser", fetch = FetchType. LAZY)
-    private List<ResourceBooking> resourceBookings;
+
 
 
 
@@ -118,11 +117,5 @@ public class WebUser {
         this.propertyResidents = propertyResidents;
     }
 
-    public List<ResourceBooking> getResourceBookings() {
-        return resourceBookings;
-    }
 
-    public void setResourceBookings(List<ResourceBooking> resourceBookings) {
-        this.resourceBookings = resourceBookings;
-    }
 }

@@ -36,7 +36,7 @@ public class BookingBean implements Serializable {
 
     public void getResidentBookings(){
         var webUserDTO = (WebUserDTO) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
-        resourceBookingDTOs = (ArrayList<ResourceBookingDTO>) propertyResidentService.getBookings(webUserDTO);
+        resourceBookingDTOs = (ArrayList<ResourceBookingDTO>) resourceBookingService.getBookingsByWebUser(webUserDTO);
     }
 
     public void cancelBooking(int id){
