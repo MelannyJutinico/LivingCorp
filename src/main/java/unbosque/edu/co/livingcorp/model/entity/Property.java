@@ -32,13 +32,15 @@ public class Property {
     private String  propertyDescription;
     @ManyToOne
     @JoinColumn(name = "PROPERTY_ADMIN", referencedColumnName = "USER_NAME")
-    private WebUser user;
+    private WebUser user; //Admin
     @Column(name = "IS_AVAILABLE_FOR_RENT")
     private boolean isAvailableForRent;
     @Column(name = "IS_AVAILABLE_FOR_SALE")
     private boolean isAvailableForSale;
     @OneToMany(mappedBy = "property", fetch = FetchType.LAZY)
     private List<PropertyResource> propertyResources;
+    @OneToMany(mappedBy = "property" , fetch = FetchType.LAZY)
+    private List<PropertyResident> propertyResidents;
 
     public Property(int propertyId, String propertyName, String propertyCity, String propertyAddress, int propertyArea, double propertyPrice, int propertyRooms, int propertyBathrooms, String propertyDescription, WebUser user, boolean isAvailableForRent, boolean isAvailableForSale) {
         this.propertyId = propertyId;
@@ -159,5 +161,13 @@ public class Property {
 
     public void setPropertyResources(List<PropertyResource> propertyResources) {
         this.propertyResources = propertyResources;
+    }
+
+    public List<PropertyResident> getPropertyResidents() {
+        return propertyResidents;
+    }
+
+    public void setPropertyResidents(List<PropertyResident> propertyResidents) {
+        this.propertyResidents = propertyResidents;
     }
 }

@@ -40,7 +40,7 @@
                                            value="Consultar inmuebles"/></br>
 
                         <br><p:commandLink id="consultarSolicitudesRecursos" onclick="window.location.href='customerResourcesRequestPage.xhtml'" disabled="false"
-                                           value="Consultar solicitudes de recursos"/></br>
+                                           value="Consultar solicitudes de recursos" /></br>
 
                         <br><p:commandLink id="consultarServicios" onclick="window.location.href='customerServicesPage.xhtml'" disabled="false"
                                            value="Consultar servicios"/></br>
@@ -73,7 +73,7 @@
 
     <div class="centered">
         <h:form>
-            <p:dataList value="#{userBean.userPropertiesDTO}" var="property">
+            <p:dataList value="#{userBean.residentPropertiesDTO}" var="property">
                 <p:card style="width: 25em">
                     <f:facet name="header">
                         <img alt="user header" src="resources/apartament.jpg"/>

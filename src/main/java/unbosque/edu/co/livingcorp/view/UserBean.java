@@ -2,18 +2,22 @@ package unbosque.edu.co.livingcorp.view;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import unbosque.edu.co.livingcorp.exception.InvalidMinTimeException;
 import unbosque.edu.co.livingcorp.model.dto.PropertyDTO;
 import unbosque.edu.co.livingcorp.model.dto.PropertyResourceDTO;
 import unbosque.edu.co.livingcorp.model.dto.ResourceBookingDTO;
 import unbosque.edu.co.livingcorp.model.dto.WebUserDTO;
 import unbosque.edu.co.livingcorp.service.PropertyManagementService;
+import unbosque.edu.co.livingcorp.service.PropertyResidentService;
 import unbosque.edu.co.livingcorp.service.ResourceBookingService;
 import unbosque.edu.co.livingcorp.service.UserService;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 @Named(value="userBean")
@@ -26,12 +30,13 @@ public class UserBean implements Serializable {
     private PropertyManagementService propertyManagementService;
     @Inject
     private ResourceBookingService resourceBookingService;
+    @Inject
+    private PropertyResidentService propertyResidentService;
     private ArrayList<PropertyDTO> userPropertiesDTO;
     private PropertyDTO propertyDTO;
     private ArrayList<PropertyResourceDTO> propertyResourcesDTO;
     private ResourceBookingDTO resourceBookingDTO;
-    private ArrayList<ResourceBookingDTO> resourceBookingsDTO;
-
+    private ArrayList<PropertyDTO> residentPropertiesDTO;
 
     @PostConstruct
     public void init() {
@@ -39,14 +44,19 @@ public class UserBean implements Serializable {
         propertyDTO = new PropertyDTO();
         propertyResourcesDTO = new ArrayList<>();
         resourceBookingDTO = new ResourceBookingDTO();
-        resourceBookingsDTO = new ArrayList<>();
-        getUserProperties();
+        residentPropertiesDTO = new ArrayList<>();
+        getResidentProperties();
     }
 
 
     public void getUserProperties() {
         var webUserDTO = (WebUserDTO) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
         userPropertiesDTO = (ArrayList<PropertyDTO>) userService.getUserProperties(webUserDTO);
+    }
+
+    public void getResidentProperties(){
+        var webUserDTO = (WebUserDTO) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
+        residentPropertiesDTO = propertyResidentService.getPropertiesByResident(webUserDTO);
     }
 
     public String checkPropertyDetails(Integer id) {
@@ -66,8 +76,21 @@ public class UserBean implements Serializable {
     public void saveResourceBooking(){
         var propertyResourceDTO = (PropertyResourceDTO) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("propertyResourceDTO");
         var webUserDTO = (WebUserDTO) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
-    }
+        resourceBookingDTO.setPropertyResourceDTO(propertyResourceDTO);
+        resourceBookingDTO.setWebUserDTO(webUserDTO);
+        resourceBookingDTO.setBookingDateTime(LocalDateTime.now());
+        boolean paymentComplete = resourceBookingDTO.isPaymentComplete();
 
+        try {
+            resourceBookingDTO.setPaymentComplete(paymentComplete);
+            resourceBookingDTO.setBookingCost(resourceBookingService.calculatePaymentAmount(resourceBookingDTO));resourceBookingDTO.setPaymentComplete(false);
+            resourceBookingService.saveResourceBooking(resourceBookingDTO);
+        } catch (InvalidMinTimeException e) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Fecha invalida: ", e.getMessage());
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        }
+
+    }
 
     public UserService getUserService() {
         return userService;
@@ -125,11 +148,22 @@ public class UserBean implements Serializable {
         this.resourceBookingDTO = resourceBookingDTO;
     }
 
-    public ArrayList<ResourceBookingDTO> getResourceBookingsDTO() {
-        return resourceBookingsDTO;
+    public PropertyResidentService getPropertyResidentService() {
+        return propertyResidentService;
     }
 
-    public void setResourceBookingsDTO(ArrayList<ResourceBookingDTO> resourceBookingsDTO) {
-        this.resourceBookingsDTO = resourceBookingsDTO;
+    public void setPropertyResidentService(PropertyResidentService propertyResidentService) {
+        this.propertyResidentService = propertyResidentService;
     }
+
+    public ArrayList<PropertyDTO> getResidentPropertiesDTO() {
+        return residentPropertiesDTO;
+    }
+
+    public void setResidentPropertiesDTO(ArrayList<PropertyDTO> residentPropertiesDTO) {
+        this.residentPropertiesDTO = residentPropertiesDTO;
+    }
+
+
+
 }

@@ -5,6 +5,7 @@ import jakarta.inject.Inject;
 import org.modelmapper.ModelMapper;
 import unbosque.edu.co.livingcorp.model.dto.PropertyDTO;
 import unbosque.edu.co.livingcorp.model.dto.PropertyResidentDTO;
+import unbosque.edu.co.livingcorp.model.dto.ResourceBookingDTO;
 import unbosque.edu.co.livingcorp.model.dto.WebUserDTO;
 import unbosque.edu.co.livingcorp.model.entity.Property;
 import unbosque.edu.co.livingcorp.model.entity.PropertyResident;
@@ -129,6 +130,16 @@ public class PropertyResidentService implements Serializable {
                 .collect(Collectors.toList());
     }
 
+
+    public List<ResourceBookingDTO> getBookings(WebUserDTO webUser){
+        List<ResourceBookingDTO> bookings = new ArrayList();
+        for(PropertyResident propertyResident : propertyResidentDAO.findAll()){
+            if (propertyResident.getUser().getUserName().equals(webUser.getUserName())){
+                propertyResident.getUser().getResourceBookings().forEach(booking -> bookings.add(modelMapper.map(booking, ResourceBookingDTO.class)));
+            }
+        }
+        return bookings;
+    }
 
 
 

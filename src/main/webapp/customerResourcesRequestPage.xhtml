@@ -42,7 +42,7 @@
                                            value="Consultar solicitudes de recursos"/></br>
 
                         <br><p:commandLink id="consultarServicios" onclick="window.location.href='customerServicesPage.xhtml'" disabled="false"
-                                           value="Consultar servicios"/></br>
+                                           value="Consultar servicios"  /></br>
 
                     </h:form>
                 </div>
@@ -72,27 +72,28 @@
     </div>
 
     <div class="centered">
-
         <h:form>
-            <p:card style="width: 25em">
-                <f:facet name="header">
-                    <img alt="user header" src="resources/ResourceRequest.jpg"/>
-                </f:facet>
-                <f:facet name="title">
-                    Advanced Card
-                </f:facet>
-                <f:facet name="subtitle">
-                    Card subtitle
-                </f:facet>
+            <p:dataList id="booking" value="#{bookingBean.resourceBookingDTOs}" var="booking">
+                <p:card style="width: 25em">
+                    <f:facet name="header">
+                        <img alt="user header" src="resources/ResourceRequest.jpg"/>
+                    </f:facet>
+                    <f:facet name="title">
+                        <h:outputText value="#{booking.bookingCost}" />
+                    </f:facet>
+                    <f:facet name="subtitle">
+                        Card subtitle
+                    </f:facet>
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt
-                    quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque quas!</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt
+                        quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque quas!</p>
 
-                <f:facet name="footer">
-                    <br><p:commandLink value="Cancelar"/></br>
-                </f:facet>
-            </p:card>
-
+                    <f:facet name="footer">
+                        <br/><p:commandButton type="Submit" id="cancelar"
+                                              value="Cancelar" action="#{bookingBean.cancelBooking(booking.bookingId)}" update="booking"/>
+                    </f:facet>
+                </p:card>
+            </p:dataList>
         </h:form>
     </div>
 

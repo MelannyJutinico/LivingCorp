@@ -36,8 +36,8 @@ public class ResourceBookingDTO{
             bookingId = pBookingId;
         }
 
-        public String getUserName() {
-            return userName;
+        public PropertyResourceDTO getPropertyResourceDTO() {
+            return propertyResourceDTO;
         }
 
         public void setUserName(String pUserName) {
@@ -50,6 +50,7 @@ public class ResourceBookingDTO{
 
         public void setPropertyResource(PropertyResourceDTO propertyResourceDTO) {
             this.propertyResource = propertyResourceDTO;
+
         }
 
         public LocalDateTime getBookingDateTime() {
@@ -92,7 +93,7 @@ public class ResourceBookingDTO{
             paymentComplete = pPaymentComplete;
         }
 
-    @Override
+
     public String toString() {
         return "ResourceBookingDTO{" +
                 "bookingId=" + bookingId +
@@ -104,5 +105,10 @@ public class ResourceBookingDTO{
                 ", bookingCost=" + bookingCost +
                 ", paymentComplete=" + paymentComplete +
                 '}';
+
+   
+
+    public boolean isPaymentComplete() {
+        return paymentComplete;
     }
 }

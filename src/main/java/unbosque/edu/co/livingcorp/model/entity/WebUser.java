@@ -27,6 +27,11 @@ public class WebUser {
     private boolean isResidentPropertyOwner;
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Property> userProperties;
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<PropertyResident> propertyResidents;
+    @OneToMany(mappedBy = "webUser", fetch = FetchType. LAZY)
+    private List<ResourceBooking> resourceBookings;
+
 
 
     public WebUser(String userName, String email, String password, LocalDateTime lastLogin, boolean isBlocked, boolean isPropertyAdmin, boolean isResidentPropertyOwner){
@@ -103,5 +108,21 @@ public class WebUser {
 
     public void setUserProperties(List<Property> userProperties) {
         this.userProperties = userProperties;
+    }
+
+    public List<PropertyResident> getPropertyResidents() {
+        return propertyResidents;
+    }
+
+    public void setPropertyResidents(List<PropertyResident> propertyResidents) {
+        this.propertyResidents = propertyResidents;
+    }
+
+    public List<ResourceBooking> getResourceBookings() {
+        return resourceBookings;
+    }
+
+    public void setResourceBookings(List<ResourceBooking> resourceBookings) {
+        this.resourceBookings = resourceBookings;
     }
 }
