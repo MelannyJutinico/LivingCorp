@@ -33,8 +33,8 @@
                 <p:menubar styleClass="centered">
 
                     <p:submenu label="User" icon="pi pi-fw pi-user" >
-                        <p:menuitem value="Cerrar sesión" oncomplete="handleLoginSuccess()" type="button" action="#{indexBean.logout}" rendered="#{indexBean.authenticated}" styleClass="mr-2" />
-                        <p:menuitem value="Usuario" onclick="window.location.href='customerPropertiesPage.xhtml'" type="button"  rendered="#{indexBean.authenticated }" styleClass="mr-2" />
+                        <p:menuitem value="Cerrar sesión" oncomplete="handleLoginSuccess()" type="button" action="#{adminPropertiesBean.logout}" styleClass="mr-2" />
+                        <p:menuitem value="Usuario" onclick="window.location.href='customerPropertiesPage.xhtml'" type="button"  styleClass="mr-2" />
                     </p:submenu>
 
 

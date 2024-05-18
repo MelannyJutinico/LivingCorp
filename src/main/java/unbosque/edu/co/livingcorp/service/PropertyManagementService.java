@@ -37,7 +37,7 @@ public class PropertyManagementService implements Serializable {
 
     private static final Logger logger = LogManager.getLogger(PropertyManagementService.class);
 
-    public void createProperty(PropertyDTO propertyDTO) throws PropertyCreateException, NoSuchAlgorithmException {
+    public void createProperty(PropertyDTO propertyDTO, WebUserDTO webUser) throws PropertyCreateException, NoSuchAlgorithmException {
         Optional<PropertyDTO> existingProperty = getPropertyByNameAndCity(propertyDTO.getPropertyName(), propertyDTO.getPropertyCity());
         logger.info("Comprobando si la propiedad ya existe en la ciudad...");
         if (existingProperty.isPresent()) {
@@ -45,10 +45,7 @@ public class PropertyManagementService implements Serializable {
             throw new PropertyCreateException("Ya existe una propiedad con ese nombre en esa ciudad");
         }
 
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        ExternalContext externalContext = facesContext.getExternalContext();
-        Map<String, Object> sessionMap = externalContext.getSessionMap();
-        WebUserDTO webUser = (WebUserDTO) sessionMap.get("user");
+
 
         propertyDTO.setUser(webUser);
         propertyDAO.save(modelMapper.map(propertyDTO, Property.class));
@@ -96,6 +93,15 @@ public class PropertyManagementService implements Serializable {
         return Optional.empty();
     }
 
+    public PropertyDTO getPropertyByName(String name) {
+        for (Property property : propertyDAO.findAll()) {
+            if (property.getPropertyName().equals(name)) {
+                return modelMapper.map(property, PropertyDTO.class);
+            }
+        }
+        return null;
+    }
+
 
     public ArrayList<PropertyDTO> listProperties(){
         logger.info("Listando propiedades...");
@@ -119,6 +125,16 @@ public class PropertyManagementService implements Serializable {
         return cities;
     }
 
+    public ArrayList<String> getNameProperties(WebUserDTO admin){
+        logger.info("Obteniendo nombres de las propiedades...");
+        ArrayList<String> names = new ArrayList<>();
+        for(Property property : propertyDAO.findAll()){
+            if(property.getUser().getUserName().equals(admin.getUserName())){
+                names.add(property.getPropertyName());
+            }
+        }
+        return names;
+    }
     public ArrayList<String> getNameProperties(){
         logger.info("Obteniendo nombres de las propiedades...");
         ArrayList<String> names = new ArrayList<>();
@@ -152,12 +168,18 @@ public class PropertyManagementService implements Serializable {
     }
 
 
-    public PropertyResourceDTO getPropertyResourceById(Integer id){
-        return modelMapper.map(propertyResourceDAO.findById(id), PropertyResourceDTO.class);
+
+
+
+    public ArrayList<PropertyDTO> getPropertiesByAdmin(WebUserDTO admin){
+        ArrayList<PropertyDTO> properties = new ArrayList<>();
+        for(Property property : propertyDAO.findAll()){
+            if(property.getUser().getUserName().equals(admin.getUserName())){
+                properties.add(modelMapper.map(property, PropertyDTO.class));
+            }
+        }
+        return properties;
     }
-
-
-
 
 
 

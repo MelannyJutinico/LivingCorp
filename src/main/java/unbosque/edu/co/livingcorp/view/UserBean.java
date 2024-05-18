@@ -61,10 +61,7 @@ public class UserBean implements Serializable {
         return propertyResourcesDTO;
     }
 
-    public void capturePropertyResource(int id){
-        var PropertyResourceDTO = propertyManagementService.getPropertyResourceById(id);
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("propertyResourceDTO",PropertyResourceDTO);
-    }
+
 
     public void saveResourceBooking(){
         var propertyResourceDTO = (PropertyResourceDTO) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("propertyResourceDTO");

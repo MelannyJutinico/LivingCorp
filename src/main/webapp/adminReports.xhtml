@@ -8,6 +8,7 @@
     <h:head>
         <title>Administrador</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <link href="resources/indexStyle.css" rel="stylesheet" type="text/css"/>
         <style type="text/css">
             body {
                 height: 100vh;
@@ -23,6 +24,27 @@
     </h:head>
 
     <body>
+    <div class="header">
+        <img src="resources/logo.png" alt="Logo" id="logo" />
+
+        <div class="card">
+            <h:form >
+                <p:growl id="messages3"/>
+
+                <p:menubar styleClass="centered">
+
+                    <p:submenu label="User" icon="pi pi-fw pi-user" >
+                        <p:menuitem value="Cerrar sesión" oncomplete="handleLoginSuccess()" type="button" action="#{adminResourcesBean.logout}" styleClass="mr-2" />
+                        <p:menuitem value="Usuario" onclick="window.location.href='customerPropertiesPage.xhtml'" type="button"   styleClass="mr-2" />
+                    </p:submenu>
+
+
+                    <p:divider layout="vertical"/>
+
+                </p:menubar>
+            </h:form>
+        </div>
+    </div>
     <div class="ui-card">
         <p:fieldset legend="Living Corp">
             <h:form id="formNavigability">
@@ -37,20 +59,89 @@
                               value="Generar Reportes" outcome="adminReports.xhtml" disabled="true"/>
                 </p:card>
             </h:form>
-            <p:card style="margin-bottom: 5px">
-                <h:form id="formCRUD">
-                    <p:toolbar>
-                        <p:toolbarGroup>
-                            <p:commandButton styleClass="crudMenu" style="margin-right:5px; background-color:green" icon="pi pi-plus"
-                                             value="Registrar">
-                            </p:commandButton>
-                            <p:commandButton styleClass="crudMenu" style="margin-right:5px; background-color:red" icon="pi pi-trash"
-                                             value="Eliminar">
-                            </p:commandButton>
-                        </p:toolbarGroup>
-                    </p:toolbar>
+
+            <div class="container">
+                <h5 class="first">Residents By Property</h5>
+
+                <h:form id="formCard">
+                    <p:commandButton value="PDF" styleClass="mr-2 mb-2" >
+                        <p:dataExporter  type="pdf" target="propertyTable" fileName="residentByProperty"/>
+                    </p:commandButton>
+                    <p:dataTable id="propertyTable" var="residentProperty" value="#{adminReportsBean.propertyResidents}" sortBy="#{residentProperty.property.propertyName}">
+
+                        <p:headerRow field="property.propertyName"
+                                     expandable="true">
+
+                            <p:column colspan="6">
+                                <div class="inline-flex align-items-center" style="vertical-align: middle">
+                                    <h:outputText styleClass="ml-2" value="#{residentProperty.property.propertyName}"/>
+                                </div>
+                            </p:column>
+                        </p:headerRow>
+
+                        <p:column headerText="Resident Name">
+                            <h:outputText value="#{residentProperty.user.userName}" />
+                        </p:column>
+                        <p:column headerText="Resident Mail">
+                            <h:outputText value="#{residentProperty.user.userEmail}" />
+                        </p:column>
+                        <p:column headerText="Is Owner">
+                            <h:outputText value="#{residentProperty.owner}" />
+                        </p:column>
+
+                        <p:summaryRow>
+                            <p:column colspan="5" style="text-align:right">
+                                <h:outputText value="Total residents:"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{adminReportsBean.getTotalCountResidents(residentProperty.property.propertyName)}"/>
+                            </p:column>
+                        </p:summaryRow>
+                    </p:dataTable>
                 </h:form>
-            </p:card>
+            </div>
+            <div class="container">
+                <h5 class="first">Bookings By Resources</h5>
+                <h:form id="formBooking">
+                    <p:commandButton value="PDF" styleClass="mr-2 mb-2" >
+                        <p:dataExporter  type="pdf" target="resourcesTable" fileName="bookingsByResource"/>
+                    </p:commandButton>
+                    <p:dataTable id="resourcesTable" var="resourceBooking" value="#{adminReportsBean.resourceBookings}" sortBy="#{resourceBooking.propertyResource.resource.resourceType}">
+
+                        <p:headerRow field="propertyResource.resource.resourceType"
+                                     expandable="true">
+
+                            <p:column colspan="6">
+                                <div class="inline-flex align-items-center" style="vertical-align: middle">
+                                    <h:outputText styleClass="ml-2" value="#{resourceBooking.propertyResource.resource.resourceType}"/>
+                                </div>
+                            </p:column>
+                        </p:headerRow>
+
+                        <p:column headerText="Booking Username">
+                            <h:outputText value="#{resourceBooking.userName}" />
+                        </p:column>
+                        <p:column headerText="StarDate">
+                            <h:outputText value="#{resourceBooking.bookingStartDate}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" type="localDate"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="EndDate">
+                            <h:outputText value="#{resourceBooking.bookingEndDate}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" type="localDate"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:summaryRow>
+                            <p:column colspan="5" style="text-align:right">
+                                <h:outputText value="Total bookings:"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{adminReportsBean.getTotalCountBookings(resourceBooking.propertyResource.resource.resourceType)}"/>
+                            </p:column>
+                        </p:summaryRow>
+                    </p:dataTable>
+                </h:form>
+            </div>
         </p:fieldset>
     </div>
     </body>

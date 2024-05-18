@@ -6,7 +6,7 @@ public class ResourceBookingDTO{
 
         private int bookingId;
         private String userName;
-        private PropertyResourceDTO propertyResourceIdDTO;
+        private PropertyResourceDTO propertyResource;
         private LocalDateTime bookingDateTime;
         private LocalDateTime bookingStartDate;
         private LocalDateTime bookingEndDate;
@@ -15,10 +15,10 @@ public class ResourceBookingDTO{
 
 
 
-    public ResourceBookingDTO(int bookingId,String pUserName, PropertyResourceDTO propertyResourceIdDTO, LocalDateTime pBookingDateTime, LocalDateTime pBookingStartDate, LocalDateTime pBookingEndDate, double pBookingCost, boolean pPaymentComplete) {
+    public ResourceBookingDTO(int bookingId,String pUserName, PropertyResourceDTO propertyResourceDTO, LocalDateTime pBookingDateTime, LocalDateTime pBookingStartDate, LocalDateTime pBookingEndDate, double pBookingCost, boolean pPaymentComplete) {
         this.bookingId = bookingId;
         this.userName = pUserName;
-        this.propertyResourceIdDTO = propertyResourceIdDTO;
+        this.propertyResource = propertyResourceDTO;
         this.bookingDateTime = pBookingDateTime;
         this.bookingStartDate = pBookingStartDate;
         this.bookingEndDate = pBookingEndDate;
@@ -44,12 +44,12 @@ public class ResourceBookingDTO{
             userName = pUserName;
         }
 
-        public PropertyResourceDTO getPropertyResourceIdDTO() {
-            return propertyResourceIdDTO;
+        public PropertyResourceDTO getPropertyResource() {
+            return propertyResource;
         }
 
-        public void setPropertyResourceIdDTO(PropertyResourceDTO pPropertyResidentId) {
-            propertyResourceIdDTO = pPropertyResidentId;
+        public void setPropertyResource(PropertyResourceDTO propertyResourceDTO) {
+            this.propertyResource = propertyResourceDTO;
         }
 
         public LocalDateTime getBookingDateTime() {
@@ -92,4 +92,17 @@ public class ResourceBookingDTO{
             paymentComplete = pPaymentComplete;
         }
 
+    @Override
+    public String toString() {
+        return "ResourceBookingDTO{" +
+                "bookingId=" + bookingId +
+                ", userName='" + userName + '\'' +
+                ", propertyResourceDTO=" + propertyResource +
+                ", bookingDateTime=" + bookingDateTime +
+                ", bookingStartDate=" + bookingStartDate +
+                ", bookingEndDate=" + bookingEndDate +
+                ", bookingCost=" + bookingCost +
+                ", paymentComplete=" + paymentComplete +
+                '}';
+    }
 }

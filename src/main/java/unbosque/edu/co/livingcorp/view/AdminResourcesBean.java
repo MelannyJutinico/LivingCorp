@@ -44,10 +44,16 @@ public class AdminResourcesBean implements Serializable {
         listResources();
         try {
             resourceManagementService.registerResource(resource);
+            listResources();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Resource Created", "Resource created successfully"));
         } catch (ResourceCreateException e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Resource Not Created", e.getMessage()));
         }
+    }
+
+    public String logout() {
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        return "/index.xhtml?faces-redirect=true";
     }
 
     public void updateResource() {
