@@ -8,6 +8,7 @@
     <h:head>
         <title>Administrador</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <link href="resources/indexStyle.css" rel="stylesheet" type="text/css"/>
         <style type="text/css">
             body {
                 height: 100vh;
@@ -23,6 +24,29 @@
     </h:head>
 
     <body>
+    <div class="header">
+        <img src="resources/logo.png" alt="Logo" id="logo" />
+
+        <div class="card">
+            <h:form >
+                <p:growl id="messages3"/>
+
+                <p:menubar styleClass="centered">
+
+                    <p:submenu label="User" icon="pi pi-fw pi-user" >
+                        <p:menuitem value="Cerrar sesión" oncomplete="handleLoginSuccess()" type="button" action="#{adminResourcesBean.logout}" styleClass="mr-2" />
+                        <p:menuitem value="Usuario" onclick="window.location.href='customerPropertiesPage.xhtml'" type="button"   styleClass="mr-2" />
+                    </p:submenu>
+
+
+                    <p:divider layout="vertical"/>
+
+                </p:menubar>
+            </h:form>
+        </div>
+    </div>
+
+
         <div class="ui-card">
             <p:fieldset legend="Living Corp">
                 <h:form id="formNavigability">
@@ -37,21 +61,95 @@
                                   value="Generar Reportes" outcome="adminReports.xhtml" disabled="false"/>
                     </p:card>
                 </h:form>
-                <p:card style="margin-bottom: 5px">
-                    <h:form id="formCRUD">
-                        <p:toolbar>
-                            <p:toolbarGroup>
-                                <p:commandButton styleClass="crudMenu" style="margin-right:5px; background-color:green" icon="pi pi-plus"
-                                                 value="Registrar">
-                                </p:commandButton>
-                                <p:commandButton styleClass="crudMenu" style="margin-right:5px; background-color:red" icon="pi pi-trash"
-                                                 value="Eliminar">
-                                </p:commandButton>
-                            </p:toolbarGroup>
-                        </p:toolbar>
+
+
+                <div class="container">
+                <div class="filter-container card">
+                    <div class="card">
+                        <h:form>
+                            <p:messages id="messages2" showDetail="true" autoUpdate="true" closable="true" />
+                            <div class="filter-group">
+                                <p:outputLabel value="Project Name" for="name" styleClass="filter-label"/>
+                                <p:autoComplete id="name" dropdown="true" value="#{adminAssingsBean.nameProperty}"
+                                                completeMethod="#{adminAssingsBean.suggestName}" scrollHeight="250"
+                                                styleClass="filter-input long" />
+                            </div>
+                            <div class="filter-group">
+                                <p:outputLabel value="Resource" for="resource" styleClass="filter-label"/>
+                                <p:autoComplete id="resource" dropdown="true" value="#{adminAssingsBean.resource}"
+                                                completeMethod="#{adminAssingsBean.getResourcesType}" scrollHeight="250"
+                                                styleClass="filter-input"/>
+                            </div>
+                            <div class="filter-group">
+                                <p:outputLabel styleClass="filter-label" for="price">Resource Min Price</p:outputLabel>
+                                <p:inputNumber id="price" value="#{adminAssingsBean.propertyResource.resourceMinPrice}" symbol=" COP"
+                                               symbolPosition="s" decimalSeparator="." thousandSeparator="," />
+                            </div>
+                            <div class="filter-group">
+                                <p:outputLabel styleClass="filter-label" for="mintime">Resource min time in hours</p:outputLabel>
+                                <p:spinner id="mintime" min="1" max="24" value="#{adminAssingsBean.propertyResource.resourceMinTimeHrs}" />
+                            </div>
+                            <div class="filter-group">
+                                <p:outputLabel  styleClass="filter-label" for="avaliable">Resource Is Avaliable</p:outputLabel>
+                                <p:selectBooleanButton id="avaliable" onLabel="Yes" offLabel="No" value="#{adminAssingsBean.propertyResource.resourceAvailability}"/>
+                            </div>
+                            <div class="filter-group">
+                                <p:outputLabel styleClass="filter-label" for="Bathrooms">Capacity Resource (Number of peple)</p:outputLabel>
+                                <p:spinner id="Bathrooms" min="1" max="500" value="#{adminAssingsBean.propertyResource.resourceCapacity}" />
+                            </div>
+                            <div class="filter-group">
+                                <p:outputLabel styleClass="filter-label" for="email">Booking´s Responsible Email </p:outputLabel>
+                                <p:inputTextarea id="email" value="#{adminAssingsBean.propertyResource.bookingEmail}" />
+                            </div>
+                            <br/>
+                            <p:commandButton action="#{adminAssingsBean.createResourceProperty}" type="submit" value="Save" styleClass="rounded-button ui-button-success" update=":formCard:propertyTable messages2"/>
+                        </h:form>
+                    </div>
+                </div>
+                </div>
+                <div class="cards-container">
+                    <h5 class="first">Resources by property </h5>
+                    <h:form id="formCard">
+                        <p:dataTable id="propertyTable" var="resourceProperty" value="#{adminAssingsBean.propertyResourceDTOs}" sortBy="#{resourceProperty.propertyDTO.propertyName}">
+
+                            <p:headerRow field="propertyDTO.propertyName"
+                                         expandable="true">
+
+                                <p:column colspan="6">
+                                    <div class="inline-flex align-items-center" style="vertical-align: middle">
+                                        <h:outputText styleClass="ml-2" value="#{resourceProperty.propertyDTO.propertyName}"/>
+                                    </div>
+                                </p:column>
+                            </p:headerRow>
+
+                            <p:column headerText="Resource">
+                                <h:outputText value="#{resourceProperty.resource.resourceType}" />
+                            </p:column>
+                            <p:column headerText="Min Price">
+                                <h:outputText value="#{resourceProperty.resourceMinPrice}" />
+                            </p:column>
+                            <p:column headerText="Min Time Hours">
+                                <h:outputText value="#{resourceProperty.resourceMinTimeHrs}" />
+                            </p:column>
+                            <p:column headerText="Is Available">
+                                <h:outputText value="#{resourceProperty.resourceAvailability}" />
+                            </p:column>
+                            <p:column headerText="Booking Email">
+                                <h:outputText value="#{resourceProperty.bookingEmail}" />
+                            </p:column>
+                            <p:summaryRow>
+                                <p:column colspan="5" style="text-align:right">
+                                    <h:outputText value="Total resources:"/>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{adminAssingsBean.getTotalCount(resourceProperty.propertyDTO.propertyName)}"/>
+                                </p:column>
+                            </p:summaryRow>
+                        </p:dataTable>
                     </h:form>
-                </p:card>
+                </div>
+
             </p:fieldset>
-        </div>
+    </div>
     </body>
 </html>

@@ -34,8 +34,8 @@
                 <p:menubar styleClass="centered">
 
                     <p:submenu label="User" icon="pi pi-fw pi-user" >
-                        <p:menuitem value="Cerrar sesión" oncomplete="handleLoginSuccess()" type="button" action="#{indexBean.logout}" rendered="#{indexBean.authenticated}" styleClass="mr-2" />
-                        <p:menuitem value="Usuario" onclick="window.location.href='customerPropertiesPage.xhtml'" type="button"  rendered="#{indexBean.authenticated }" styleClass="mr-2" />
+                        <p:menuitem value="Cerrar sesión" oncomplete="handleLoginSuccess()" type="button" action="#{adminResourcesBean.logout}" styleClass="mr-2" />
+                        <p:menuitem value="Usuario" onclick="window.location.href='customerPropertiesPage.xhtml'" type="button"   styleClass="mr-2" />
                     </p:submenu>
 
 
@@ -70,9 +70,9 @@
                             </p:commandButton>
                         </p:toolbarGroup>
                     </p:toolbar>
-                    <p:dataTable id="dt-properties" widgetVar="dtProperties" var="resource" value="#{adminResourcesBean.resources}"
+                    <p:dataTable id="dt-properties" widgetVar="dtProperties" var="resourcee" value="#{adminResourcesBean.resources}"
                                  reflow="true" styleClass="properties-table"
-                                 rowKey="#{resource.resourceId}" paginator="true" rows="10" rowSelectMode="add" paginatorPosition="bottom">
+                                 rowKey="#{resourcee.resourceId}" paginator="true" rows="10" rowSelectMode="add" paginatorPosition="bottom">
                         <f:facet name="header">
                             <div class="properties-table-header">
                                 <span style="font-weight: bold">Resources</span>
@@ -80,14 +80,14 @@
                         </f:facet>
 
 
-                        <p:column headerText="ID" sortBy="#{resource.resourceId}" >
-                            <h:outputText value="#{resource.resourceId}" />
+                        <p:column headerText="ID" sortBy="#{resourcee.resourceId}" >
+                            <h:outputText value="#{resourcee.resourceId}" />
                         </p:column>
-                        <p:column headerText="Type" sortBy="#{resource.resourceType}" filterBy="#{resource.resourceType}">
-                            <h:outputText value="#{resource.resourceType}" />
+                        <p:column headerText="Type" sortBy="#{resourcee.resourceType}" filterBy="#{resourcee.resourceType}">
+                            <h:outputText value="#{resourcee.resourceType}" />
                         </p:column>
-                        <p:column headerText="Description" sortBy="#{resource.resourceDescription}" filterBy="#{resource.resourceDescription}">
-                            <h:outputText value="#{resource.resourceDescription}" />
+                        <p:column headerText="Description" sortBy="#{resourcee.resourceDescription}" filterBy="#{resourcee.resourceDescription}">
+                            <h:outputText value="#{resourcee.resourceDescription}" />
                         </p:column>
 
 
@@ -95,7 +95,7 @@
                             <p:commandButton icon="pi pi-pencil" update=":dialogs:manage-property-content"
                                              oncomplete="PF('manageDialog').show()"
                                              styleClass="edit-button rounded-button ui-button-success" process="@this">
-                                <f:setPropertyActionListener value="#{resource}" target="#{adminResourcesBean.selectedResource}" />
+                                <f:setPropertyActionListener value="#{resourcee}" target="#{adminResourcesBean.selectedResource}" />
                                 <p:resetInput target=":dialogs:manage-property-content" />
                             </p:commandButton>
                         </p:column>

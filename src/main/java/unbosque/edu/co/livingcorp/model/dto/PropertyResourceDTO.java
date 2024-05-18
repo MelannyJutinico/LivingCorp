@@ -106,6 +106,20 @@ public class PropertyResourceDTO {
     public void setPropertyDTO(PropertyDTO propertyDTO) {
         this.propertyDTO = propertyDTO;
     }
+
+    @Override
+    public String toString() {
+        return "PropertyResourceDTO{" +
+                "propResId=" + propResId +
+                ", resourceDTO=" + resourceDTO +
+                ", propertyDTO=" + propertyDTO +
+                ", resourceMinPrice=" + resourceMinPrice +
+                ", resourceMinTimeHrs=" + resourceMinTimeHrs +
+                ", resourceAvailability='" + resourceAvailability + '\'' +
+                ", resourceCapacity=" + resourceCapacity +
+                ", bookingEmail='" + bookingEmail + '\'' +
+                '}';
+    }
 }
 
 

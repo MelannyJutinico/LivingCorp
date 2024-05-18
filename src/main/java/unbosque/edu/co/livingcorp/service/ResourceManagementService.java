@@ -69,6 +69,14 @@ public class ResourceManagementService {
         }
     }
 
+    public ArrayList<String> getResourcesType(){
+        ArrayList<String> resourceTypes = new ArrayList<>();
+        for (Resource resource : resourceDAO.findAll()) {
+            resourceTypes.add(resource.getResourceType());
+        }
+        return resourceTypes;
+    }
+
 
 
 }
