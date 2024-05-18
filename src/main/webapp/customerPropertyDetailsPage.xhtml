@@ -179,7 +179,7 @@
                     <h:outputText value="#{pResource.bookingEmail}" />
                 </p:column>
                 <p:column headerText="Correo">
-                    <p:commandButton value="Solicitar recurso" oncomplete="PF('dlgAgendarCita').show()" />
+                    <p:commandButton value="Solicitar recurso"  action="#{userBean.capturePropertyResource(pResource.propResId)}"  oncomplete="PF('dlgAgendarCita').show()" />
                 </p:column>
 
             </p:dataTable>
@@ -190,43 +190,42 @@
         <div class="centered">
             <!-- Card -->
             <h:form styleClass="form-container">
-                <div class="form-field">
-                    <h:outputLabel for="Servicio" value="Servicio:" />
-                    <p:inputText id="Servicio" />
-                </div>
 
-                <div class="form-field">
-                    <h:outputLabel for="Inmueble" value="Inmueble:" />
-                    <p:inputText id="Inmueble" />
-                </div>
-
+                <h:messages id="message" showDetail="true" />
                 <div class="form-field">
                     <p:outputLabel for="time" value="Fecha y hora de inicio" />
                     <div class="field col-12 md:col-4">
-                        <p:datePicker id="time" value="#{calendarView.date13}" showTime="true" />
+                        <p:datePicker id="time" value="#{userBean.resourceBookingDTO.bookingStartDate}" showTime="true" />
                     </div>
                 </div>
 
                 <div class="form-field">
                     <p:outputLabel for="time" value="Fecha y hora de entrega" />
                     <div class="field col-12 md:col-4">
-                        <p:datePicker value="#{calendarView.date13}" showTime="true" />
+                        <p:datePicker value="#{userBean.resourceBookingDTO.bookingEndDate}" showTime="true" />
                     </div>
                 </div>
 
                 <div class="form-field">
-                    <h:outputLabel for="precio" value="Precio final:" />
-                    <p:inputText id="precio" rows="5" readonly="true" />
+                    <p:outputLabel for="time" value="Precio total" />
+                    <div class="field col-12 md:col-4">
+                        <h:outputText value="#{userBean.resourceBookingDTO.bookingCost}" />
+                    </div>
                 </div>
 
+
                 <!-- Botón para agendar cita -->
-                <p:commandButton value="Agendar" action="#{bean.agendarCita()}" oncomplete="PF('dlgAgendarCita').hide()" />
+                <p:commandButton id="btnAgendar" value="Agendar" action="#{userBean.saveResourceBooking}"  update="dlgAgendarCita" oncomplete="PF('dlgAgendarCita').show(); disableButton(buttonId) " />
             </h:form>
         </div>
     </p:dialog>
 
 
-
+    <script type="text/javascript">
+        function disableButton(buttonId) {
+            document.getElementById(buttonId).disabled = true;
+        }
+    </script>
 
 </h:body>
 </html>

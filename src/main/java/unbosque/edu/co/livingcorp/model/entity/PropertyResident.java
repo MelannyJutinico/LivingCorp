@@ -8,8 +8,8 @@ public class PropertyResident {
     private Integer propertyResidentId;
     @ManyToOne @JoinColumn(name = "PROPERTY_ID")
     private Property property;
-    @ManyToOne @JoinColumn(name = "USER_NAME")
-    private WebUser user;
+    @ManyToOne @JoinColumn(name = "USER_NAME") //Propio webUser
+    private WebUser user; // Resident
     @Column(name = "IS_OWNER")
     private boolean isOwner;
 
