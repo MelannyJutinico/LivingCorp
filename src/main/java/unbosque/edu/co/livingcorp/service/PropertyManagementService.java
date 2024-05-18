@@ -1,17 +1,25 @@
 package unbosque.edu.co.livingcorp.service;
 
 import jakarta.ejb.Stateless;
+import jakarta.faces.context.ExternalContext;
+import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import org.modelmapper.ModelMapper;
+import unbosque.edu.co.livingcorp.exception.PropertyCreateException;
+import unbosque.edu.co.livingcorp.exception.PropertyUpdateException;
 import unbosque.edu.co.livingcorp.model.dto.PropertyDTO;
 import unbosque.edu.co.livingcorp.model.dto.PropertyResourceDTO;
+import unbosque.edu.co.livingcorp.model.dto.WebUserDTO;
 import unbosque.edu.co.livingcorp.model.entity.Property;
 import unbosque.edu.co.livingcorp.model.entity.PropertyResource;
-import unbosque.edu.co.livingcorp.model.entity.WebUser;
 import unbosque.edu.co.livingcorp.model.persistence.InterfaceDAO;
 import java.io.Serializable;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,12 +32,69 @@ public class PropertyManagementService implements Serializable {
     @Inject
     private InterfaceDAO<PropertyResource, Integer> propertyResourceDAO;
 
-    @Inject
-    private InterfaceDAO <WebUser, String> userDAO;
 
     private final ModelMapper modelMapper = new ModelMapper();
 
     private static final Logger logger = LogManager.getLogger(PropertyManagementService.class);
+
+    public void createProperty(PropertyDTO propertyDTO) throws PropertyCreateException, NoSuchAlgorithmException {
+        Optional<PropertyDTO> existingProperty = getPropertyByNameAndCity(propertyDTO.getPropertyName(), propertyDTO.getPropertyCity());
+        logger.info("Comprobando si la propiedad ya existe en la ciudad...");
+        if (existingProperty.isPresent()) {
+            logger.info("Propiedad ya existente...");
+            throw new PropertyCreateException("Ya existe una propiedad con ese nombre en esa ciudad");
+        }
+
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = facesContext.getExternalContext();
+        Map<String, Object> sessionMap = externalContext.getSessionMap();
+        WebUserDTO webUser = (WebUserDTO) sessionMap.get("user");
+
+        propertyDTO.setUser(webUser);
+        propertyDAO.save(modelMapper.map(propertyDTO, Property.class));
+        logger.info("Propiedad creada exitosamente...");
+    }
+
+
+
+    public void updateProperty(PropertyDTO propertyDTO) throws PropertyUpdateException {
+        try {
+            Optional<Property> existingProperty = Optional.ofNullable(propertyDAO.findById(propertyDTO.getPropertyId()));
+            logger.info("Comprobando si la propiedad existe...");
+
+            if (existingProperty.isPresent()) {
+                Property property = existingProperty.get();
+
+                // Actualizar los campos de la propiedad con los valores del DTO
+                property.setPropertyName(propertyDTO.getPropertyName());
+                property.setPropertyCity(propertyDTO.getPropertyCity());
+                property.setPropertyDescription(propertyDTO.getPropertyDescription());
+                property.setPropertyPrice(propertyDTO.getPropertyPrice());
+                property.setPropertyBathrooms(propertyDTO.getPropertyBathrooms());
+                property.setPropertyRooms(propertyDTO.getPropertyRooms());
+                property.setAvailableForSale(propertyDTO.isAvailableForSale());
+                // Puedes actualizar otros campos aquí
+
+                propertyDAO.update(property); // Actualizar la propiedad en la base de datos
+                logger.info("Propiedad actualizada exitosamente...");
+            } else {
+                logger.info("Propiedad no encontrada...");
+                throw new PropertyUpdateException("No se encontró la propiedad a actualizar");
+            }
+        } catch (Exception e) {
+            logger.error("Error al actualizar la propiedad: " + e.getMessage());
+            throw new PropertyUpdateException("Error al actualizar la propiedad");
+        }
+    }
+
+    private Optional<PropertyDTO> getPropertyByNameAndCity(String name, String city) {
+        for (Property property : propertyDAO.findAll()) {
+            if (property.getPropertyName().equals(name) && property.getPropertyCity().equals(city)) {
+                return Optional.of(modelMapper.map(property, PropertyDTO.class));
+            }
+        }
+        return Optional.empty();
+    }
 
 
     public ArrayList<PropertyDTO> listProperties(){
@@ -90,6 +155,9 @@ public class PropertyManagementService implements Serializable {
     public PropertyResourceDTO getPropertyResourceById(Integer id){
         return modelMapper.map(propertyResourceDAO.findById(id), PropertyResourceDTO.class);
     }
+
+
+
 
 
 

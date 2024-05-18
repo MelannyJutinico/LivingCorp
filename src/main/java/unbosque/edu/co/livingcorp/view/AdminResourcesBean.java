@@ -2,6 +2,7 @@ package unbosque.edu.co.livingcorp.view;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.ExternalContext;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
@@ -9,6 +10,7 @@ import jakarta.inject.Named;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.primefaces.PrimeFaces;
+import unbosque.edu.co.livingcorp.exception.ResourceCreateException;
 import unbosque.edu.co.livingcorp.model.dto.ResourceDTO;
 import unbosque.edu.co.livingcorp.service.ResourceManagementService;
 
@@ -27,6 +29,7 @@ public class AdminResourcesBean implements Serializable {
 
     private ArrayList<ResourceDTO> resources = new ArrayList<>();
     private ResourceDTO resource = new ResourceDTO();
+    private ResourceDTO selectedResource = new ResourceDTO();
 
     @PostConstruct
     public void initialize() {
@@ -39,12 +42,26 @@ public class AdminResourcesBean implements Serializable {
 
     public void registerResource() {
         listResources();
-        resourceManagementService.registerResource(resource);
+        try {
+            resourceManagementService.registerResource(resource);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Resource Created", "Resource created successfully"));
+        } catch (ResourceCreateException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Resource Not Created", e.getMessage()));
+        }
     }
 
-    public void eliminateResource() {
-        resourceManagementService.eliminateResource(resource);
-        PrimeFaces.current().ajax().update("formAdminResource:resourceTable");    }
+    public void updateResource() {
+        listResources();
+        try {
+            resourceManagementService.updateResource(resource);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Resource Updated", "Resource updated successfully"));
+        } catch (ResourceCreateException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Resource Not Updated", e.getMessage()));
+            throw new RuntimeException(e);
+        }
+    }
+
+
 
     public ArrayList<ResourceDTO> getResources() {
         return resources;
@@ -62,4 +79,11 @@ public class AdminResourcesBean implements Serializable {
         this.resource = resource;
     }
 
+    public ResourceDTO getSelectedResource() {
+        return selectedResource;
+    }
+
+    public void setSelectedResource(ResourceDTO selectedResource) {
+        this.selectedResource = selectedResource;
+    }
 }

@@ -132,4 +132,21 @@ public class PropertyDTO {
         isAvailableForSale = availableForSale;
     }
 
+    @Override
+    public String toString() {
+        return "PropertyDTO{" +
+                "propertyId=" + propertyId +
+                ", propertyName='" + propertyName + '\'' +
+                ", propertyCity='" + propertyCity + '\'' +
+                ", propertyAddress='" + propertyAddress + '\'' +
+                ", propertyArea=" + propertyArea +
+                ", propertyPrice=" + propertyPrice +
+                ", propertyRooms=" + propertyRooms +
+                ", propertyBathrooms=" + propertyBathrooms +
+                ", propertyDescription='" + propertyDescription + '\'' +
+                ", user=" + user +
+                ", isAvailableForRent=" + isAvailableForRent +
+                ", isAvailableForSale=" + isAvailableForSale +
+                '}';
+    }
 }
