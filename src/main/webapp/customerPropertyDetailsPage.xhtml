@@ -76,7 +76,7 @@
                                            value="Consultar inmuebles"/></br>
 
                         <br><p:commandLink id="consultarSolicitudesRecursos" onclick="window.location.href='customerResourcesRequestPage.xhtml'" disabled="false"
-                                           value="Consultar solicitudes de recursos"/></br>
+                                           value="Consultar solicitudes de recursos" /></br>
 
                         <br><p:commandLink id="consultarServicios" onclick="window.location.href='customerServicesPage.xhtml'" disabled="false"
                                            value="Consultar servicios"/></br>
@@ -213,19 +213,28 @@
                     </div>
                 </div>
 
+                <div class="form-field">
+                    <p:outputLabel for="paymentComplete" value="Pagar reserva" />
+                    <div class="field col-12 md:col-4">
+                        <p:selectOneRadio id="paymentComplete" value="#{userBean.resourceBookingDTO.paymentComplete}" layout="lineDirection">
+                            <f:selectItem itemLabel="Pagar" itemValue="true"/>
+                            <f:selectItem itemLabel="No pagar" itemValue="false"/>
+                        </p:selectOneRadio>
+                    </div>
+                </div>
 
                 <!-- Botón para agendar cita -->
-                <p:commandButton id="btnAgendar" value="Agendar" action="#{userBean.saveResourceBooking}"  update="dlgAgendarCita" oncomplete="PF('dlgAgendarCita').show(); disableButton(buttonId) " />
+                <p:commandButton id="btnAgendar" value="Agendar" action="#{userBean.saveResourceBooking}"  update="dlgAgendarCita" oncomplete="PF('dlgAgendarCita').show()" />
             </h:form>
         </div>
     </p:dialog>
 
 
-    <script type="text/javascript">
+   <!-- <script type="text/javascript">
         function disableButton(buttonId) {
             document.getElementById(buttonId).disabled = true;
         }
-    </script>
+    </script>-->
 
 </h:body>
 </html>

@@ -22,11 +22,22 @@ public class ResourceBookingService implements Serializable {
     private final ModelMapper modelMapper = new ModelMapper();
 
     public ResourceBookingDTO saveResourceBooking(ResourceBookingDTO resourceBookingDTO) {
-        return modelMapper.map(resourceBookingDAO.save(modelMapper.map(resourceBookingDTO, ResourceBooking.class)),ResourceBookingDTO.class);
+        return modelMapper
+                .map(resourceBookingDAO
+                        .save(modelMapper
+                                .map(resourceBookingDTO, ResourceBooking.class)),ResourceBookingDTO.class);
+    }
+
+    public ResourceBookingDTO findResourceBookingById(Integer id) {
+        return modelMapper
+                .map(resourceBookingDAO
+                        .findById(id),ResourceBookingDTO.class);
     }
 
     public void deleteResourceBooking(ResourceBookingDTO resourceBookingDTO) {
-        resourceBookingDAO.delete(modelMapper.map(resourceBookingDTO, ResourceBooking.class));
+        resourceBookingDAO
+                .delete(modelMapper
+                        .map(resourceBookingDTO, ResourceBooking.class));
     }
 
     public List<ResourceBookingDTO> findAllResourceBookings() {
@@ -46,8 +57,21 @@ public class ResourceBookingService implements Serializable {
         if(Duration.between(resourceBookingDTO.getBookingStartDate(), resourceBookingDTO.getBookingEndDate()).toHours()< (resourceBookingDTO.getPropertyResourceDTO().getResourceMinTimeHrs())){
             throw new InvalidMinTimeException("El tiempo solicitado es menor al tiempo minimo");
         }else{
-            return ((Duration.between(resourceBookingDTO.getBookingStartDate(), resourceBookingDTO.getBookingEndDate()).toHours())/resourceBookingDTO.getPropertyResourceDTO().getResourceMinTimeHrs())* resourceBookingDTO.getPropertyResourceDTO().getResourceMinPrice();
+            return ((Duration
+                    .between(resourceBookingDTO
+                            .getBookingStartDate(), resourceBookingDTO
+                            .getBookingEndDate())
+                    .toHours()))* resourceBookingDTO
+                    .getPropertyResourceDTO()
+                    .getResourceMinPrice();
         }
+    }
+
+    public ResourceBookingDTO updateResourceBooking(ResourceBookingDTO resourceBookingDTO) {
+        return modelMapper
+                .map(resourceBookingDAO
+                        .update(modelMapper
+                                .map(resourceBookingDTO, ResourceBooking.class)),ResourceBookingDTO.class);
     }
 
 }
