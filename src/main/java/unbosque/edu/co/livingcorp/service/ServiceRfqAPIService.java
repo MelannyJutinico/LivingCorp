@@ -2,6 +2,7 @@ package unbosque.edu.co.livingcorp.service;
 
 import jakarta.ejb.ObjectNotFoundException;
 import jakarta.ejb.Stateless;
+import jakarta.inject.Inject;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
@@ -9,9 +10,12 @@ import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import org.modelmapper.ModelMapper;
 import unbosque.edu.co.livingcorp.exception.ObjectAPICreateException;
 import unbosque.edu.co.livingcorp.exception.ObjectAPINotFoundException;
 import unbosque.edu.co.livingcorp.model.dto.ServiceRFQDTO;
+import unbosque.edu.co.livingcorp.model.entity.ServiceRFQ;
+import unbosque.edu.co.livingcorp.model.persistence.InterfaceDAO;
 
 
 import java.io.Serializable;
@@ -20,6 +24,9 @@ import java.util.List;
 @Stateless
 public class ServiceRfqAPIService implements Serializable {
 
+    @Inject
+    private InterfaceDAO<ServiceRFQ, Integer> serviceRfqDAO;
+    private ModelMapper modelMapper = new ModelMapper();
     private final Client client;
     private final WebTarget baseTarget;
 
@@ -60,5 +67,11 @@ public class ServiceRfqAPIService implements Serializable {
         return response.readEntity(ServiceRFQDTO.class);
     }
 
+    public ServiceRFQDTO createRFQ(ServiceRFQDTO serviceRFQDTO){
+       return modelMapper
+                .map(serviceRfqDAO
+                        .save(modelMapper
+                                .map(serviceRFQDTO, ServiceRFQ.class)),ServiceRFQDTO.class);
+    }
 
 }

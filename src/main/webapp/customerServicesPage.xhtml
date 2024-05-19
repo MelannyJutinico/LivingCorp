@@ -218,11 +218,17 @@
                                             styleClass="filter-input long"/>
                         </div>
 
+                        <!-- Botón para agendar cita -->
+                        <p:commandButton value="Agendar" action="#{serviceBean.saveServiceRequest}" oncomplete="PF('dlgAgendarCita').hide()" />
+                    </h:form>
+                </div>
+
                         <h:outputLabel value="Proveedor Seleccionado:"/>
                         <h:outputText value="#{serviceBean.serviceRequestDTO.serviceProvider != null ? serviceBean.serviceRequestDTO.serviceProvider.providerEmail : 'Ninguno'}"/>
                     </h:panelGrid>
 
                 </h:form>
+
             </p:dialog>
 
             <!-- Maintenance card -->
