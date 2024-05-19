@@ -123,6 +123,17 @@ public class PropertyResidentService implements Serializable {
         return properties;
     }
 
+    public ArrayList<String> getNameProperties(WebUserDTO webUser){
+        logger.info("Obteniendo nombres de las propiedades...");
+        ArrayList<String> names = new ArrayList<>();
+        for(PropertyDTO property : getPropertiesByResident(webUser)){
+            if(!names.contains(property.getPropertyName())){
+                names.add(property.getPropertyName());
+            }
+        }
+        return names;
+    }
+
     public ArrayList<PropertyResidentDTO> getPropertyResidents(){
         return (ArrayList<PropertyResidentDTO>) propertyResidentDAO.findAll()
                 .stream()

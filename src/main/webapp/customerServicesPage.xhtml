@@ -122,7 +122,7 @@
 
         <!-- Trasportation card -->
         <div class="card-container">
-            <form>
+            <h:form>
                 <p:card style="width: 25em" class="custom-card">
                     <f:facet name="header">
                         <img alt="user header" src="resources/Transporte.png"/>
@@ -131,26 +131,14 @@
                         Servicios de transporte
                     </f:facet>
 
-
                     <p>Contamos con alianzas con las empresas más puntuales y veloces del mercado!</p>
 
                     <f:facet name="footer">
-                        <p:commandButton icon="pi pi-envelope" value="Cotizar" oncomplete="PF('dlgCotizar').show()"/>
-                        <p:commandButton icon="pi pi-credit-card" value="Solicitar" oncomplete="PF('dlgSolicitar').show()" styleClass="ui-button-secondary" style="margin-left: .5em"/>
+                        <p:commandButton icon="pi pi-envelope" value="Cotizar" onclick="PF('dlgCotizar').show()" />
+                        <p:commandButton icon="pi pi-credit-card" value="Solicitar" onclick="PF('dlgSolicitar').show()" styleClass="ui-button-secondary" style="margin-left: .5em"/>
                     </f:facet>
                 </p:card>
-            </form>
-
-            <!-- Trasportation dialog quoatation-->
-            <p:dialog id="dlgCotizar" header="Agendar Cita" widgetVar="dlgCotizar" resizable="false" modal="true">
-                <div class="centered">
-                    <!-- Card -->
-                    <h:form styleClass="form-container">
-                        <!-- Botón para agendar cita -->
-                        <p:commandButton value="Agendar" action="#{bean.agendarCita()}" oncomplete="PF('dlgAgendarCita').hide()" />
-                    </h:form>
-                </div>
-            </p:dialog>
+            </h:form>
 
             <!-- Trasportation dialog request-->
             <p:dialog id="dlgSolicitar" header="Agendar Cita" widgetVar="dlgSolicitar" resizable="false" modal="true">
@@ -173,46 +161,107 @@
                         </div>
 
                         <!-- Botón para agendar cita -->
-                        <p:commandButton value="Agendar" action="#{bean.agendarCita()}" oncomplete="PF('dlgAgendarCita').hide()" />
+                        <p:commandButton value="Agendar"  oncomplete="PF('dlgSolicitar').hide()" />
                     </h:form>
                 </div>
             </p:dialog>
 
-        <!-- Mantenaince card -->
-            <form>
+            <!-- Trasportation dialog quotation -->
+            <p:dialog id="dlgCotizar" header="Cotizar Servicio de Transporte" widgetVar="dlgCotizar" resizable="false" modal="true">
+                <div class="centered">
+                    <!-- Card -->
+                    <h:form styleClass="form-container">
+                        <div class="form-field">
+                            <h:outputLabel for="TipoVehiculo" value="Tipo de Vehículo:" />
+                            <p:inputText id="TipoVehiculo" />
+                        </div>
+
+                        <div class="form-field">
+                            <h:outputLabel for="FechaHora" value="Fecha y Hora:" />
+                            <p:datePicker id="FechaHora" showTime="true" />
+                        </div>
+
+                        <div class="form-field">
+                            <h:outputLabel for="Comentarios" value="Comentarios:" />
+                            <p:inputTextarea id="Comentarios" rows="5" />
+                        </div>
+
+                        <!-- Botón para cotizar servicio -->
+                        <p:commandButton value="Enviar Cotización" oncomplete="PF('dlgCotizar').hide()" />
+                    </h:form>
+                </div>
+            </p:dialog>
+
+            <!-- Maintenance card -->
+            <h:form>
                 <p:card style="width: 25em" class="custom-card">
                     <f:facet name="header">
                         <img alt="user header" src="resources/Mantenimiento.png"/>
                     </f:facet>
                     <f:facet name="title">
-                        Servicios de mantimiento
-                    </f:facet>
-                    <f:facet name="subtitle">
-                        Card subtitle
+                        Servicios de mantenimiento
                     </f:facet>
 
-                    <p>Imagina contar a la mano con los contactos de los mejores profesionales listos para cualquier trabajo de mantenimiento que necesites. Pues no imagines más! Ahora es realidad con nuestra alizanda</p>
+                    <p>Imagina contar a la mano con los contactos de los mejores profesionales listos para cualquier trabajo de mantenimiento que necesites. Pues no imagines más! Ahora es realidad con nuestra alianza.</p>
                     <f:facet name="footer">
-                        <p:commandButton icon="pi pi-envelope" value="Cotizar" oncomplete="PF('dlgCotizarMantenimiento').show()"/>
-                        <p:commandButton icon="pi pi-credit-card" value="Solicitar" styleClass="ui-button-secondary" style="margin-left: .5em"/>
+                        <p:commandButton icon="pi pi-envelope" value="Cotizar" onclick="PF('dlgCotizarMantenimiento').show()"/>
+                        <p:commandButton icon="pi pi-credit-card" value="Solicitar" onclick="PF('dlgSolicitarMantenimiento').show()" styleClass="ui-button-secondary" style="margin-left: .5em"/>
                     </f:facet>
                 </p:card>
-            </form>
+            </h:form>
 
-            <!-- Maintenance dialog quoatation-->
-            <p:dialog id="dlgCotizarMantenimiento" header="Agendar Cita" widgetVar="dlgCotizarMantenimiento" resizable="false" modal="true">
+            <!-- Maintenance dialog quotation-->
+            <p:dialog id="dlgCotizarMantenimiento" header="Cotizar Servicio de Mantenimiento" widgetVar="dlgCotizarMantenimiento" resizable="false" modal="true">
                 <div class="centered">
                     <!-- Card -->
                     <h:form styleClass="form-container">
-                        <h5>Page Direction</h5>
-                        <p:selectOneRadio id="page" value="#{radioView.page}" layout="pageDirection">
-                            <f:selectItem itemLabel="Option1" itemValue="Option1"/>
-                            <f:selectItem itemLabel="Option2" itemValue="Option2"/>
-                            <f:selectItem itemLabel="Option3" itemValue="Option3"/>
-                        </p:selectOneRadio>
+                        <div class="form-field">
+                            <h:outputLabel for="DescripcionTrabajo" value="Descripción del Trabajo:" />
+                            <p:inputTextarea id="DescripcionTrabajo" rows="5" />
+                        </div>
+
+                        <div class="form-field">
+                            <h:outputLabel for="FechaInicio" value="Fecha de Inicio:" />
+                            <p:datePicker id="FechaInicio" />
+                        </div>
+
+                        <div class="form-field">
+                            <h:outputLabel for="DuracionTrabajo" value="Duración del Trabajo (días):" />
+                            <p:inputText id="DuracionTrabajo" />
+                        </div>
+
+                        <!-- Botón para cotizar servicio -->
+                        <p:commandButton value="Enviar Cotización"  oncomplete="PF('dlgCotizarMantenimiento').hide()" />
                     </h:form>
                 </div>
             </p:dialog>
+
+            <!-- Maintenance dialog request-->
+            <p:dialog id="dlgSolicitarMantenimiento" header="Solicitar Servicio de Mantenimiento" widgetVar="dlgSolicitarMantenimiento" resizable="false" modal="true">
+                <div class="centered">
+                    <!-- Card -->
+                    <h:form styleClass="form-container">
+                        <div class="form-field">
+                            <h:outputLabel for="TipoServicio" value="Tipo de Servicio:" />
+                            <p:inputText id="TipoServicio" />
+                        </div>
+
+                        <div class="form-field">
+                            <h:outputLabel for="Descripcion" value="Descripción:" />
+                            <p:inputTextarea id="Descripcion" rows="5" />
+                        </div>
+
+                        <div class="form-field">
+                            <h:outputLabel for="Fecha" value="Fecha:" />
+                            <p:datePicker id="Fecha" />
+                        </div>
+
+                        <!-- Botón para solicitar servicio -->
+                        <p:commandButton value="Solicitar"  oncomplete="PF('dlgSolicitarMantenimiento').hide()" />
+                    </h:form>
+                </div>
+            </p:dialog>
+
         </div>
     </div>
 
