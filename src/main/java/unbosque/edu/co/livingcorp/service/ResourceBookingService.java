@@ -75,11 +75,11 @@ public class ResourceBookingService implements Serializable {
     public List<ResourceBookingDTO> getBookingsByWebUser(WebUserDTO webUser){
         List<ResourceBookingDTO> bookings = new ArrayList();
         for(ResourceBooking resourceBooking : resourceBookingDAO.findAll()){
-            if(resourceBooking.getUserName().equals(webUser.getUserName())){
+            if(webUser.getUserName().equals(resourceBooking.getWebUser().getUserName())){
                 bookings.add(modelMapper.map(resourceBooking,ResourceBookingDTO.class));
             }
         }
-        bookings.forEach(e -> System.out.println(e));
+
         return bookings;
     }
 

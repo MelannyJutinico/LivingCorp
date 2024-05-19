@@ -6,11 +6,14 @@ import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import unbosque.edu.co.livingcorp.model.dto.ResourceBookingDTO;
 import unbosque.edu.co.livingcorp.model.dto.WebUserDTO;
 import unbosque.edu.co.livingcorp.service.PropertyManagementService;
 import unbosque.edu.co.livingcorp.service.PropertyResidentService;
 import unbosque.edu.co.livingcorp.service.ResourceBookingService;
+import unbosque.edu.co.livingcorp.service.ResourceManagementService;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -28,18 +31,20 @@ public class BookingBean implements Serializable {
     private ResourceBookingDTO resourceBookingDTO;
     private ArrayList<ResourceBookingDTO> resourceBookingDTOs;
 
+    private static final Logger logger = LogManager.getLogger(ResourceManagementService.class);
     @PostConstruct
     public void init(){
         resourceBookingDTO = new ResourceBookingDTO();
         resourceBookingDTOs = new ArrayList();
         getResidentBookings();
-        resourceBookingDTOs.forEach(e -> System.out.println(e));
+
     }
 
     public void getResidentBookings(){
         var webUserDTO = (WebUserDTO) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
         resourceBookingDTOs = (ArrayList<ResourceBookingDTO>) resourceBookingService.getBookingsByWebUser(webUserDTO);
-        resourceBookingDTOs.forEach(e -> System.out.println(e));
+        logger.info("resourceBookingDTOs: " + resourceBookingDTOs);
+
     }
 
     public void cancelBooking(int id){
