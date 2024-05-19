@@ -25,7 +25,7 @@ public class ServiceRfqAPIService implements Serializable {
 
     public ServiceRfqAPIService() {
         this.client = ClientBuilder.newClient();
-        this.baseTarget = client.target("/livingcorp/api/v1");
+        this.baseTarget = client.target("http://localhost:8888/livingcorp/api/v1");
     }
 
     public ServiceRFQDTO createServiceRFQ(ServiceRFQDTO serviceRFQDTO) throws ObjectAPICreateException {
