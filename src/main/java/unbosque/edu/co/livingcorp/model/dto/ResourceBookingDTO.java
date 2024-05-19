@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 public class ResourceBookingDTO{
 
         private int bookingId;
-        private String userName;
+        private WebUserDTO webUserDTO;
         private PropertyResourceDTO propertyResource;
         private LocalDateTime bookingDateTime;
         private LocalDateTime bookingStartDate;
@@ -14,9 +14,9 @@ public class ResourceBookingDTO{
         private boolean paymentComplete;
 
 
-    public ResourceBookingDTO(int bookingId, String userName, PropertyResourceDTO propertyResource, LocalDateTime bookingDateTime, LocalDateTime bookingStartDate, LocalDateTime bookingEndDate, double bookingCost, boolean paymentComplete) {
+    public ResourceBookingDTO(int bookingId, WebUserDTO userName, PropertyResourceDTO propertyResource, LocalDateTime bookingDateTime, LocalDateTime bookingStartDate, LocalDateTime bookingEndDate, double bookingCost, boolean paymentComplete) {
         this.bookingId = bookingId;
-        this.userName = userName;
+        this.webUserDTO = userName;
         this.propertyResource = propertyResource;
         this.bookingDateTime = bookingDateTime;
         this.bookingStartDate = bookingStartDate;
@@ -35,12 +35,12 @@ public class ResourceBookingDTO{
         this.bookingId = bookingId;
     }
 
-    public String getUserName() {
-        return userName;
+    public WebUserDTO getWebUserDTO() {
+        return webUserDTO;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setWebUserDTO(WebUserDTO webUserDTO) {
+        this.webUserDTO = webUserDTO;
     }
 
     public PropertyResourceDTO getPropertyResource() {
@@ -90,7 +90,7 @@ public class ResourceBookingDTO{
     public String toString() {
         return "ResourceBookingDTO{" +
                 "bookingId=" + bookingId +
-                ", userName='" + userName + '\'' +
+                ", userName='" + webUserDTO + '\'' +
                 ", propertyResourceDTO=" + propertyResource +
                 ", bookingDateTime=" + bookingDateTime +
                 ", bookingStartDate=" + bookingStartDate +

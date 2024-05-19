@@ -11,6 +11,7 @@ import unbosque.edu.co.livingcorp.model.dto.WebUserDTO;
 import unbosque.edu.co.livingcorp.model.entity.Resource;
 import unbosque.edu.co.livingcorp.model.entity.ResourceBooking;
 import unbosque.edu.co.livingcorp.model.persistence.InterfaceDAO;
+import unbosque.edu.co.livingcorp.model.sender.EmailSender;
 
 import java.io.Serializable;
 import java.time.Duration;
@@ -28,6 +29,21 @@ public class ResourceBookingService implements Serializable {
     private static final Logger logger = LogManager.getLogger(ResourceBookingService.class);
 
     public ResourceBookingDTO saveResourceBooking(ResourceBookingDTO resourceBookingDTO) {
+        EmailSender emailSender = new EmailSender();
+        String to = resourceBookingDTO.getWebUserDTO().getUserEmail();
+        String subject = "Confirmación de Reserva";
+        String content = "Estimado/a " + resourceBookingDTO.getWebUserDTO().getUserName() + ",\n\n" +
+                "Esperamos que este mensaje le encuentre bien.\n\n" +
+                "Nos complace informarle que su reserva para el recurso " +  resourceBookingDTO.getPropertyResource().getResource().getResourceType() + " ha sido confirmada.\n\n" +
+                "Detalles de la reserva:\n\n" +
+                "  Fecha y Hora de Inicio: " +  resourceBookingDTO.getBookingStartDate() + "\n" +
+                "  Fecha y Hora de Fin: " + resourceBookingDTO.getBookingEndDate() + "\n" +
+                "  Costo: " + resourceBookingDTO.getBookingCost() + "COP"+ "\n\n" +
+                "Gracias por confiar en nuestro servicio.\n\n" +
+                "Atentamente,\n\n" +
+                "Equipo de Soporte de [Living Corp :)]";
+
+        emailSender.sendEmail(to, subject, content);
         ResourceBooking resourceBooking = modelMapper.map(resourceBookingDTO, ResourceBooking.class);
         return modelMapper.map(resourceBookingDAO.save(resourceBooking),ResourceBookingDTO.class);
     }
@@ -63,6 +79,7 @@ public class ResourceBookingService implements Serializable {
                 bookings.add(modelMapper.map(resourceBooking,ResourceBookingDTO.class));
             }
         }
+        bookings.forEach(e -> System.out.println(e));
         return bookings;
     }
 
