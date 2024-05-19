@@ -12,7 +12,6 @@ import jakarta.ws.rs.core.Response;
 import unbosque.edu.co.livingcorp.exception.ObjectAPICreateException;
 import unbosque.edu.co.livingcorp.exception.ObjectAPINotFoundException;
 import unbosque.edu.co.livingcorp.model.dto.ServiceRFQDTO;
-import unbosque.edu.co.livingcorp.model.dto.WebUserDTO;
 
 
 import java.io.Serializable;
@@ -60,17 +59,6 @@ public class ServiceRfqAPIService implements Serializable {
         }
         return response.readEntity(ServiceRFQDTO.class);
     }
-
-    public ServiceRFQDTO getServiceRFQByUser(WebUserDTO webUserDTO){
-        Response response = baseTarget
-                .queryParam("webUserDTO", webUserDTO)
-                .path("")
-                .request(MediaType.APPLICATION_JSON_TYPE)
-                .get();
-        return null;
-    }
-
-
 
 
 }
