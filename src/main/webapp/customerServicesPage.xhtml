@@ -174,7 +174,7 @@
                         <div class="form-field">
                             <p:outputLabel value="Nombre de proyecto " for="filterName" styleClass="filter-label"/>
                             <p:autoComplete id="filterName" value="#{serviceBean.nameProperty}"
-                                            completeMethod="#{serviceBean.getNameProperties()}" scrollHeight="250"
+                                            completeMethod="#{serviceBean.getNameProperties()}" dropdown="true"  scrollHeight="250"
                                             styleClass="filter-input long"/>
                         </div>
 
