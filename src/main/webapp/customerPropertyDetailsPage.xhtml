@@ -217,18 +217,11 @@
                     </div>
                 </div>
 
-                <!-- Botón para agendar cita -->
-                <p:commandButton id="btnAgendar" value="Agendar y calcular total" action="#{userBean.saveResourceBooking}"  />
+                <p:commandButton id="btnAgendar" value="Agendar y calcular total" action="#{userBean.saveResourceBooking}"  update="messages3 @form"/>
             </h:form>
         </div>
     </p:dialog>
 
-
-   <!-- <script type="text/javascript">
-        function disableButton(buttonId) {
-            document.getElementById(buttonId).disabled = true;
-        }
-    </script>-->
 
 </h:body>
 </html>

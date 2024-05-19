@@ -103,11 +103,11 @@ public class ResourceBooking {
         paymentComplete = pPaymentComplete;
     }
 
-    public WebUser getUserName() {
+    public WebUser getWebUser() {
         return webUser;
     }
 
-    public void setUserName(WebUser webUser) {
+    public void setWebUser(WebUser webUser) {
         this.webUser = webUser;
     }
 
