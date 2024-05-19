@@ -1,5 +1,6 @@
 package unbosque.edu.co.livingcorp.service;
 
+import jakarta.ejb.Stateless;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.WebTarget;
@@ -10,6 +11,7 @@ import unbosque.edu.co.livingcorp.model.dto.ServiceProviderDTO;
 import java.io.Serializable;
 import java.util.List;
 
+@Stateless
 public class ServiceProviderAPIService implements Serializable {
 
         private final Client client;
@@ -17,7 +19,7 @@ public class ServiceProviderAPIService implements Serializable {
 
         public ServiceProviderAPIService() {
             this.client = ClientBuilder.newClient();
-            this.baseTarget = client.target("/livingcorp/api/v1");
+            this.baseTarget = client.target("http://localhost:8888/livingcorp/api/v1");
         }
 
 
