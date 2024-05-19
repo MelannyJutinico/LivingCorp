@@ -96,8 +96,7 @@
             <p:commandButton icon="pi pi-arrow-right" type="button" onclick="PF('sidebar1').show()" styleClass="mr-2" />
         </div>
 
-        <!-- Encabezado -->
-        <img src="logo.png" alt="Logo" />
+        <img src="resources/logo.png" alt="Logo" id="logo" />
 
         <!-- Menú -->
         <div class="card">
@@ -106,7 +105,8 @@
 
                 <p:menubar styleClass="centered">
                     <p:submenu label="" icon="pi pi-fw pi-user">
-                        <p:menuitem value="Cerrar sesión" icon="pi pi-fw pi-user-plus"/>
+                        <p:menuitem value="Cerrar sesión" oncomplete="handleLoginSuccess()" type="button" action="#{adminResourcesBean.logout}" styleClass="mr-2" />
+                        <p:menuitem value="Usuario" onclick="window.location.href='customerPropertiesPage.xhtml'" type="button"   styleClass="mr-2" />
                     </p:submenu>
                 </p:menubar>
             </h:form>
@@ -118,106 +118,138 @@
     </div>
 
 
+
+
     <div class="centered">
 
         <!-- Trasportation card -->
         <div class="card-container">
-            <form>
+            <h:form>
                 <p:card style="width: 25em" class="custom-card">
                     <f:facet name="header">
                         <img alt="user header" src="resources/Transporte.png"/>
                     </f:facet>
                     <f:facet name="title">
-                        Advanced Card
-                    </f:facet>
-                    <f:facet name="subtitle">
-                        Card subtitle
+                        Servicios de transporte
                     </f:facet>
 
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt
-                        quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque quas!</p>
+                    <p>Contamos con alianzas con las empresas más puntuales y veloces del mercado!</p>
 
                     <f:facet name="footer">
-                        <p:commandButton icon="pi pi-envelope" value="Cotizar" oncomplete="PF('dlgCotizar').show()"/>
-                        <p:commandButton icon="pi pi-credit-card" value="Solicitar" oncomplete="PF('dlgSolicitar').show()" styleClass="ui-button-secondary" style="margin-left: .5em"/>
+                        <p:commandButton icon="pi pi-envelope" value="Cotizar" onclick="PF('dlgSelectProviderCotizar').show()" />
+                        <p:commandButton icon="pi pi-credit-card" value="Solicitar" onclick="PF('dlgSelectProviderRequest').show()" styleClass="ui-button-secondary" style="margin-left: .5em"/>
                     </f:facet>
                 </p:card>
-            </form>
+            </h:form>
 
-            <!-- Trasportation dialog quoatation-->
-            <p:dialog id="dlgCotizar" header="Agendar Cita" widgetVar="dlgCotizar" resizable="false" modal="true">
-                <div class="centered">
-                    <!-- Card -->
-                    <h:form styleClass="form-container">
-                        <!-- Botón para agendar cita -->
-                        <p:commandButton value="Agendar" action="#{serviceBean.saveServiceRfq}" oncomplete="PF('dlgAgendarCita').hide()" />
-                    </h:form>
-                </div>
+            <p:dialog id="dlgSelectProviderRequest" header="Seleccionar Proveedor" widgetVar="dlgSelectProviderRequest" resizable="false" modal="true" width="600">
+                <h:form id="selectProviderForm">
+                    <p:dataTable value="#{serviceBean.serviceProviderDTOs}" rowKey="#{provider.providerId}" var="provider" selectionMode="single" selection="#{serviceBean.selectedServiceProviderDTO}" paginator="true" rows="2">
+                        <p:column headerText="Email" >
+                            <h:outputText value="#{provider.providerEmail}"/>
+                        </p:column>
+                        <p:column headerText="Descripción del Servicio">
+                            <h:outputText value="#{provider.serviceDescription}"/>
+                        </p:column>
+                        <p:column headerText="Tipo de Servicio">
+                            <h:outputText value="#{provider.serviceType}"/>
+                        </p:column>
+                        <p:column headerText="Precio">
+                            <h:outputText value="#{provider.servicePrice}"/>
+                        </p:column>
+                    </p:dataTable>
+
+                    <p:commandButton value="Seleccionar" action="#{serviceBean.selectProvider()}" oncomplete="PF('dlgSelectProviderRequest').hide()" update=":selectProviderForm:detailsPanel"/>
+
+                    <h:panelGrid id="detailsPanel" columns="2" style="margin-top:20px">
+                        <h:outputLabel value="Descripción de la Solicitud:" for="requestDescription"/>
+                        <p:inputTextarea id="requestDescription" value="#{serviceBean.serviceRequestDTO.requestDescription}" rows="3" cols="30"/>
+
+                        <p:outputLabel for="time" value="Fecha y hora de inicio" />
+                        <div class="field col-12 md:col-4">
+                            <p:datePicker id="time" value="#{serviceBean.serviceRequestDTO.serviceDateTime}" showTime="true" />
+                        </div>
+
+
+                        <div class="form-field">
+                            <p:outputLabel value="Nombre de proyecto " for="filterName" styleClass="filter-label"/>
+                            <p:autoComplete id="filterName" value="#{serviceBean.nameProperty}"
+                                            completeMethod="#{serviceBean.getNameProperties()}" dropdown="true"  scrollHeight="250"
+                                            styleClass="filter-input long"/>
+                        </div>
+
+                        <h:outputLabel value="Proveedor Seleccionado:"/>
+                        <h:outputText value="#{serviceBean.serviceRequestDTO.serviceProvider != null ? serviceBean.serviceRequestDTO.serviceProvider.providerEmail : 'Ninguno'}"/>
+                    </h:panelGrid>
+
+                </h:form>
             </p:dialog>
 
-            <!-- Trasportation dialog request-->
-            <p:dialog id="dlgSolicitar" header="Agendar Cita" widgetVar="dlgSolicitar" resizable="false" modal="true">
-                <div class="centered">
-                    <!-- Card -->
-                    <h:form styleClass="form-container">
-                        <div class="form-field">
-                            <h:outputLabel for="Origen" value="Origen:" />
-                            <p:inputText id="Origen" />
-                        </div>
+
+
+            <p:dialog id="dlgSelectProviderCotizar" header="Seleccionar Proveedor" widgetVar="dlgSelectProviderCotizar" resizable="false" modal="true" width="600">
+                <h:form id="selectProviderForm1">
+                    <p:dataTable value="#{serviceBean.serviceProviderDTOs}" rowKey="#{provider.providerId}"  var="provider" selectionMode="single" selection="#{serviceBean.selectedServiceProviderDTO}" paginator="true" rows="2">
+                        <p:column headerText="Email">
+                            <h:outputText value="#{provider.providerEmail}"/>
+                        </p:column>
+                        <p:column headerText="Descripción del Servicio">
+                            <h:outputText value="#{provider.serviceDescription}"/>
+                        </p:column>
+                        <p:column headerText="Tipo de Servicio">
+                            <h:outputText value="#{provider.serviceType}"/>
+                        </p:column>
+                        <p:column headerText="Precio">
+                            <h:outputText value="#{provider.servicePrice}"/>
+                        </p:column>
+                    </p:dataTable>
+
+                    <p:commandButton value="Seleccionar" action="#{serviceBean.selectProvider()}" oncomplete="PF('dlgSelectProviderCotizar').hide()" update=":selectProviderForm1:detailsPanelCotizar"/>
+
+                    <h:panelGrid id="detailsPanelCotizar" columns="2" style="margin-top:20px">
+                        <h:outputLabel value="Descripción de la Cotizacion:" for="requestDescription1"/>
+                        <p:inputTextarea id="requestDescription1" value="#{serviceBean.serviceRfqDTO.requestDescription}" rows="3" cols="30"/>
+
 
                         <div class="form-field">
-                            <h:outputLabel for="Destino" value="Destino:" />
-                            <p:inputText id="Destino" />
-                        </div>
-
-                        <div class="form-field">
-                            <h:outputLabel for="NumeroPersonas" value="Numero de pasajeros:" />
-                            <p:inputText id="NumeroPersonas" rows="5"  />
+                            <p:outputLabel value="Nombre de proyecto " for="filterName1" styleClass="filter-label"/>
+                            <p:autoComplete id="filterName1" value="#{serviceBean.nameProperty}"
+                                            completeMethod="#{serviceBean.getNameProperties()}" scrollHeight="250"
+                                            styleClass="filter-input long"/>
                         </div>
 
                         <!-- Botón para agendar cita -->
                         <p:commandButton value="Agendar" action="#{serviceBean.saveServiceRequest}" oncomplete="PF('dlgAgendarCita').hide()" />
                     </h:form>
                 </div>
+
+                        <h:outputLabel value="Proveedor Seleccionado:"/>
+                        <h:outputText value="#{serviceBean.serviceRequestDTO.serviceProvider != null ? serviceBean.serviceRequestDTO.serviceProvider.providerEmail : 'Ninguno'}"/>
+                    </h:panelGrid>
+
+                </h:form>
+
             </p:dialog>
 
-        <!-- Mantenaince card -->
-            <form>
+            <!-- Maintenance card -->
+            <h:form>
                 <p:card style="width: 25em" class="custom-card">
                     <f:facet name="header">
                         <img alt="user header" src="resources/Mantenimiento.png"/>
                     </f:facet>
                     <f:facet name="title">
-                        Advanced Card
-                    </f:facet>
-                    <f:facet name="subtitle">
-                        Card subtitle
+                        Servicios de mantenimiento
                     </f:facet>
 
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt
-                        quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque quas!</p>
-
+                    <p>Imagina contar a la mano con los contactos de los mejores profesionales listos para cualquier trabajo de mantenimiento que necesites. Pues no imagines más! Ahora es realidad con nuestra alianza.</p>
                     <f:facet name="footer">
-                        <p:commandButton icon="pi pi-envelope" value="Cotizar" oncomplete="PF('dlgCotizarMantenimiento').show()"/>
-                        <p:commandButton icon="pi pi-credit-card" value="Solicitar" styleClass="ui-button-secondary" style="margin-left: .5em"/>
+                        <p:commandButton icon="pi pi-envelope" value="Cotizar" onclick="PF('dlgSelectProviderCotizar').show()"/>
+                        <p:commandButton icon="pi pi-credit-card" value="Solicitar" onclick="PF('dlgSelectProviderRequest').show()" styleClass="ui-button-secondary" style="margin-left: .5em"/>
                     </f:facet>
                 </p:card>
-            </form>
+            </h:form>
 
-            <!-- Maintenance dialog quoatation-->
-            <p:dialog id="dlgCotizarMantenimiento" header="Agendar Cita" widgetVar="dlgCotizarMantenimiento" resizable="false" modal="true">
-                <div class="centered">
-                    <!-- Card -->
-                    <h:form styleClass="form-container">
-                        <h5>Page Direction</h5>
-                        <p:selectOneRadio id="page" value="#{radioView.page}" layout="pageDirection">
-                            <f:selectItem itemLabel="Option1" itemValue="Option1"/>
-                            <f:selectItem itemLabel="Option2" itemValue="Option2"/>
-                            <f:selectItem itemLabel="Option3" itemValue="Option3"/>
-                        </p:selectOneRadio>
-                    </h:form>
-                </div>
-            </p:dialog>
+
         </div>
     </div>
 
