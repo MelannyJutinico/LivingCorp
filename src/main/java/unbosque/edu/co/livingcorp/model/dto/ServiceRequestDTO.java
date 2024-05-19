@@ -1,19 +1,20 @@
 package unbosque.edu.co.livingcorp.model.dto;
 
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class ServiceRequestDTO {
 
     private int requestId;
-    private Date requestDateTime;
+    private LocalDateTime requestDateTime;
     private WebUserDTO user;
     private PropertyDTO property;
     private ServiceProviderDTO serviceProvider;
     private String requestDescription;
-    private Date serviceDateTime;
+    private LocalDateTime serviceDateTime;
 
-    public ServiceRequestDTO(int requestId, Date requestDateTime, WebUserDTO user, PropertyDTO property, ServiceProviderDTO serviceProvider, String requestDescription, Date serviceDateTime) {
+    public ServiceRequestDTO(int requestId, LocalDateTime requestDateTime, WebUserDTO user, PropertyDTO property, ServiceProviderDTO serviceProvider, String requestDescription, LocalDateTime serviceDateTime) {
         this.requestId = requestId;
         this.requestDateTime = requestDateTime;
         this.user = user;
@@ -33,11 +34,11 @@ public class ServiceRequestDTO {
         requestId = pRequestId;
     }
 
-    public Date getRequestDateTime() {
+    public LocalDateTime getRequestDateTime() {
         return requestDateTime;
     }
 
-    public void setRequestDateTime(Date pRequestDateTime) {
+    public void setRequestDateTime(LocalDateTime pRequestDateTime) {
         requestDateTime = pRequestDateTime;
     }
 
@@ -73,11 +74,11 @@ public class ServiceRequestDTO {
         requestDescription = pRequestDescription;
     }
 
-    public Date getServiceDateTime() {
+    public LocalDateTime getServiceDateTime() {
         return serviceDateTime;
     }
 
-    public void setServiceDateTime(Date pServiceDateTime) {
+    public void setServiceDateTime(LocalDateTime pServiceDateTime) {
         serviceDateTime = pServiceDateTime;
     }
 

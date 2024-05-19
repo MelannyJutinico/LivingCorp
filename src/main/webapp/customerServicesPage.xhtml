@@ -176,7 +176,7 @@
                         </div>
 
                         <!-- Botón para agendar cita -->
-                        <p:commandButton value="Agendar" action="#{bean.agendarCita()}" oncomplete="PF('dlgAgendarCita').hide()" />
+                        <p:commandButton value="Agendar" action="#{serviceBean.saveServiceRequest}" oncomplete="PF('dlgAgendarCita').hide()" />
                     </h:form>
                 </div>
             </p:dialog>

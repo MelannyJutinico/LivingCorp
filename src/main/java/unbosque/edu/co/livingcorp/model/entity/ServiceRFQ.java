@@ -2,6 +2,7 @@ package unbosque.edu.co.livingcorp.model.entity;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 
@@ -14,7 +15,7 @@ public class ServiceRFQ {
     @Column(name = "RFQ_ID")
     private int rfqId;
     @Column(name = "RFQ_DATETIME")
-    private Date rfqDateTime;
+    private LocalDateTime rfqDateTime;
     @ManyToOne
     @JoinColumn(name = "USER_NAME" , referencedColumnName = "USER_NAME")
     private WebUser user;
@@ -27,7 +28,7 @@ public class ServiceRFQ {
     @Column(name = "REQUEST_DESCRIPTION")
     private String requestDescription;
 
-    public ServiceRFQ(int rfqId, Date rfqDateTime, WebUser user, Property property, ServiceProvider serviceProvider, String requestDescription) {
+    public ServiceRFQ(int rfqId, LocalDateTime rfqDateTime, WebUser user, Property property, ServiceProvider serviceProvider, String requestDescription) {
         this.rfqId = rfqId;
         this.rfqDateTime = rfqDateTime;
         this.user = user;
@@ -46,11 +47,11 @@ public class ServiceRFQ {
         rfqId = pRfqId;
     }
 
-    public Date getRfqDateTime() {
+    public LocalDateTime getRfqDateTime() {
         return rfqDateTime;
     }
 
-    public void setRfqDateTime(Date pRfqDateTime) {
+    public void setRfqDateTime(LocalDateTime pRfqDateTime) {
         rfqDateTime = pRfqDateTime;
     }
 

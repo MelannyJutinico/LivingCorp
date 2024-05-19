@@ -74,4 +74,5 @@ public class ServiceRFQDTO {
         requestDescription = pRequestDescription;
     }
 
+
 }
