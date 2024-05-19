@@ -96,8 +96,7 @@
             <p:commandButton icon="pi pi-arrow-right" type="button" onclick="PF('sidebar1').show()" styleClass="mr-2" />
         </div>
 
-        <!-- Encabezado -->
-        <img src="logo.png" alt="Logo" />
+        <img src="resources/logo.png" alt="Logo" id="logo" />
 
         <!-- Menú -->
         <div class="card">
@@ -106,7 +105,8 @@
 
                 <p:menubar styleClass="centered">
                     <p:submenu label="" icon="pi pi-fw pi-user">
-                        <p:menuitem value="Cerrar sesión" icon="pi pi-fw pi-user-plus"/>
+                        <p:menuitem value="Cerrar sesión" oncomplete="handleLoginSuccess()" type="button" action="#{adminResourcesBean.logout}" styleClass="mr-2" />
+                        <p:menuitem value="Usuario" onclick="window.location.href='customerPropertiesPage.xhtml'" type="button"   styleClass="mr-2" />
                     </p:submenu>
                 </p:menubar>
             </h:form>
@@ -128,14 +128,11 @@
                         <img alt="user header" src="resources/Transporte.png"/>
                     </f:facet>
                     <f:facet name="title">
-                        Advanced Card
-                    </f:facet>
-                    <f:facet name="subtitle">
-                        Card subtitle
+                        Servicios de transporte
                     </f:facet>
 
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt
-                        quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque quas!</p>
+
+                    <p>Contamos con alianzas con las empresas más puntuales y veloces del mercado!</p>
 
                     <f:facet name="footer">
                         <p:commandButton icon="pi pi-envelope" value="Cotizar" oncomplete="PF('dlgCotizar').show()" />
@@ -178,15 +175,13 @@
                         <img alt="user header" src="resources/Mantenimiento.png"/>
                     </f:facet>
                     <f:facet name="title">
-                        Advanced Card
+                        Servicios de mantimiento
                     </f:facet>
                     <f:facet name="subtitle">
                         Card subtitle
                     </f:facet>
 
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt
-                        quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque quas!</p>
-
+                    <p>Imagina contar a la mano con los contactos de los mejores profesionales listos para cualquier trabajo de mantenimiento que necesites. Pues no imagines más! Ahora es realidad con nuestra alizanda</p>
                     <f:facet name="footer">
                         <p:commandButton icon="pi pi-envelope" value="Cotizar" oncomplete="PF('dlgCotizarMantenimiento').show()"/>
                         <p:commandButton icon="pi pi-credit-card" value="Solicitar" styleClass="ui-button-secondary" style="margin-left: .5em"/>
