@@ -12,8 +12,9 @@ public class ResourceBooking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "BOOKING_ID")
     private int bookingId;
-    @Column(name = "USER_NAME")
-    private String userName;
+    @ManyToOne
+    @JoinColumn(name = "USER_NAME")
+    private WebUser webUser;
     @ManyToOne
     @JoinColumn(name = "PROP_RES_ID")
     private PropertyResource propertyResource;
@@ -29,9 +30,9 @@ public class ResourceBooking {
     private boolean paymentComplete;
 
 
-    public ResourceBooking(int bookingId, String userName, PropertyResource propertyResource, LocalDateTime bookingDateTime, LocalDateTime bookingStartDate, LocalDateTime bookingEndDate, double bookingCost, boolean paymentComplete) {
+    public ResourceBooking(int bookingId, WebUser webUser, PropertyResource propertyResource, LocalDateTime bookingDateTime, LocalDateTime bookingStartDate, LocalDateTime bookingEndDate, double bookingCost, boolean paymentComplete) {
         this.bookingId = bookingId;
-        this.userName = userName;
+        this.webUser = webUser;
         this.propertyResource = propertyResource;
         this.bookingDateTime = bookingDateTime;
         this.bookingStartDate = bookingStartDate;
@@ -102,19 +103,19 @@ public class ResourceBooking {
         paymentComplete = pPaymentComplete;
     }
 
-    public String getUserName() {
-        return userName;
+    public WebUser getUserName() {
+        return webUser;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUserName(WebUser webUser) {
+        this.webUser = webUser;
     }
 
     @Override
     public String toString() {
         return "ResourceBooking{" +
                 "bookingId=" + bookingId +
-                ", userName='" + userName + '\'' +
+                ", userName='" + webUser.getUserName() + '\'' +
                 ", propertyResource=" + propertyResource +
                 ", bookingDateTime=" + bookingDateTime +
                 ", bookingStartDate=" + bookingStartDate +

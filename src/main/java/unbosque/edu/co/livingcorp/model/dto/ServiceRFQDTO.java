@@ -2,19 +2,20 @@ package unbosque.edu.co.livingcorp.model.dto;
 
 import unbosque.edu.co.livingcorp.model.entity.ServiceProvider;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class ServiceRFQDTO {
 
     private int rfqId;
-    private Date rfqDateTime;
+    private LocalDateTime rfqDateTime;
     private WebUserDTO user;
     private PropertyDTO property;
     private ServiceProviderDTO serviceProvider;
     private String requestDescription;
 
 
-    public ServiceRFQDTO(int rfqId,Date pRfqDateTime, WebUserDTO user, PropertyDTO pProperty, ServiceProviderDTO pService, String pRequestDescription) {
+    public ServiceRFQDTO(int rfqId,LocalDateTime pRfqDateTime, WebUserDTO user, PropertyDTO pProperty, ServiceProviderDTO pService, String pRequestDescription) {
         this.rfqId = rfqId;
         this.rfqDateTime = pRfqDateTime;
         this.user = user;
@@ -33,11 +34,11 @@ public class ServiceRFQDTO {
         rfqId = pRfqId;
     }
 
-    public Date getRfqDateTime() {
+    public LocalDateTime getRfqDateTime() {
         return rfqDateTime;
     }
 
-    public void setRfqDateTime(Date pRfqDateTime) {
+    public void setRfqDateTime(LocalDateTime pRfqDateTime) {
         rfqDateTime = pRfqDateTime;
     }
 

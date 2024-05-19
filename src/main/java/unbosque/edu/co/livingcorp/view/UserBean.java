@@ -82,12 +82,10 @@ public class UserBean implements Serializable {
 
 
     public void saveResourceBooking(){
-
+        var webUserDTO = (WebUserDTO) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
         resourceBookingDTO.setPropertyResource(propertyResourceDTO);
-        resourceBookingDTO.setUserName(currentUser.getUserName());
-
+        resourceBookingDTO.setWebUserDTO(webUserDTO);
         resourceBookingDTO.setBookingDateTime(LocalDateTime.now());
-
         try {
             resourceBookingDTO.setPaymentComplete(resourceBookingDTO.isPaymentComplete());
             resourceBookingDTO.setBookingCost(resourceBookingService.calculatePaymentAmount(resourceBookingDTO));resourceBookingDTO.setPaymentComplete(false);

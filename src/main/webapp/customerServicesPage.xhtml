@@ -138,37 +138,12 @@
                         quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque quas!</p>
 
                     <f:facet name="footer">
-                        <p:commandButton icon="pi pi-envelope" value="Cotizar" oncomplete="PF('dlgCotizar').show()"/>
+                        <p:commandButton icon="pi pi-envelope" value="Cotizar" oncomplete="PF('dlgCotizar').show()" />
                         <p:commandButton icon="pi pi-credit-card" value="Solicitar" oncomplete="PF('dlgSolicitar').show()" styleClass="ui-button-secondary" style="margin-left: .5em"/>
                     </f:facet>
                 </p:card>
             </form>
 
-            <!-- Trasportation dialog quoatation-->
-            <p:dialog id="dlgCotizar" header="Agendar Cita" widgetVar="dlgCotizar" resizable="false" modal="true">
-                <div class="centered">
-                    <!-- Card -->
-                    <h:form styleClass="form-container">
-                        <div class="form-field">
-                            <h:outputLabel for="Origen" value="Origen:" />
-                            <p:inputText id="Origen" />
-                        </div>
-
-                        <div class="form-field">
-                            <h:outputLabel for="Destino" value="Destino:" />
-                            <p:inputText id="Destino" />
-                        </div>
-
-                        <div class="form-field">
-                            <h:outputLabel for="NumeroPersonas" value="Numero de pasajeros:" />
-                            <p:inputText id="NumeroPersonas" rows="5" readonly="true" />
-                        </div>
-
-                        <!-- Botón para agendar cita -->
-                        <p:commandButton value="Agendar" action="#{bean.agendarCita()}" oncomplete="PF('dlgAgendarCita').hide()" />
-                    </h:form>
-                </div>
-            </p:dialog>
 
             <!-- Trasportation dialog request-->
             <p:dialog id="dlgSolicitar" header="Agendar Cita" widgetVar="dlgSolicitar" resizable="false" modal="true">

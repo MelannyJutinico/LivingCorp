@@ -3,6 +3,7 @@ package unbosque.edu.co.livingcorp.view;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.context.FacesContext;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import unbosque.edu.co.livingcorp.model.dto.ResourceBookingDTO;
@@ -15,7 +16,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 @Named(value = "bookingBean")
-@RequestScoped
+@ViewScoped
 public class BookingBean implements Serializable {
 
     @Inject
@@ -32,16 +33,17 @@ public class BookingBean implements Serializable {
         resourceBookingDTO = new ResourceBookingDTO();
         resourceBookingDTOs = new ArrayList();
         getResidentBookings();
+        resourceBookingDTOs.forEach(e -> System.out.println(e));
     }
 
     public void getResidentBookings(){
         var webUserDTO = (WebUserDTO) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
         resourceBookingDTOs = (ArrayList<ResourceBookingDTO>) resourceBookingService.getBookingsByWebUser(webUserDTO);
+        resourceBookingDTOs.forEach(e -> System.out.println(e));
     }
 
     public void cancelBooking(int id){
         var booking = resourceBookingService.findResourceBookingById(id);
-        System.out.println(booking.getBookingId());
         resourceBookingService.deleteResourceBooking(booking);
     }
 
