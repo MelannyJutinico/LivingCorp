@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 public interface InterfaceDAO <Type, Key>{
 
-    public Type save(Type entity);
-    public Type update(Type entity);
-    public void delete(Type entity);
-    public Type findById(Key id);
-    public ArrayList<Type> findAll();
+    Type save(Type entity);
+    Type update(Type entity);
+    void delete(Type entity);
+    Type findById(Key id);
+    ArrayList<Type> findAll();
 
 }

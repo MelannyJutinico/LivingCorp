@@ -12,6 +12,7 @@ import unbosque.edu.co.livingcorp.model.dto.PropertyResourceDTO;
 import unbosque.edu.co.livingcorp.model.dto.WebUserDTO;
 import unbosque.edu.co.livingcorp.model.entity.Property;
 import unbosque.edu.co.livingcorp.model.entity.PropertyResource;
+import unbosque.edu.co.livingcorp.model.persistence.IPropertyDAO;
 import unbosque.edu.co.livingcorp.model.persistence.InterfaceDAO;
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
@@ -27,7 +28,7 @@ import org.apache.logging.log4j.Logger;
 public class PropertyManagementService implements Serializable {
 
     @Inject
-    private InterfaceDAO<Property, Integer> propertyDAO;
+    private IPropertyDAO propertyDAO;
 
     @Inject
     private InterfaceDAO<PropertyResource, Integer> propertyResourceDAO;
@@ -94,12 +95,13 @@ public class PropertyManagementService implements Serializable {
     }
 
     public PropertyDTO getPropertyByName(String name) {
+        PropertyDTO propertyDTO = null;
         for (Property property : propertyDAO.findAll()) {
             if (property.getPropertyName().equals(name)) {
-                return modelMapper.map(property, PropertyDTO.class);
+                propertyDTO =  modelMapper.map(property, PropertyDTO.class);
             }
         }
-        return null;
+        return propertyDTO;
     }
 
 
