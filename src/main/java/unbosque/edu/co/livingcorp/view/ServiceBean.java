@@ -2,6 +2,7 @@ package unbosque.edu.co.livingcorp.view;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -59,7 +60,7 @@ public class ServiceBean implements Serializable {
         serviceRfqDTO.setProperty(property);
         serviceRfqDTO.setServiceProvider(selectedServiceProviderDTO);
         serviceRfqAPIService.createRFQ(serviceRfqDTO);
-        System.out.println("Si sirvo care climba");
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Cotizacion realizada", "La cotizacion fue enviada correctamente"));
     }
 
     public void saveServiceRequest() {
@@ -71,7 +72,8 @@ public class ServiceBean implements Serializable {
         serviceRequestDTO.setProperty(property);
         serviceRequestDTO.setServiceProvider(selectedServiceProviderDTO);
         serviceRequestAPIService.createRequest(serviceRequestDTO);
-        System.out.println("Si sirvo care climba");
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Solcitud realizada", "La solicitud fue enviada correctamente"));
+
     }
 
     public ArrayList<String> getNameProperties(String query) {

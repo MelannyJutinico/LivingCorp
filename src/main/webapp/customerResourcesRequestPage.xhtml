@@ -6,6 +6,7 @@
       xmlns:p="http://primefaces.org/ui">
 <h:head>
     <meta charset="UTF-8" />
+    <link href="resources/indexStyle.css" rel="stylesheet" type="text/css"/>
     <title>Living Corp</title>
     <style>
         .header {
@@ -72,8 +73,8 @@
         <h5><p:outputLabel value="SOLICITUDES" style="font-size: 25px; color: #000;" /></h5>
     </div>
 
-    <div class="centered">
-        <h:form>
+    <div class="cards-container">
+    <h:form id="formCard">
             <p:dataList id="booking" value="#{bookingBean.resourceBookingDTOs}" var="booking">
                 <p:card style="width: 25em">
                     <f:facet name="header">
@@ -83,7 +84,8 @@
                         <h:outputText value="#{booking.propertyResource.resource.resourceType}" />
                     </f:facet>
                     <f:facet name="subtitle">
-                        <h:outputText value="#{booking.bookingCost}" />
+                        <h4>Costo total:</h4>
+                        <h:outputText value="#{booking.costInString}" />
                     </f:facet>
                     <h4>Solicitado para la propiedad:</h4>
                     <h:outputText value="#{booking.propertyResource.property.propertyName}" />

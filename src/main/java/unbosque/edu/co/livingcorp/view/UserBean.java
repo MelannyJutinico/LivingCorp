@@ -90,7 +90,7 @@ public class UserBean implements Serializable {
             resourceBookingDTO.setPaymentComplete(resourceBookingDTO.isPaymentComplete());
             resourceBookingDTO.setBookingCost(resourceBookingService.calculatePaymentAmount(resourceBookingDTO));resourceBookingDTO.setPaymentComplete(false);
             resourceBookingService.saveResourceBooking(resourceBookingDTO);
-            FacesContext.getCurrentInstance().addMessage("messages3", new FacesMessage(FacesMessage.SEVERITY_INFO, "Recurso solicitado existosamente", "Su total a pagar es: "+resourceBookingDTO.getBookingCost()));
+            FacesContext.getCurrentInstance().addMessage("messages3", new FacesMessage(FacesMessage.SEVERITY_INFO, "Recurso solicitado existosamente", "Su total a pagar es: "+resourceBookingDTO.getCostInString()));
         } catch (InvalidMinTimeException e) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Fecha invalida: ", e.getMessage());
             FacesContext.getCurrentInstance().addMessage("messages3", message);
