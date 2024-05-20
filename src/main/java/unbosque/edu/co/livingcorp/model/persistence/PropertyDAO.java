@@ -10,7 +10,7 @@ import unbosque.edu.co.livingcorp.model.entity.Property;
 import java.util.ArrayList;
 
 @Stateless
-public class PropertyDAO implements InterfaceDAO<Property, Integer>{
+public class PropertyDAO implements IPropertyDAO{
 
     @PersistenceContext(unitName = "livingCorpPU")
     private EntityManager manager;
@@ -42,5 +42,10 @@ public class PropertyDAO implements InterfaceDAO<Property, Integer>{
         TypedQuery<Property> query = manager.createQuery("SELECT e FROM Property e", Property.class);
         ArrayList list = (ArrayList) query.getResultList();
         return list;
+    }
+
+    @Override
+    public Property findByName(String propertyName) {
+        return manager.find(Property.class, propertyName);
     }
 }

@@ -7,10 +7,7 @@ import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import unbosque.edu.co.livingcorp.exception.ObjectAPICreateException;
 import unbosque.edu.co.livingcorp.model.dto.*;
-import unbosque.edu.co.livingcorp.service.PropertyResidentService;
-import unbosque.edu.co.livingcorp.service.ServiceProviderAPIService;
-import unbosque.edu.co.livingcorp.service.ServiceRequestAPIService;
-import unbosque.edu.co.livingcorp.service.ServiceRfqAPIService;
+import unbosque.edu.co.livingcorp.service.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -30,9 +27,10 @@ public class ServiceBean implements Serializable {
     private ServiceProviderAPIService serviceProviderAPIService;
     @Inject
     private ServiceRequestAPIService serviceRequestAPIService;
+    @Inject
+    private PropertyManagementService propertyManagementService;
     private ServiceRequestDTO serviceRequestDTO;
     private ServiceRFQDTO serviceRfqDTO;
-    private ServiceRequestDTO serviceRequestDTO;
     private List<PropertyDTO> propertiesDTO;
     private PropertyDTO propertyDTO;
     private ArrayList<ServiceProviderDTO> serviceProviderDTOs;
@@ -44,49 +42,39 @@ public class ServiceBean implements Serializable {
     @PostConstruct
     public void init() {
         serviceRfqDTO = new ServiceRFQDTO();
-        serviceRequestDTO = new ServiceRequestDTO();
         propertiesDTO = new ArrayList<>();
         propertyDTO = new PropertyDTO();
         serviceProviderDTOs = new ArrayList<>();
-        serviceRequestDTO  = new ServiceRequestDTO();
+        serviceRequestDTO = new ServiceRequestDTO();
         getServiceProviders();
 
 
     }
 
     public void saveServiceRfq() {
-
         var webUserDTO = (WebUserDTO) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
         serviceRfqDTO.setRfqDateTime(LocalDateTime.now());
         serviceRfqDTO.setUser(webUserDTO);
-        serviceRfqDTO.setRequestDescription("Funciono de maravilla");
-        ServiceProviderDTO provider = new ServiceProviderDTO();
-        provider.setProviderId(1);
-        PropertyDTO property = new PropertyDTO();
-        property.setPropertyId(5);
-        serviceRfqDTO.setServiceProvider(provider);
+        var property = propertyManagementService.getPropertyByName(nameProperty);
         serviceRfqDTO.setProperty(property);
+        serviceRfqDTO.setServiceProvider(selectedServiceProviderDTO);
         serviceRfqAPIService.createRFQ(serviceRfqDTO);
+        System.out.println("Si sirvo care climba");
     }
 
-    public void saveServiceRequest(){
+    public void saveServiceRequest() {
 
         var webUserDTO = (WebUserDTO) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
         serviceRequestDTO.setRequestDateTime(LocalDateTime.now());
         serviceRequestDTO.setUser(webUserDTO);
-        ServiceProviderDTO provider = new ServiceProviderDTO();
-        provider.setProviderId(1);
-        PropertyDTO property = new PropertyDTO();
-        property.setPropertyId(5);
+        var property = propertyManagementService.getPropertyByName(nameProperty);
         serviceRequestDTO.setProperty(property);
-        serviceRequestDTO.setServiceProvider(provider);
-        serviceRequestDTO.setRequestDescription("Funciono de maravilla");
-        serviceRequestDTO.setServiceDateTime(LocalDateTime.now());
+        serviceRequestDTO.setServiceProvider(selectedServiceProviderDTO);
         serviceRequestAPIService.createRequest(serviceRequestDTO);
-
+        System.out.println("Si sirvo care climba");
     }
 
-    public ArrayList<String> getNameProperties(String query){
+    public ArrayList<String> getNameProperties(String query) {
         var webUser = (WebUserDTO) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
         nameProperties = propertyResidentService.getNameProperties(webUser);
         String queryLowerCase = query.toLowerCase();
@@ -94,14 +82,13 @@ public class ServiceBean implements Serializable {
     }
 
 
-    public void getProperties(){
+    public void getProperties() {
         var webUser = (WebUserDTO) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
         propertiesDTO = propertyResidentService.getPropertiesByResident(webUser);
     }
 
-    //This method works properly
-    public void getServiceProviders(){
-       serviceProviderDTOs = (ArrayList<ServiceProviderDTO>) serviceProviderAPIService.getAllServiceProviders();
+    public void getServiceProviders() {
+        serviceProviderDTOs = (ArrayList<ServiceProviderDTO>) serviceProviderAPIService.getAllServiceProviders();
     }
 
     public void selectProvider() {
@@ -190,9 +177,6 @@ public class ServiceBean implements Serializable {
         this.nameProperty = nameProperty;
     }
 
-    public void setServiceProviderDTOs(ArrayList<ServiceProviderDTO> serviceProviderDTOs) {
-        this.serviceProviderDTOs = serviceProviderDTOs;
-    }
 
     public void setNameProperties(ArrayList<String> nameProperties) {
         this.nameProperties = nameProperties;
@@ -209,5 +193,14 @@ public class ServiceBean implements Serializable {
     public ArrayList<String> getNameProperties() {
         return nameProperties;
     }
+
+    public PropertyManagementService getPropertyManagementService() {
+        return propertyManagementService;
+    }
+
+    public void setPropertyManagementService(PropertyManagementService propertyManagementService) {
+        this.propertyManagementService = propertyManagementService;
+    }
+
 
 }

@@ -9,7 +9,7 @@
     <title>Living Corp</title>
     <style>
         .header {
-            background-color: #6DA7CC;
+            background-color: #154371;
             padding: 10px;
             display: flex;
             align-items: center;
@@ -159,7 +159,7 @@
                         </p:column>
                     </p:dataTable>
 
-                    <p:commandButton value="Seleccionar" action="#{serviceBean.selectProvider()}" oncomplete="PF('dlgSelectProviderRequest').hide()" update=":selectProviderForm:detailsPanel"/>
+                    <p:commandButton value="Seleccionar" action="#{serviceBean.selectProvider}"  update=":selectProviderForm:detailsPanel"/>
 
                     <h:panelGrid id="detailsPanel" columns="2" style="margin-top:20px">
                         <h:outputLabel value="Descripción de la Solicitud:" for="requestDescription"/>
@@ -177,7 +177,7 @@
                                             completeMethod="#{serviceBean.getNameProperties()}" dropdown="true"  scrollHeight="250"
                                             styleClass="filter-input long"/>
                         </div>
-
+                        <p:commandButton type="submit" value="Cotizar" action="#{serviceBean.saveServiceRequest}" />
                         <h:outputLabel value="Proveedor Seleccionado:"/>
                         <h:outputText value="#{serviceBean.serviceRequestDTO.serviceProvider != null ? serviceBean.serviceRequestDTO.serviceProvider.providerEmail : 'Ninguno'}"/>
                     </h:panelGrid>
@@ -190,6 +190,7 @@
             <p:dialog id="dlgSelectProviderCotizar" header="Seleccionar Proveedor" widgetVar="dlgSelectProviderCotizar" resizable="false" modal="true" width="600">
                 <h:form id="selectProviderForm1">
                     <p:dataTable value="#{serviceBean.serviceProviderDTOs}" rowKey="#{provider.providerId}"  var="provider" selectionMode="single" selection="#{serviceBean.selectedServiceProviderDTO}" paginator="true" rows="2">
+
                         <p:column headerText="Email">
                             <h:outputText value="#{provider.providerEmail}"/>
                         </p:column>
@@ -204,7 +205,7 @@
                         </p:column>
                     </p:dataTable>
 
-                    <p:commandButton value="Seleccionar" action="#{serviceBean.selectProvider()}" oncomplete="PF('dlgSelectProviderCotizar').hide()" update=":selectProviderForm1:detailsPanelCotizar"/>
+                    <p:commandButton value="Seleccionar" action="#{serviceBean.selectProvider}"  update=":selectProviderForm1:detailsPanelCotizar"/>
 
                     <h:panelGrid id="detailsPanelCotizar" columns="2" style="margin-top:20px">
                         <h:outputLabel value="Descripción de la Cotizacion:" for="requestDescription1"/>
@@ -219,9 +220,7 @@
                         </div>
 
                         <!-- Botón para agendar cita -->
-                        <p:commandButton value="Agendar" action="#{serviceBean.saveServiceRequest}" oncomplete="PF('dlgAgendarCita').hide()" />
-                    </h:form>
-                </div>
+                        <p:commandButton type="submit" value="Cotizar" action="#{serviceBean.saveServiceRfq}" />
 
                         <h:outputLabel value="Proveedor Seleccionado:"/>
                         <h:outputText value="#{serviceBean.serviceRequestDTO.serviceProvider != null ? serviceBean.serviceRequestDTO.serviceProvider.providerEmail : 'Ninguno'}"/>
@@ -243,11 +242,97 @@
 
                     <p>Imagina contar a la mano con los contactos de los mejores profesionales listos para cualquier trabajo de mantenimiento que necesites. Pues no imagines más! Ahora es realidad con nuestra alianza.</p>
                     <f:facet name="footer">
-                        <p:commandButton icon="pi pi-envelope" value="Cotizar" onclick="PF('dlgSelectProviderCotizar').show()"/>
-                        <p:commandButton icon="pi pi-credit-card" value="Solicitar" onclick="PF('dlgSelectProviderRequest').show()" styleClass="ui-button-secondary" style="margin-left: .5em"/>
+                        <p:commandButton icon="pi pi-envelope" value="Cotizar" onclick="PF('dlgManteniminetoCotizar').show()"/>
+                        <p:commandButton icon="pi pi-credit-card" value="Solicitar" onclick="PF('dlgManteniminetoSolicitud').show()" styleClass="ui-button-secondary" style="margin-left: .5em"/>
                     </f:facet>
                 </p:card>
             </h:form>
+
+            <p:dialog id="dlgManteniminetoCotizar" header="Seleccionar Proveedor" widgetVar="dlgManteniminetoCotizar" resizable="false" modal="true" width="600">
+                <h:form id="Form1">
+                    <p:dataTable value="#{serviceBean.serviceProviderDTOs}" rowKey="#{provider.providerId}"  var="provider" selectionMode="single" selection="#{serviceBean.selectedServiceProviderDTO}" paginator="true" rows="2">
+
+                        <p:column headerText="Email">
+                            <h:outputText value="#{provider.providerEmail}"/>
+                        </p:column>
+                        <p:column headerText="Descripción del Servicio">
+                            <h:outputText value="#{provider.serviceDescription}"/>
+                        </p:column>
+                        <p:column headerText="Tipo de Servicio">
+                            <h:outputText value="#{provider.serviceType}"/>
+                        </p:column>
+                        <p:column headerText="Precio">
+                            <h:outputText value="#{provider.servicePrice}"/>
+                        </p:column>
+                    </p:dataTable>
+
+                    <p:commandButton value="Seleccionar" action="#{serviceBean.selectProvider}"  update=":Form1:detailsPanelCotizar"/>
+
+                    <h:panelGrid id="detailsPanelCotizar" columns="2" style="margin-top:20px">
+                        <h:outputLabel value="Descripción de la Cotizacion:" for="requestDescription1"/>
+                        <p:inputTextarea id="requestDescription1" value="#{serviceBean.serviceRfqDTO.requestDescription}" rows="3" cols="30"/>
+
+
+                        <div class="form-field">
+                            <p:outputLabel value="Nombre de proyecto " for="filterName1" styleClass="filter-label"/>
+                            <p:autoComplete id="filterName1" value="#{serviceBean.nameProperty}"
+                                            completeMethod="#{serviceBean.getNameProperties()}" scrollHeight="250"
+                                            styleClass="filter-input long"/>
+                        </div>
+
+                        <!-- Botón para agendar cita -->
+                        <p:commandButton type="submit" value="Cotizar" action="#{serviceBean.saveServiceRfq}" />
+
+                        <h:outputLabel value="Proveedor Seleccionado:"/>
+                        <h:outputText value="#{serviceBean.serviceRequestDTO.serviceProvider != null ? serviceBean.serviceRequestDTO.serviceProvider.providerEmail : 'Ninguno'}"/>
+                    </h:panelGrid>
+
+                </h:form>
+
+            </p:dialog>
+
+            <p:dialog id="dlgManteniminetoSolicitud" header="Seleccionar Proveedor" widgetVar="dlgManteniminetoSolicitud" resizable="false" modal="true" width="600">
+                <h:form id="Form2">
+                    <p:dataTable value="#{serviceBean.serviceProviderDTOs}" rowKey="#{provider.providerId}" var="provider" selectionMode="single" selection="#{serviceBean.selectedServiceProviderDTO}" paginator="true" rows="2">
+                        <p:column headerText="Email" >
+                            <h:outputText value="#{provider.providerEmail}"/>
+                        </p:column>
+                        <p:column headerText="Descripción del Servicio">
+                            <h:outputText value="#{provider.serviceDescription}"/>
+                        </p:column>
+                        <p:column headerText="Tipo de Servicio">
+                            <h:outputText value="#{provider.serviceType}"/>
+                        </p:column>
+                        <p:column headerText="Precio">
+                            <h:outputText value="#{provider.servicePrice}"/>
+                        </p:column>
+                    </p:dataTable>
+
+                    <p:commandButton value="Seleccionar" action="#{serviceBean.selectProvider}"  update=":Form2:detailsPanel"/>
+
+                    <h:panelGrid id="detailsPanel" columns="2" style="margin-top:20px">
+                        <h:outputLabel value="Descripción de la Solicitud:" for="requestDescription"/>
+                        <p:inputTextarea id="requestDescription" value="#{serviceBean.serviceRequestDTO.requestDescription}" rows="3" cols="30"/>
+
+                        <p:outputLabel for="time" value="Fecha y hora de inicio" />
+                        <div class="field col-12 md:col-4">
+                            <p:datePicker id="time" value="#{serviceBean.serviceRequestDTO.serviceDateTime}" showTime="true" />
+                        </div>
+
+
+                        <div class="form-field">
+                            <p:outputLabel value="Nombre de proyecto " for="filterName" styleClass="filter-label"/>
+                            <p:autoComplete id="filterName" value="#{serviceBean.nameProperty}"
+                                            completeMethod="#{serviceBean.getNameProperties()}" dropdown="true"  scrollHeight="250"
+                                            styleClass="filter-input long"/>
+                        </div>
+                        <p:commandButton type="submit" value="Cotizar" action="#{serviceBean.saveServiceRequest}" />
+                        <h:outputLabel value="Proveedor Seleccionado:"/>
+                        <h:outputText value="#{serviceBean.serviceRequestDTO.serviceProvider != null ? serviceBean.serviceRequestDTO.serviceProvider.providerEmail : 'Ninguno'}"/>
+                    </h:panelGrid>
+
+                </h:form>
+            </p:dialog>
 
 
         </div>
