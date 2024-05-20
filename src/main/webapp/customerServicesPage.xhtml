@@ -7,6 +7,7 @@
 <h:head>
     <meta charset="UTF-8" />
     <title>Living Corp</title>
+    <link href="resources/indexStyle.css" rel="stylesheet" type="text/css"/>
     <style>
         .header {
             background-color: #154371;
@@ -162,22 +163,23 @@
                     <p:commandButton value="Seleccionar" action="#{serviceBean.selectProvider}"  update=":selectProviderForm:detailsPanel"/>
 
                     <h:panelGrid id="detailsPanel" columns="2" style="margin-top:20px">
-                        <h:outputLabel value="Descripción de la Solicitud:" for="requestDescription"/>
-                        <p:inputTextarea id="requestDescription" value="#{serviceBean.serviceRequestDTO.requestDescription}" rows="3" cols="30"/>
-
-                        <p:outputLabel for="time" value="Fecha y hora de inicio" />
+                        <h:outputLabel value="Descripción de la Solicitud:" for="requestDescription6"/>
+                        <p:inputTextarea id="requestDescription6" value="#{serviceBean.serviceRequestDTO.requestDescription}" rows="3" cols="30"/>
+                        <br/>
+                        <p:outputLabel for="time3" value="Fecha y hora de inicio" />
                         <div class="field col-12 md:col-4">
-                            <p:datePicker id="time" value="#{serviceBean.serviceRequestDTO.serviceDateTime}" showTime="true" />
+                            <p:datePicker id="time3" value="#{serviceBean.serviceRequestDTO.serviceDateTime}" showTime="true" />
                         </div>
 
 
                         <div class="form-field">
-                            <p:outputLabel value="Nombre de proyecto " for="filterName" styleClass="filter-label"/>
-                            <p:autoComplete id="filterName" value="#{serviceBean.nameProperty}"
+                            <p:outputLabel value="Nombre de proyecto " for="filterName5" styleClass="filter-label"/>
+                            <p:autoComplete id="filterName5" value="#{serviceBean.nameProperty}"
                                             completeMethod="#{serviceBean.getNameProperties()}" dropdown="true"  scrollHeight="250"
                                             styleClass="filter-input long"/>
                         </div>
-                        <p:commandButton type="submit" value="Cotizar" action="#{serviceBean.saveServiceRequest}" />
+                        <p:messages id="messages7" showDetail="true" />
+                        <p:commandButton type="submit" update="messages7" value="Cotizar" action="#{serviceBean.saveServiceRequest}" />
                         <h:outputLabel value="Proveedor Seleccionado:"/>
                         <h:outputText value="#{serviceBean.serviceRequestDTO.serviceProvider != null ? serviceBean.serviceRequestDTO.serviceProvider.providerEmail : 'Ninguno'}"/>
                     </h:panelGrid>
@@ -208,19 +210,19 @@
                     <p:commandButton value="Seleccionar" action="#{serviceBean.selectProvider}"  update=":selectProviderForm1:detailsPanelCotizar"/>
 
                     <h:panelGrid id="detailsPanelCotizar" columns="2" style="margin-top:20px">
-                        <h:outputLabel value="Descripción de la Cotizacion:" for="requestDescription1"/>
-                        <p:inputTextarea id="requestDescription1" value="#{serviceBean.serviceRfqDTO.requestDescription}" rows="3" cols="30"/>
-
+                        <h:outputLabel value="Descripción de la Cotizacion:" for="requestDescription3"/>
+                        <p:inputTextarea id="requestDescription3" value="#{serviceBean.serviceRfqDTO.requestDescription}" rows="3" cols="30"/>
+                        <br/>
 
                         <div class="form-field">
-                            <p:outputLabel value="Nombre de proyecto " for="filterName1" styleClass="filter-label"/>
-                            <p:autoComplete id="filterName1" value="#{serviceBean.nameProperty}"
-                                            completeMethod="#{serviceBean.getNameProperties()}" scrollHeight="250"
+                            <p:outputLabel value="Nombre de proyecto " for="filterName2" styleClass="filter-label"/>
+                            <p:autoComplete id="filterName2" value="#{serviceBean.nameProperty}"
+                                            completeMethod="#{serviceBean.getNameProperties()}" scrollHeight="250" dropdown="true"
                                             styleClass="filter-input long"/>
                         </div>
-
+                        <p:messages id="messages3" showDetail="true" />
                         <!-- Botón para agendar cita -->
-                        <p:commandButton type="submit" value="Cotizar" action="#{serviceBean.saveServiceRfq}" />
+                        <p:commandButton type="submit" value="Cotizar" action="#{serviceBean.saveServiceRfq}"  update="messages3" />
 
                         <h:outputLabel value="Proveedor Seleccionado:"/>
                         <h:outputText value="#{serviceBean.serviceRequestDTO.serviceProvider != null ? serviceBean.serviceRequestDTO.serviceProvider.providerEmail : 'Ninguno'}"/>
@@ -272,16 +274,16 @@
                         <h:outputLabel value="Descripción de la Cotizacion:" for="requestDescription1"/>
                         <p:inputTextarea id="requestDescription1" value="#{serviceBean.serviceRfqDTO.requestDescription}" rows="3" cols="30"/>
 
-
+                        <br/>
                         <div class="form-field">
                             <p:outputLabel value="Nombre de proyecto " for="filterName1" styleClass="filter-label"/>
-                            <p:autoComplete id="filterName1" value="#{serviceBean.nameProperty}"
+                            <p:autoComplete id="filterName1" value="#{serviceBean.nameProperty}" dropdown="true"
                                             completeMethod="#{serviceBean.getNameProperties()}" scrollHeight="250"
                                             styleClass="filter-input long"/>
                         </div>
-
+                        <p:messages id="messages2" showDetail="true" />
                         <!-- Botón para agendar cita -->
-                        <p:commandButton type="submit" value="Cotizar" action="#{serviceBean.saveServiceRfq}" />
+                        <p:commandButton type="submit" value="Cotizar" action="#{serviceBean.saveServiceRfq}" update="messages2"/>
 
                         <h:outputLabel value="Proveedor Seleccionado:"/>
                         <h:outputText value="#{serviceBean.serviceRequestDTO.serviceProvider != null ? serviceBean.serviceRequestDTO.serviceProvider.providerEmail : 'Ninguno'}"/>
@@ -326,7 +328,8 @@
                                             completeMethod="#{serviceBean.getNameProperties()}" dropdown="true"  scrollHeight="250"
                                             styleClass="filter-input long"/>
                         </div>
-                        <p:commandButton type="submit" value="Cotizar" action="#{serviceBean.saveServiceRequest}" />
+                        <p:messages id="messages4" showDetail="true" />
+                        <p:commandButton type="submit" value="Cotizar" update="messages4" action="#{serviceBean.saveServiceRequest}" />
                         <h:outputLabel value="Proveedor Seleccionado:"/>
                         <h:outputText value="#{serviceBean.serviceRequestDTO.serviceProvider != null ? serviceBean.serviceRequestDTO.serviceProvider.providerEmail : 'Ninguno'}"/>
                     </h:panelGrid>

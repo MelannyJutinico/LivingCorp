@@ -239,8 +239,8 @@
                                         <p:messages id="messages4"  showDetail="true" />
                                         <p:commandButton update="@form" value="Agendar cita" onclick="PF('sidebarVisitor').show()" styleClass="rounded-button ui-button-success"/>
                                         <p:commandButton update="@form" value="Iniciar sesion para comprar / rentar"  onclick="PF('sidebar2').show()" rendered="#{not indexBean.authenticated}"  icon="pi pi-user" styleClass="rounded-button ui-button-success"  />
-                                        <p:commandButton update="@form" oncomplete="handleLoginSuccess()" action="#{indexBean.purchase}" value="Comprar"  rendered="#{indexBean.authenticated and indexBean.propertySelected.availableForSale}"  styleClass="rounded-button ui-button-success"  />
-                                        <p:commandButton update="@form" oncomplete="handleLoginSuccess()" value="Rentar"  action="#{indexBean.rent}" rendered="#{indexBean.authenticated and indexBean.propertySelected.availableForRent}" styleClass="rounded-button ui-button-success"  />
+                                        <p:commandButton update="messages4" action="#{indexBean.purchase}" value="Comprar"  rendered="#{indexBean.authenticated and indexBean.propertySelected.availableForSale}"  styleClass="rounded-button ui-button-success"  />
+                                        <p:commandButton update="messages4"  value="Rentar"  action="#{indexBean.rent}" rendered="#{indexBean.authenticated and indexBean.propertySelected.availableForRent}" styleClass="rounded-button ui-button-success"  />
                                     </div>
                                 </div>
                             </div>

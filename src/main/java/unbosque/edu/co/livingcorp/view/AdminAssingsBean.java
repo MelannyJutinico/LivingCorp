@@ -64,6 +64,7 @@ public class AdminAssingsBean implements Serializable {
     }
 
     public void listResources(){
+        properties = propertyManagementService.getPropertiesByAdmin(currentAdmin);
         propertyResourceDTOs = propertyResourceService.getPropertyResourcesByProperties(properties);
     }
 

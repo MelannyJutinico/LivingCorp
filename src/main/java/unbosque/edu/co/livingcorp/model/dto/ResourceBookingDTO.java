@@ -79,6 +79,10 @@ public class ResourceBookingDTO{
         return bookingCost;
     }
 
+    public String getCostInString(){
+        return bookingCost+"";
+    }
+
     public void setBookingCost(double bookingCost) {
         this.bookingCost = bookingCost;
     }

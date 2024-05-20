@@ -79,6 +79,9 @@
                             </p:column>
                         </p:headerRow>
 
+                        <p:column headerText="Property Name">
+                            <h:outputText value="#{residentProperty.property.propertyName}" />
+                        </p:column>
                         <p:column headerText="Resident Name">
                             <h:outputText value="#{residentProperty.user.userName}" />
                         </p:column>
@@ -117,9 +120,8 @@
                                 </div>
                             </p:column>
                         </p:headerRow>
-
-                        <p:column headerText="Booking Username">
-                            <h:outputText value="#{resourceBooking.userName}" />
+                        <p:column headerText="Resource Type">
+                            <h:outputText value="#{resourceBooking.propertyResource.resource.resourceType}" />
                         </p:column>
                         <p:column headerText="StarDate">
                             <h:outputText value="#{resourceBooking.bookingStartDate}">
